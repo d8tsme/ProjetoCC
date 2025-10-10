@@ -1,0 +1,7 @@
+nav {
+    background-color: antiquewhite;
+    width: auto;
+    height: 5rem;
+    
+    display: flexbox;
+}
