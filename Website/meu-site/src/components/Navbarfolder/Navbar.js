@@ -4,7 +4,7 @@ import "./Navbar.css";
 function Navbar() {
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">Biblioteca</div>
+      <div className="sidebar-logo">Bibliotech</div>
 
       <ul className="sidebar-links">
         <li><a href="#">Autor</a></li>
