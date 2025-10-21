@@ -1,13 +1,9 @@
 package com.bibliotech.api.reservas;
 
-import com.bibliotech.api.reservas.DadosAlteracaoReserva;
-import com.bibliotech.api.reservas.DadosCadastroReserva;
 import com.bibliotech.api.livros.Livro;
 import com.bibliotech.api.pessoas.Pessoa;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
