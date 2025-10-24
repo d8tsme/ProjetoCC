@@ -37,15 +37,14 @@ public class LivroController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listar(@RequestParam(required = false) String status, Pageable paginacao) {
-        Page<DadosListagemLivro> page;
-        List<DadosListagemLivro> livros;
+    public ResponseEntity<?> listar(@RequestParam(required = false) String status) {
+        List<DadosListagemLivro> livros = null;
         if (status != null) {
             livros = livroRepositorio.findByStatus(status).stream().map(DadosListagemLivro::new).toList();
             return ResponseEntity.ok(livros);
         } else {
-            page = livroRepositorio.findAll(paginacao).map(DadosListagemLivro::new);
-            return ResponseEntity.ok(page);
+            livros = livroRepositorio.findAll().stream().map(DadosListagemLivro::new).toList();
+            return ResponseEntity.ok(livros);
         }
     }
 

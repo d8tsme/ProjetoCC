@@ -26,36 +26,36 @@ CREATE TABLE Livro(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255),
     isbn  VARCHAR(255),
-    anoPublicacao int,
+    ano_publicacao int,
     paginas int,
-    foto VARCHAR(255),
+    foto LONGTEXT,
     status VARCHAR(255),
-    autorId INT,
-    generoId INT,
+    autor_id INT,
+    genero_id INT,
 
-    FOREIGN KEY (autorId) REFERENCES autor(id),
-    FOREIGN KEY (generoId) REFERENCES genero(id)
+    FOREIGN KEY (autor_id) REFERENCES autor(id),
+    FOREIGN KEY (genero_id) REFERENCES genero(id)
 );
 
 CREATE TABLE Emprestimo(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    dataEmprestimo DATE,
-    dataDevolucao DATE,
+    data_emprestimo DATE,
+    data_devolucao DATE,
     status VARCHAR(255),
-    livroId INT,
-    pessoaId INT,
+    livro_id INT,
+    pessoa_id INT,
 
-    FOREIGN KEY (livroId) REFERENCES livro(id),
-    FOREIGN KEY (pessoaId) REFERENCES pessoa(id)
+    FOREIGN KEY (livro_id) REFERENCES livro(id),
+    FOREIGN KEY (pessoa_id) REFERENCES pessoa(id)
 );
 
 CREATE TABLE Reserva(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    dataReserva DATE,
-    dataValidade DATE,
-    livroId INT,
-    pessoaId INT,
+    data_reserva DATE,
+    data_validade DATE,
+    livro_id INT,
+    pessoa_id INT,
 
-    FOREIGN KEY (livroId) REFERENCES livro(id),
-    FOREIGN KEY (pessoaId) REFERENCES pessoa(id)
+    FOREIGN KEY (livro_id) REFERENCES livro(id),
+    FOREIGN KEY (pessoa_id) REFERENCES pessoa(id)
 );
