@@ -57,7 +57,7 @@ public class Livro {
         if (dados.isbn() != null) {
             this.isbn = dados.isbn();
         }
-        if (dados.anoPublicacao() != null) {
+        if (dados.anoPublicacao() != 0) {
             this.anoPublicacao = dados.anoPublicacao();
         }
         if (novoAutor != null) {

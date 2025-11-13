@@ -8,7 +8,6 @@ public record DadosCadastroLivro(
         @NotBlank(message = "O título é obrigatório")
         String titulo,
 
-        @NotBlank(message = "O Número de Páginas é obrigatório")
         int paginas,
 
         @NotNull(message = "O ID do autor é obrigatório")
@@ -23,6 +22,5 @@ public record DadosCadastroLivro(
         @Pattern(regexp = "\\d{13}|\\d{10}", message = "ISBN inválido")
         String isbn,
 
-        @NotNull(message = "O ano de publicação é obrigatório")
-        Integer anoPublicacao
+        int anoPublicacao
 ) {}
