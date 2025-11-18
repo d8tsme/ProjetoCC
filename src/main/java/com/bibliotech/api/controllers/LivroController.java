@@ -1,4 +1,4 @@
-..*+*.+package com.bibliotech.api.controllers;
+package com.bibliotech.api.controllers;
 
 import com.bibliotech.api.autores.Autor;
 import com.bibliotech.api.livros.*;
@@ -32,9 +32,9 @@ public class LivroController {
     @Autowired
     private GeneroRepositorio generoRepositorio;
 
-    @PostMapping("/inserir")
+    @PostMapping
     @Transactional
-    public ResponseEntity inserir(@RequestBody @Valid DadosCadastroLivro dados) {
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroLivro dados) {
         Autor autor = autorRepositorio.getReferenceById(dados.autorId());
         Genero genero = generoRepositorio.getReferenceById(dados.generoId());
         Livro livro = new Livro(dados, autor, genero);
