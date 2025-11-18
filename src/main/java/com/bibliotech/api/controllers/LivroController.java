@@ -44,39 +44,27 @@ public class LivroController {
 
     @PostMapping("/inserir")
     @Transactional
-    public ResponseEntity cadastrarComFoto(@ModelAttribute @Valid DadosCadastroLivroComFoto dados) {
-        Autor autor = autorRepositorio.getReferenceById(dados.autorId());
-        Genero genero = generoRepositorio.getReferenceById(dados.generoId());
+    public ResponseEntity<?> cadastrarComFoto(@RequestBody @Valid DadosCadastroLivroComFoto dados) {
+        try {
+            Autor autor = autorRepositorio.getReferenceById(dados.autorId());
+            Genero genero = generoRepositorio.getReferenceById(dados.generoId());
 
-        String fotoPath = null;
-        if (dados.foto() != null && !dados.foto().isEmpty()) {
-            try {
-                String fileName = UUID.randomUUID().toString() + "_" + dados.foto().getOriginalFilename();
-                Path uploadPath = Paths.get("uploads/livros");
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-                Path filePath = uploadPath.resolve(fileName);
-                Files.write(filePath, dados.foto().getBytes());
-                fotoPath = filePath.toString();
-            } catch (IOException e) {
-                return ResponseEntity.status(500).body("Erro ao salvar a foto");
-            }
+            DadosCadastroLivro dadosLivro = new DadosCadastroLivro(
+                dados.titulo(),
+                dados.paginas(),
+                dados.autorId(),
+                dados.generoId(),
+                dados.foto(),
+                dados.isbn(),
+                dados.anoPublicacao()
+            );
+
+            Livro livro = new Livro(dadosLivro, autor, genero);
+            livroRepositorio.save(livro);
+            return ResponseEntity.ok(new DadosListagemLivro(livro));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao cadastrar livro: " + e.getMessage());
         }
-
-        DadosCadastroLivro dadosLivro = new DadosCadastroLivro(
-            dados.titulo(),
-            dados.paginas(),
-            dados.autorId(),
-            dados.generoId(),
-            fotoPath,
-            dados.isbn(),
-            dados.anoPublicacao()
-        );
-
-        Livro livro = new Livro(dadosLivro, autor, genero);
-        livroRepositorio.save(livro);
-        return ResponseEntity.ok(new DadosListagemLivro(livro));
     }
 
     @GetMapping("/listar")

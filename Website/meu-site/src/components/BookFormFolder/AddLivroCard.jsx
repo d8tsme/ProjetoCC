@@ -55,11 +55,11 @@ export default function AddLivroCard({ open, onClose, onCreated }) {
     try {
       const payload = {
         titulo,
-        paginas: paginas ? parseInt(paginas, 10) : 0,
-        autorId: autor,
-        generoId: genero,
+        paginas: parseInt(paginas, 10),
+        autorId: parseInt(autor, 10),
+        generoId: parseInt(genero, 10),
         isbn,
-        anoPublicacao: anoPublicacao ? parseInt(anoPublicacao, 10) : 0,
+        anoPublicacao: parseInt(anoPublicacao, 10),
         foto
       };
       const res = await apiFetch('/livros/inserir', { method: 'POST', body: JSON.stringify(payload) });

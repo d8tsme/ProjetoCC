@@ -25,17 +25,21 @@ public class EmprestimoController {
     @Autowired
     private PessoaRepositorio pessoaRepositorio;
 
-    @PostMapping
+    @PostMapping("/inserir")
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroEmprestimo dados) {
-        Livro livro = livroRepositorio.getReferenceById(dados.livroId());
-        Pessoa pessoa = pessoaRepositorio.getReferenceById(dados.pessoaId());
-        Emprestimo emprestimo = new Emprestimo(dados, livro, pessoa);
-        emprestimoRepositorio.save(emprestimo);
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroEmprestimo dados) {
+        try {
+            Livro livro = livroRepositorio.getReferenceById(dados.livroId());
+            Pessoa pessoa = pessoaRepositorio.getReferenceById(dados.pessoaId());
+            Emprestimo emprestimo = new Emprestimo(dados, livro, pessoa);
+            emprestimoRepositorio.save(emprestimo);
 
-        livro.atualizaStatus("Emprestado");
+            livro.atualizaStatus("Emprestado");
 
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao cadastrar empréstimo: " + e.getMessage());
+        }
     }
 
     @GetMapping

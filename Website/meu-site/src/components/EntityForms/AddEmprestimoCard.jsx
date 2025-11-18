@@ -50,13 +50,13 @@ export default function AddEmprestimoCard({ open, onClose, onCreated }) {
           <label>Pessoa
             <select value={pessoa} onChange={e=>setPessoa(e.target.value)} required>
               <option value="">-- selecione --</option>
-              {pessoas.map(p => <option key={p.id||p._id||p.codigo||p.nome} value={p.id||p._id||p.codigo||p.nome}>{p.nome||p.email||p.id}</option>)}
+              {pessoas.map(p => <option key={p.id} value={p.id}>{p.nome}</option>)}
             </select>
           </label>
           <label>Livro
             <select value={livro} onChange={e=>setLivro(e.target.value)} required>
               <option value="">-- selecione --</option>
-              {livros.map(l => <option key={l.isbn||l.id||l._id} value={l.isbn||l.id||l._id}>{l.titulo||l.isbn}</option>)}
+              {livros.map(l => <option key={l.id} value={l.id}>{l.titulo}</option>)}
             </select>
           </label>
           <div className="addlivro-actions">
