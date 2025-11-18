@@ -1,4 +1,3 @@
-import "./Form.css";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -62,25 +61,25 @@ export default function Form() {
     }
 }
 
- 
+
 return (
-    <form onSubmit={handleSubmit} className="form" aria-label="login-form">
-        <div className="input-group">
-            <label className="input-label">Usuário</label>
-            <input name="usuario" type="text" required className="input-field" placeholder="Usuário" />
+    <form onSubmit={handleSubmit} className="login-form" aria-label="login-form">
+        <div className="login-input-group">
+            <label className="login-input-label">Usuário</label>
+            <input name="usuario" type="text" required className="login-input-field" placeholder="Usuário" />
         </div>
 
-        <div className="input-group">
-            <label className="input-label">Senha</label>
-            <div className="password-row">
-                <input name="senha" type={showPassword ? 'text' : 'password'} required className="input-field" placeholder="Senha" />
-                <button type="button" className="toggle-btn" onClick={() => setShowPassword(!showPassword)} aria-label="Mostrar senha">
+        <div className="login-input-group">
+            <label className="login-input-label">Senha</label>
+            <div className="login-password-row">
+                <input name="senha" type={showPassword ? 'text' : 'password'} required className="login-input-field" placeholder="Senha" />
+                <button type="button" className="login-toggle-btn" onClick={() => setShowPassword(!showPassword)} aria-label="Mostrar senha">
                     {showPassword ? '🙈' : '👁️'}
                 </button>
             </div>
         </div>
 
-        <button type="submit" className="submit-btn" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
+        <button type="submit" className="login-submit-btn" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
     </form>
 );
 }
