@@ -13,10 +13,10 @@ export default function Form() {
     const senha = form.senha.value;
     try {
         setLoading(true);
-        // NOTE: keeping the full endpoint URL as requested
+        // NOTE: keeping the full endpoint URL as requested; include ngrok header to suppress interstitial
         const res = await fetch("https://kelsi-scrobiculate-dina.ngrok-free.dev/auth", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "1" },
             body: JSON.stringify({ usuario, senha })
         });
 
@@ -36,8 +36,8 @@ export default function Form() {
 
             if (token) {
                 sessionStorage.setItem('token', token);
-                // navegação SPA para Main
-                navigate('/main');
+                // navegação SPA para Dashboard
+                navigate('/dashboard');
                 return;
             }
 
@@ -73,9 +73,7 @@ return (
             <label className="login-input-label">Senha</label>
             <div className="login-password-row">
                 <input name="senha" type={showPassword ? 'text' : 'password'} required className="login-input-field" placeholder="Senha" />
-                <button type="button" className="login-toggle-btn" onClick={() => setShowPassword(!showPassword)} aria-label="Mostrar senha">
-                    {showPassword ? '🙈' : '👁️'}
-                </button>
+                <button type="button" className="login-toggle-btn" onClick={() => setShowPassword(!showPassword)} aria-pressed={showPassword} aria-label="Mostrar senha">{showPassword ? 'Ocultar' : 'Mostrar'}</button>
             </div>
         </div>
 

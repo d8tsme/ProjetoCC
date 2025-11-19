@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/LoginPage/Login';
 import Main from './pages/MainPage/Main';
+import Dashboard from './pages/DashboardPage/Dashboard';
 import Autor from './pages/AutorPage/Autor';
 import Pessoas from './pages/PessoasPage/Pessoas';
 import Emprestimo from './pages/EmprestimoPage/Emprestimo';
@@ -19,6 +20,7 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/main" element={<Main />} />
           <Route path="/Main" element={<Main />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/autores" element={<Autor />} />
           <Route path="/pessoas" element={<Pessoas />} />
           <Route path="/emprestimos" element={<Emprestimo />} />

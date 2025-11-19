@@ -1,27 +1,32 @@
 import '../../../src';
 import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Table from '../../components/TabelaFolder/Tabela';
 import { useState } from 'react';
 import AddLivroCard from '../../components/BookFormFolder/AddLivroCard';
+import BooksCatalog from '../../components/BookFormFolder/BooksCatalog';
+import '../../styles.css';
 
 function Main() {
   const [showAdd, setShowAdd] = useState(false);
   return (
     <div className="App">
       <header className="App-header">
-        <h1 style={{ textAlign: 'center', width: '100%' }}>Bem-vindo à Bibliotech</h1>
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', paddingRight: 20 }}>
-          <button className="btn primary" onClick={() => setShowAdd(true)}>Adicionar Livro</button>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 12, paddingRight: 20 }}>
+          <button className="btn btn-primary" onClick={() => setShowAdd(true)}>Adicionar Livro</button>
         </div>
-        <div id="body" style={{ display: 'flex', width: '100%' }}>
-          <div id="navbar" style={{ width: '20%' }}>
-            <Navbar/>
+
+        <div style={{ display: 'flex', width: '100%', gap: 12, marginTop: 12, alignItems: 'flex-start' }}>
+          <div style={{ width: '240px' }}>
+            <Navbar />
           </div>
-          <div id="tabela" style={{ width: '80%' }}>
-            <Table/>
+          <div style={{ flex: 1 }}>
+            <div className="page-card">
+              <h1 className="page-title">Catálogo de Livros</h1>
+              <BooksCatalog />
+            </div>
           </div>
         </div>
-  <AddLivroCard open={showAdd} onClose={() => setShowAdd(false)} onCreated={() => { /* could refresh table */ }} />
+
+        <AddLivroCard open={showAdd} onClose={() => setShowAdd(false)} onCreated={() => { /* could refresh table via event */ }} />
       </header>
     </div>
   );

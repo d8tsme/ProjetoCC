@@ -8,16 +8,20 @@ export default function Pessoas() {
   const [showAdd, setShowAdd] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Pessoas</h1>
-        <Navbar />
-        <div style={{width:'100%', padding:12}}>
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Pessoa</button>
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
+        <div className="page-card">
+          <div className="page-header">
+            <h1 className="page-title">Pessoas</h1>
+            <div className="page-actions">
+              <button className="btn btn-primary" onClick={() => setShowAdd(true)}>Adicionar Pessoa</button>
+            </div>
+          </div>
+          <Tabela titulo="Pessoas" apiPath="/pessoas/listar" key={reloadKey} columns={[{key:'nome',label:'Nome'},{key:'email',label:'Email'},{key:'telefone',label:'Telefone'}]} />
         </div>
-        <Tabela titulo="Pessoas" apiPath="/pessoas/listar" key={reloadKey} columns={[{key:'nome',label:'Nome'},{key:'email',label:'Email'},{key:'telefone',label:'Telefone'}]} />
         <AddPessoaCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
-      </header>
+      </main>
     </div>
   );
 }

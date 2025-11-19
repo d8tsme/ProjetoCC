@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import apiFetch from '../../utils/apiFetch';
-import './AddLivroCard.css';
 
-export default function AddLivroCard({ open, onClose, onCreated }) {
+export default function EditLivroCard({ open, book, onClose }) {
   const [titulo, setTitulo] = useState('');
   const [paginas, setPaginas] = useState('');
   const [autor, setAutor] = useState('');
@@ -15,40 +14,29 @@ export default function AddLivroCard({ open, onClose, onCreated }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  React.useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    async function load() {
+  useEffect(() => {
+    if (!book) return;
+    setTitulo(book.titulo || '');
+    setPaginas(book.paginas || '');
+    setAutor(book.autorId || book.autorId || book.autor || '');
+    setGenero(book.generoId || book.generoId || book.genero || '');
+    setIsbn(book.isbn || '');
+    setAnoPublicacao(book.anoPublicacao || '');
+    setFoto(book.foto || '');
+  }, [book]);
+
+  useEffect(() => {
+    async function loadLookups() {
       try {
         const a = await apiFetch('/autores/listar');
         const g = await apiFetch('/generos/listar');
-        if (!cancelled) {
-          setAutores(Array.isArray(a) ? a : []);
-          setGeneros(Array.isArray(g) ? g : []);
-        }
-      } catch (err) {
-        console.error(err);
-        setError('Erro ao carregar autores ou gêneros');
-      }
+        setAutores(Array.isArray(a) ? a : []);
+        setGeneros(Array.isArray(g) ? g : []);
+      } catch (e) { console.error(e); }
     }
-    load();
-    return () => { cancelled = true; };
-  }, [open]);
+    loadLookups();
+  }, []);
 
-  if (!open) return null;
-
-  const reset = () => {
-    setTitulo('');
-    setPaginas('');
-    setAutor('');
-    setGenero('');
-    setIsbn('');
-    setAnoPublicacao('');
-    setFoto('');
-    setError(null);
-  };
-
-  // convert selected file to base64 and set `foto`
   const fileToBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -62,88 +50,85 @@ export default function AddLivroCard({ open, onClose, onCreated }) {
     try {
       const data = await fileToBase64(f);
       setFoto(data);
-    } catch (err) {
-      setError('Erro ao processar imagem');
-    }
+    } catch (err) { setError('Erro ao processar imagem'); }
   };
+
+  if (!open || !book) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null);
     // basic client-side validation
     if (!titulo || titulo.trim().length < 3) { setError('O título deve ter ao menos 3 caracteres'); setLoading(false); return; }
     if (!paginas || parseInt(paginas,10) <= 0) { setError('Informe o número de páginas'); setLoading(false); return; }
     try {
       const payload = {
+        id: book.id,
         titulo,
-        paginas: parseInt(paginas, 10),
-        autorId: parseInt(autor, 10),
-        generoId: parseInt(genero, 10),
         isbn,
-        anoPublicacao: parseInt(anoPublicacao, 10),
-        foto
+        foto,
+        anoPublicacao: parseInt(anoPublicacao, 10) || 0,
+        autorId: parseInt(autor, 10) || null,
+        generoId: parseInt(genero, 10) || null,
+        paginas: parseInt(paginas, 10) || 0,
+        status: book.status || 'Disponível'
       };
-      const res = await apiFetch('/livros/inserir', { method: 'POST', body: JSON.stringify(payload) });
-      reset();
-      onCreated && onCreated(res);
+      await apiFetch(`/livros/atualizar/${book.id}`, { method: 'PUT', body: JSON.stringify(payload) });
       onClose && onClose();
     } catch (err) {
-      setError(err.message || 'Erro ao criar livro');
-    } finally {
-      setLoading(false);
-    }
+      setError(err.message || 'Erro ao atualizar');
+    } finally { setLoading(false); }
   };
 
   return (
     <div className="form-overlay">
-      <div className="form-card fade-in" role="dialog" aria-modal="true" aria-labelledby="form-title-add">
+      <div className="form-card fade-in" role="dialog" aria-modal="true" aria-labelledby="form-title-edit">
         <header className="form-header">
-          <h2 id="form-title-add" className="form-title">Adicionar Livro</h2>
+          <h2 id="form-title-edit" className="form-title">Editar Livro</h2>
           <button className="close-btn" onClick={onClose} aria-label="Fechar">×</button>
         </header>
         <form className="form-body" onSubmit={handleSubmit} role="form" noValidate>
           {error && <div className="error-message" role="alert" aria-live="assertive">{error}</div>}
           <div className="form-group">
             <label className="form-label">Título</label>
-            <input aria-required="true" aria-invalid={!!(error && error.includes('título'))} className="form-input" value={titulo} onChange={e=>setTitulo(e.target.value)} required />
+            <input className="form-input" value={titulo} onChange={e => setTitulo(e.target.value)} required />
           </div>
           <div className="form-group">
             <label className="form-label">Páginas</label>
-            <input className="form-input" type="number" value={paginas} onChange={e=>setPaginas(e.target.value)} required />
+            <input className="form-input" type="number" value={paginas} onChange={e => setPaginas(e.target.value)} required />
           </div>
           <div className="form-group">
             <label className="form-label">Autor</label>
-            <select className="form-select" value={autor} onChange={e=>setAutor(e.target.value)} required>
+            <select className="form-select" value={autor} onChange={e => setAutor(e.target.value)} required>
               <option value="">-- selecione --</option>
-              {autores.map(a => <option key={a.id || a._id || a.codigo || a.nome} value={a.id || a._id || a.codigo || a.nome}>{a.nome || a.email || a.id}</option>)}
+              {autores.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
             </select>
           </div>
           <div className="form-group">
             <label className="form-label">Gênero</label>
-            <select className="form-select" value={genero} onChange={e=>setGenero(e.target.value)} required>
+            <select className="form-select" value={genero} onChange={e => setGenero(e.target.value)} required>
               <option value="">-- selecione --</option>
-              {generos.map(g => <option key={g.id || g._id || g.codigo || g.nome} value={g.id || g._id || g.codigo || g.nome}>{g.nome || g.email || g.id}</option>)}
+              {generos.map(g => <option key={g.id} value={g.id}>{g.nome}</option>)}
             </select>
           </div>
           <div className="form-group">
             <label className="form-label">ISBN</label>
-            <input className="form-input" value={isbn} onChange={e=>setIsbn(e.target.value)} required />
+            <input className="form-input" value={isbn} onChange={e => setIsbn(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Ano de Publicação</label>
-            <input className="form-input" type="number" value={anoPublicacao} onChange={e=>setAnoPublicacao(e.target.value)} required />
+            <input className="form-input" type="number" value={anoPublicacao} onChange={e => setAnoPublicacao(e.target.value)} />
           </div>
           <div className="form-group">
             <label className="form-label">Foto (URL ou base64)</label>
-            <input className="form-input" value={foto} onChange={e=>setFoto(e.target.value)} />
+            <input className="form-input" value={foto} onChange={e => setFoto(e.target.value)} />
             <div style={{marginTop:8}}>
               <input type="file" accept="image/*" onChange={onFileChange} />
             </div>
           </div>
           <div className="form-actions">
-            <button type="button" className="btn btn-secondary" onClick={() => { reset(); onClose && onClose(); }}>Cancelar</button>
-            <button type="submit" className="btn btn-primary" disabled={loading || !titulo || !paginas}>{loading ? 'Enviando...' : 'Adicionar'}</button>
+            <button type="button" className="btn btn-secondary" onClick={onClose}>Cancelar</button>
+            <button type="submit" className="btn btn-primary" disabled={loading || !titulo || !paginas}>{loading ? 'Salvando...' : 'Salvar'}</button>
           </div>
         </form>
       </div>
