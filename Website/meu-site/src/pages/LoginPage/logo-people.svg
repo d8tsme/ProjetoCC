@@ -1,30 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bibliotech logo">
-  <defs>
-    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#ffd9d9" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#fff5f5" stop-opacity="1"/>
-    </linearGradient>
-  </defs>
-
-  <!-- rounded background -->
-  <rect x="4" y="4" width="112" height="112" rx="18" fill="url(#g1)" />
-
-  <!-- inner pale panel -->
-  <rect x="22" y="22" width="76" height="76" rx="12" fill="#fff7f7" />
-
-  <!-- people icon (central) -->
-  <g transform="translate(28 30)" fill="#5a2a18">
-    <!-- center head -->
-    <circle cx="34" cy="12" r="9" />
-    <!-- left head -->
-    <circle cx="14" cy="16" r="6" />
-    <!-- right head (triangle-like) -->
-    <path d="M62 18c0-3.3-2.7-6-6-6s-6 2.7-6 6 2.7 6 6 6 6-2.7 6-6z" />
-
-    <!-- central body -->
-    <path d="M12 56c2-12 22-14 34-14s32 2 34 14v6H12v-6z" />
-    <!-- right small body -->
-    <path d="M46 54c0-6 6-8 12-8s12 2 12 8v4H46v-4z" />
-  </g>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 19.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;" xml:space="preserve">
+<g id="_x31_2">
+	<path id="icon_11_" style="fill:#191919;" d="M69.919,32.077H43.642V17.973h26.276V32.077z M69.919,35.834H43.642v7.273h26.276
+		V35.834z M43.642,113.897h26.276V128H43.642V113.897z M43.642,110.14h26.276v-7.273H43.642V110.14z M69.919,48.178H43.642v50.3
+		h26.276V48.178z M38.084,32.077H11.807V17.973h26.276V32.077z M38.084,35.834H11.807v7.273h26.276V35.834z M11.807,113.897h26.276
+		V128H11.807V113.897z M11.807,110.14h26.276v-7.273H11.807V110.14z M38.084,48.178H11.807v50.3h26.276V48.178z M98.335,13.92
+		l-25.935,4.224l-2.267-13.92L96.068,0L98.335,13.92z M98.939,17.628l-25.935,4.224l1.169,7.178l25.935-4.224L98.939,17.628z
+		 M87.991,113.862l25.935-4.224l2.267,13.92l-25.935,4.224L87.991,113.862z M87.387,110.154l25.935-4.224l-1.169-7.178
+		l-25.935,4.224L87.387,110.154z M100.924,29.812l-25.935,4.224l10.523,64.608l25.935-4.224L100.924,29.812z"/>
+</g>
+<g id="Layer_1">
+</g>
 </svg>

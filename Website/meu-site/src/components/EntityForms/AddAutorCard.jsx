@@ -12,6 +12,22 @@ export default function AddAutorCard({ open, onClose, onCreated }) {
 
   const reset = () => { setNome(''); setFoto(''); setError(null); };
 
+  const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+  const onFileChange = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    try {
+      const data = await fileToBase64(f);
+      setFoto(data);
+    } catch (err) { setError('Erro ao processar imagem'); }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); setError(null);
@@ -37,6 +53,9 @@ export default function AddAutorCard({ open, onClose, onCreated }) {
           {error && <div className="error">{error}</div>}
           <label>Nome<input value={nome} onChange={e=>setNome(e.target.value)} required /></label>
           <label>Foto (URL ou base64)<input value={foto} onChange={e=>setFoto(e.target.value)} /></label>
+          <div style={{marginTop:8}}>
+            <input type="file" accept="image/*" onChange={onFileChange} />
+          </div>
           <div className="addlivro-actions">
             <button type="button" className="btn secondary" onClick={() => { reset(); onClose && onClose(); }}>Cancelar</button>
             <button type="submit" className="btn primary" disabled={loading}>{loading ? 'Enviando...' : 'Adicionar'}</button>

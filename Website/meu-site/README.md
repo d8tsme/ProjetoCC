@@ -1,3 +1,47 @@
+# Bibliotech Frontend (meu-site)
+
+This frontend is a React app used as the UI for the Bibliotech Virtual Library.
+
+What I implemented in this iteration:
+- A Dashboard page (`/dashboard`) with charts and summary cards (warm dark-brown theme).
+- A Books-focused catalog on the Main page (`/main`) showing responsive book cards, with Edit and Remove actions.
+- CRUD helpers for entities: Add forms for Autor, Genero, Pessoa, and Livro already present; I added an `EditLivroCard` for editing books.
+- Navbar improvements: search bar, theme (light/dark) toggle persisted in `localStorage`, and Logoff button.
+- Dark-mode CSS overrides and cohesive warm theme adjustments.
+
+How to run (development):
+
+1. From the project root open a terminal and go to the frontend folder:
+
+```powershell
+cd Website\meu-site
+npm install
+npm start
+```
+
+Note: I added `recharts` as a dependency for improved charts — if you already ran `npm install` before my change, run `npm install` again so `recharts` is installed.
+
+Notes about API:
+- The frontend expects the backend API to be available at the same origin, so calls like `/livros/listar`, `/autores/listar`, etc. are used by `utils/apiFetch.js`.
+- Authentication: `utils/apiFetch.js` will send a bearer token from `sessionStorage.getItem('token')` when present. Login page must set that token in sessionStorage after successful authentication.
+- For book deletion the UI sends an update request that marks the book `status` as `Removido` by calling `PUT /livros/atualizar/{id}`. The backend currently does not expose a DELETE endpoint for books, so this approach performs a logical removal.
+
+Files added/updated of interest:
+- `src/pages/DashboardPage/Dashboard.jsx` and `Dashboard.css`
+- `src/components/DashboardComponents/*` (small chart & stat components)
+- `src/components/BookFormFolder/BooksCatalog.jsx`, `BookCard.jsx`, `EditLivroCard.jsx`
+- `src/components/Navbarfolder/Navbar.js` (search, theme, logout)
+- `src/styles.css` (dark-mode additions)
+
+Next recommended steps:
+- Add server-side analytics endpoints to feed real dashboards (monthly users, sales, etc.).
+- Add unit/integration tests for catalog behavior and form validation.
+- Optionally add pagination and sorting to the book catalog.
+
+If you want, I can now:
+- Hook up the login page to produce a real token (if auth endpoint exists).
+- Add a dedicated Books page route and toggle between grid/table views.
+- Add export/CSV and bulk actions for books.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -23,16 +23,20 @@ function Autor() {
     getAutor();
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Autores</h1>
-        <Navbar/>
-        <div style={{width:'100%', padding:12}}>
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Autor</button>
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
+        <div className="page-card">
+          <div className="page-header">
+            <h1 className="page-title">Autores</h1>
+            <div className="page-actions">
+              <button className="btn btn-primary" onClick={() => setShowAdd(true)}>Adicionar Autor</button>
+            </div>
+          </div>
+          <Tabela titulo="Autores" apiPath="/autores/listar" key={reloadKey} columns={[{key:'foto',label:'Foto'},{key:'nome',label:'Nome'}]} />
         </div>
-        <Tabela titulo="Autores" apiPath="/autores/listar" key={reloadKey} columns={[{key:'foto',label:'Foto'},{key:'nome',label:'Nome'}]} />
         <AddAutorCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
-      </header>
+      </main>
     </div>
   );
 }

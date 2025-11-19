@@ -8,16 +8,20 @@ export default function Generos() {
   const [showAdd, setShowAdd] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Generos</h1>
-        <Navbar />
-        <div style={{width:'100%', padding:12}}>
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Gênero</button>
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
+        <div className="page-card">
+          <div className="page-header">
+            <h1 className="page-title">Gêneros</h1>
+            <div className="page-actions">
+              <button className="btn btn-primary" onClick={() => setShowAdd(true)}>Adicionar Gênero</button>
+            </div>
+          </div>
+          <Tabela titulo="Gêneros" apiPath="/generos/listar" key={reloadKey} columns={[{key:'id',label:'ID'},{key:'nome',label:'Nome'}]} />
         </div>
-        <Tabela titulo="Gêneros" apiPath="/generos/listar" key={reloadKey} columns={[{key:'id',label:'ID'},{key:'nome',label:'Nome'}]} />
         <AddGeneroCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
-      </header>
+      </main>
     </div>
   );
 }
