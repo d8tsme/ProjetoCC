@@ -10,6 +10,9 @@ import Autor from './pages/AutorPage/Autor';
 import Pessoas from './pages/PessoasPage/Pessoas';
 import Emprestimo from './pages/EmprestimoPage/Emprestimo';
 import Genero from './pages/GeneroPage/Genero';
+import SolicitacaoForm from './pages/SolicitacaoPage/SolicitacaoForm';
+import SolicitacaoAdmin from './pages/SolicitacaoPage/SolicitacaoAdmin';
+import Cadastro from './pages/CadastroPage/Cadastro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +28,9 @@ root.render(
           <Route path="/pessoas" element={<Pessoas />} />
           <Route path="/emprestimos" element={<Emprestimo />} />
           <Route path="/generos" element={<Genero />} />
+          <Route path="/solicitacao" element={<SolicitacaoForm />} />
+          <Route path="/solicitacoes-admin" element={<SolicitacaoAdmin />} />
+          <Route path="/cadastro" element={<Cadastro />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>

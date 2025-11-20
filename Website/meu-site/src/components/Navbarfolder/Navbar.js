@@ -23,6 +23,10 @@ function Navbar() {
     setDrawerOpen(false);
   }
 
+  // Get cargo from sessionStorage/localStorage (set on login)
+  const cargo = (sessionStorage.getItem('cargo') || localStorage.getItem('cargo') || 'USER').toUpperCase();
+  const isAdmin = cargo === 'ADM';
+
   const navList = (
     <>
       <div className="sidebar-logo">Bibliotech™</div>
@@ -33,12 +37,15 @@ function Navbar() {
       </form>
 
       <ul className="sidebar-links">
-        <li><NavLink to="/dashboard" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Dashboard</NavLink></li>
         <li><NavLink to="/Main" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Livros</NavLink></li>
-        <li><NavLink to="/autores" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Autor</NavLink></li>
-        <li><NavLink to="/pessoas" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Pessoas</NavLink></li>
         <li><NavLink to="/emprestimos" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Empréstimos</NavLink></li>
-        <li><NavLink to="/generos" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Gêneros</NavLink></li>
+        <li><NavLink to="/solicitacao" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Solicitar Autor/Gênero</NavLink></li>
+        {/* Admin-only links */}
+        {isAdmin && <li><NavLink to="/autores" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Autor</NavLink></li>}
+        {isAdmin && <li><NavLink to="/pessoas" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Pessoas</NavLink></li>}
+        {isAdmin && <li><NavLink to="/generos" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Gêneros</NavLink></li>}
+        {isAdmin && <li><NavLink to="/dashboard" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Dashboard</NavLink></li>}
+        {isAdmin && <li><NavLink to="/solicitacoes-admin" onClick={()=>setDrawerOpen(false)} className={({isActive}) => isActive ? 'active' : ''}>Painel Solicitações</NavLink></li>}
       </ul>
 
       <div style={{marginTop:'auto',padding:'12px',display:'flex',flexDirection:'column',gap:8}}>

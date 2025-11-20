@@ -18,7 +18,6 @@ function Dashboard() {
         const livros = await apiFetch('/livros/listar').catch(() => []);
         const autores = await apiFetch('/autores/listar').catch(() => []);
         const pessoas = await apiFetch('/pessoas/listar').catch(() => []);
-        // emprestimos endpoint returns a page; accept array or object with content
         let emprestimosRaw = await apiFetch('/emprestimos').catch(() => null);
 
         let emprestimosCount = 0;
@@ -26,19 +25,34 @@ function Dashboard() {
         else if (emprestimosRaw && emprestimosRaw.content) emprestimosCount = emprestimosRaw.content.length;
 
         setStats({ livros: livros.length || 0, autores: autores.length || 0, pessoas: pessoas.length || 0, emprestimos: emprestimosCount });
-        // try to fetch analytics endpoints (fallback to mock data declared above)
         try {
           const sales = await apiFetch('/analytics/monthly-sales').catch(() => null);
           const users = await apiFetch('/analytics/active-users').catch(() => null);
           if (Array.isArray(sales) && sales.length >= 12) setMonthly(sales.slice(0,12));
           if (Array.isArray(users) && users.length >= 12) setTrend(users.slice(0,12));
-        } catch (e) { /* ignore analytics errors */ }
+        } catch (e) {
+          // ignore analytics errors
+        }
       } catch (e) {
         console.error('Dashboard load error', e);
       }
     }
     load();
   }, []);
+
+  const cargo = (sessionStorage.getItem('cargo') || localStorage.getItem('cargo') || 'USER').toUpperCase();
+
+  if (cargo !== 'ADM') {
+    return (
+      <div className="dashboard-root">
+        <div className="dashboard-sidebar"><Navbar /></div>
+        <div className="dashboard-main" style={{textAlign:'center',padding:'2rem'}}>
+          <h2>Acesso restrito</h2>
+          <p>Esta página é exclusiva para administradores.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-root">

@@ -17,7 +17,8 @@ export default function Emprestimo() {
               <button className="btn btn-primary" onClick={() => setShowAdd(true)}>Adicionar Empréstimo</button>
             </div>
           </div>
-          <Tabela titulo="Empréstimos" apiPath="/emprestimos/listar" key={reloadKey} columns={[{key:'livro_foto',label:'Foto'},{key:'livro_titulo',label:'Livro'},{key:'pessoa_nome',label:'Pessoa'},{key:'dataEmprestimo',label:'Data Empréstimo'},{key:'dataDevolucao',label:'Data Devolução'},{key:'status',label:'Status'}]} />
+          {/* Use correct API path for GET with pagination, handled by Tabela and apiFetch */}
+          <Tabela titulo="Empréstimos" apiPath="/emprestimos" key={reloadKey} columns={[{key:'livro_foto',label:'Foto'},{key:'livro_titulo',label:'Livro'},{key:'pessoa_nome',label:'Pessoa'},{key:'dataEmprestimo',label:'Data Empréstimo'},{key:'dataDevolucao',label:'Data Devolução'},{key:'status',label:'Status'}]} />
         </div>
         <AddEmprestimoCard open={showAdd} onClose={() => setShowAdd(false)} onCreated={() => setReloadKey(k => k + 1)} />
       </main>

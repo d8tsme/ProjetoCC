@@ -13,16 +13,23 @@ export default function Form() {
     const senha = form.senha.value;
     try {
         setLoading(true);
-        // NOTE: keeping the full endpoint URL as requested; include ngrok header to suppress interstitial
-        const res = await fetch("https://kelsi-scrobiculate-dina.ngrok-free.dev/auth", {
+        // Call local backend login endpoint which returns { token, cargo }
+        const res = await fetch("/usuarios/login", {
             method: "POST",
             headers: { "Content-Type": "application/json", "ngrok-skip-browser-warning": "1" },
             body: JSON.stringify({ usuario, senha })
         });
 
-        // tentar ler JSON, fallback para texto
-        let data;
-        try { data = await res.json(); } catch { data = await res.text(); }
+        // read body once as text, then try parse JSON to avoid double-read errors
+        let data = null;
+        try {
+            const text = await res.text();
+            if (text) {
+                try { data = JSON.parse(text); } catch { data = text; }
+            }
+        } catch (e) {
+            data = null;
+        }
 
         if (res.status === 200) {
             // Extrair token de formatos comuns
@@ -36,6 +43,9 @@ export default function Form() {
 
             if (token) {
                 sessionStorage.setItem('token', token);
+                // store cargo if present so frontend can show/hide admin UI
+                const cargo = data.cargo || 'USER';
+                try { sessionStorage.setItem('cargo', cargo); localStorage.setItem('cargo', cargo); } catch(e){}
                 // navegação SPA para Dashboard
                 navigate('/dashboard');
                 return;
@@ -78,6 +88,7 @@ return (
         </div>
 
         <button type="submit" className="login-submit-btn" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
+        <button type="button" className="login-register-btn" onClick={() => navigate('/cadastro')} style={{marginLeft:8}}>Criar conta</button>
     </form>
 );
 }

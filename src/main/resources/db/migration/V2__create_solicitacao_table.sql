@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS solicitacao (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(20) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    usuario_id BIGINT NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    data_solicitacao TIMESTAMP NOT NULL
+);

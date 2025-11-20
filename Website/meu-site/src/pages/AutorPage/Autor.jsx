@@ -22,6 +22,20 @@ function Autor() {
   useEffect(() => {
     getAutor();
   }, []);
+  const cargo = (sessionStorage.getItem('cargo') || localStorage.getItem('cargo') || 'USER').toUpperCase();
+  if (cargo !== 'ADM') {
+    return (
+      <div className="app-container">
+        <Navbar />
+        <main className="main-content">
+          <div className="page-card" style={{textAlign:'center',padding:'2rem'}}>
+            <h2>Acesso restrito</h2>
+            <p>Esta página é exclusiva para administradores.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
   return (
     <div className="app-container">
       <Navbar />
