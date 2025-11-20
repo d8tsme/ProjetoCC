@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: bibliotechapi
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: bibliotech
+      MYSQL_PASSWORD: bibliopass
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  api:
+    build: .
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/bibliotechapi?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: bibliotech
+      SPRING_DATASOURCE_PASSWORD: bibliopass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+    ports:
+      - "8080:8080"
+    restart: on-failure
+
+volumes:
+  db_data:
