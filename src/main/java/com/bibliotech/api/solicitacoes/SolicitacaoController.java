@@ -3,6 +3,7 @@ package com.bibliotech.api.solicitacoes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class SolicitacaoController {
     }
 
     @PutMapping("/{id}/aprovar")
+    @PreAuthorize("hasAuthority('ADM')")
     public ResponseEntity<?> aprovar(@PathVariable Long id) {
         Solicitacao s = solicitacaoRepositorio.findById(id).orElse(null);
         if (s == null) return ResponseEntity.notFound().build();
@@ -39,6 +41,7 @@ public class SolicitacaoController {
     }
 
     @PutMapping("/{id}/rejeitar")
+    @PreAuthorize("hasAuthority('ADM')")
     public ResponseEntity<?> rejeitar(@PathVariable Long id) {
         Solicitacao s = solicitacaoRepositorio.findById(id).orElse(null);
         if (s == null) return ResponseEntity.notFound().build();
