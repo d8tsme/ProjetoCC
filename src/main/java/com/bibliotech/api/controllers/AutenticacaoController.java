@@ -2,6 +2,8 @@ package com.bibliotech.api.controllers;
 
 import com.bibliotech.api.seguranca.AutenticacaoViaTokenFilter;
 import com.bibliotech.api.seguranca.TokenService;
+import com.bibliotech.api.usuarios.Usuario;
+import com.bibliotech.api.usuarios.UsuarioRepositorio;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacaoController {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final UsuarioRepositorio usuarioRepositorio;
 
-    public AutenticacaoController(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public AutenticacaoController(AuthenticationManager authenticationManager, TokenService tokenService, UsuarioRepositorio usuarioRepositorio) {
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.usuarioRepositorio = usuarioRepositorio;
     }
 
     @PostMapping
@@ -31,7 +35,10 @@ public class AutenticacaoController {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciais.getUsuario(), credenciais.getSenha());
         try {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            String token = tokenService.gerarToken(authenticationToken.getName());
+            String usuarioNome = authentication.getName();
+            Usuario usuario = usuarioRepositorio.findByUsuario(usuarioNome).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+            String cargo = usuario.getCargo();
+            String token = tokenService.gerarToken(usuarioNome, cargo);
             return ResponseEntity.ok(new Token(token, "Bearer "));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Credenciais inválidas");

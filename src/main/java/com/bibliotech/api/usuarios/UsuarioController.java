@@ -8,10 +8,6 @@ import com.bibliotech.api.pessoas.Pessoa;
 import com.bibliotech.api.pessoas.PessoaRepositorio;
 import org.springframework.web.bind.annotation.*;
 import jakarta.transaction.Transactional;
-import jakarta.transaction.Transactional;
-
-import com.bibliotech.api.pessoas.Pessoa;
-import com.bibliotech.api.pessoas.PessoaRepositorio;
 
 import java.util.Optional;
 
@@ -49,8 +45,6 @@ public class UsuarioController {
         String token = tokenService.gerarToken(usuario.getUsuario(), usuario.getCargo());
         return ResponseEntity.status(201).body(new LoginResponse(token, usuario.getCargo()));
     }
-    @Autowired
-    private PessoaRepositorio pessoaRepositorio;
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrar(@RequestBody UsuarioDTO dados) {
@@ -78,31 +72,6 @@ public class UsuarioController {
         }
         String token = tokenService.gerarToken(usuario.getUsuario(), usuario.getCargo());
         return ResponseEntity.ok(new LoginResponse(token, usuario.getCargo()));
-    }
-
-    @PostMapping("/cadastrar")
-    @Transactional
-    public ResponseEntity<?> cadastrarCompleto(@RequestBody CadastroCompleto dados) {
-        if (usuarioRepositorio.findByUsuario(dados.getUsuario()).isPresent()) {
-            return ResponseEntity.status(409).body("Usuário já cadastrado");
-        }
-
-        // criar Pessoa
-        Pessoa p = new Pessoa();
-        p.setNome(dados.getNome());
-        p.setEmail(dados.getEmail());
-        p.setTelefone(dados.getTelefone());
-        pessoaRepositorio.save(p);
-
-        // criar Usuario com cargo USER obrigatório
-        Usuario usuario = new Usuario();
-        usuario.setUsuario(dados.getUsuario());
-        usuario.setSenha(passwordEncoder.encode(dados.getSenha()));
-        usuario.setCargo("USER");
-        usuarioRepositorio.save(usuario);
-
-        String token = tokenService.gerarToken(usuario.getUsuario(), usuario.getCargo());
-        return ResponseEntity.status(201).body(new LoginResponse(token, usuario.getCargo()));
     }
 }
 
@@ -132,26 +101,6 @@ class LoginResponse {
 }
 
 class CadastroDTO {
-    private String nome;
-    private String email;
-    private int telefone;
-    private String usuario;
-    private String senha;
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    public int getTelefone() { return telefone; }
-    public void setTelefone(int telefone) { this.telefone = telefone; }
-    public String getUsuario() { return usuario; }
-    public void setUsuario(String usuario) { this.usuario = usuario; }
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
-}
-
-
-class CadastroCompleto {
     private String nome;
     private String email;
     private int telefone;
