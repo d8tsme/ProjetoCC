@@ -1,5 +1,6 @@
 package com.bibliotech.api.controllers;
 
+import com.bibliotech.api.autores.DadosListagemAutor;
 import com.bibliotech.api.livros.Livro;
 import com.bibliotech.api.emprestimos.*;
 import com.bibliotech.api.livros.LivroRepositorio;
@@ -42,10 +43,11 @@ public class EmprestimoController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Page<DadosListagemEmprestimo>> listar(Pageable paginacao) {
-        Page<DadosListagemEmprestimo> page = emprestimoRepositorio.findAll(paginacao).map(DadosListagemEmprestimo::new);
-        return ResponseEntity.ok(page);
+    @GetMapping("/listar")
+    public ResponseEntity<?> listar(){
+        var lista = emprestimoRepositorio.findAll().stream().map(DadosListagemEmprestimo::new)
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping("/{id}")
