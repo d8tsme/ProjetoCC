@@ -56,7 +56,7 @@ export default function AddEmprestimoCard({ open, onClose, onCreated }) {
           <label>Livro
             <select value={livro} onChange={e=>setLivro(e.target.value)} required>
               <option value="">-- selecione --</option>
-              {livros.map(l => <option key={l.id} value={l.id}>{l.titulo}</option>)}
+              {livros.map(l => {if(l.status !== 'Emprestado'){return (<option key={l.id} value={l.id}>{l.titulo}</option>)}return null})}
             </select>
           </label>
           <div className="addlivro-actions">
