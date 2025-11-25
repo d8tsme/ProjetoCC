@@ -41,6 +41,7 @@ public class Emprestimo {
         this.livro = livro;
         this.pessoa = pessoa;
         this.status = "Em andamento";
+        this.dataEmprestimo = LocalDate.now();
     }
 
 
