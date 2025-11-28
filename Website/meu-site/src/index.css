@@ -12,13 +12,22 @@ code {
     monospace;
 }
 
-:root{
-  --brown-900: #3b1f12;
-  --brown-700: #5a2a18;
-  --brown-500: #7a3b21;
-  --bg-soft: #fbfaf9;
-  --card-white: #ffffff;
-  --muted: #6b6b6b;
+:root {
+  --color1: #73c8a9;
+  --color2: #dee1b6;
+  --color3: #e1b866;
+  --color4: #bd5532;
+  --color5: #373b44;
+  --primary: var(--color1);
+  --secondary: var(--color2);
+  --accent: var(--color3);
+  --danger: var(--color4);
+  --dark: var(--color5);
+  --bg-main: var(--color2);
+  --bg-card: #fff;
+  --text-main: var(--color5);
+  --text-light: #fff;
+  --text-medium: #555;
   --radius-lg: 14px;
   --radius-md: 10px;
   --transition-fast: 160ms;
@@ -26,8 +35,192 @@ code {
 
 /* global smooth helpers */
 *{box-sizing:border-box}
-a{color:inherit}
-.fade-in{animation:fadeInUp .42s cubic-bezier(.2,.9,.2,1) both}
+  /* Modern global styles */
+body {
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+/* All properties above are now inside valid blocks. Add additional styles below, ensuring proper syntax. */
+
+.app-container {
+  min-height: 100vh;
+  background: var(--bg-main);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .app-container {
+    padding: 0.5em;
+  }
+}
+
+/* Navbar */
+.navbar {
+  background: var(--color5);
+  color: var(--text-light);
+  position: fixed;
+  left: 2vw;
+  top: 3vh;
+  width: 200px;
+  height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(55,59,68,0.18);
+  z-index: 100;
+  border-radius: 22px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1.2em 0.5em;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+/* Floating box inside navbar */
+.navbar-floating-box {
+  background: var(--color1);
+  color: var(--color5);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(55,59,68,0.12);
+  padding: 1.2em 1em;
+  margin-bottom: 1.5em;
+  width: 90%;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.1em;
+  letter-spacing: 0.5px;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.navbar a {
+  color: var(--color1);
+  padding: 1em;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.navbar a:hover {
+  background: var(--color1);
+  color: var(--color5);
+}
+
+/* Main content grid */
+.main-content {
+  margin-left: 240px;
+  padding: 2em;
+  background: var(--bg-main);
+  min-height: 100vh;
+  border-radius: 22px;
+}
+
+/* Card style */
+.card {
+  background: var(--bg-card);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(55,59,68,0.08);
+  padding: 2em;
+  margin-bottom: 2em;
+  color: var(--text-main);
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 24px rgba(55,59,68,0.16);
+}
+
+/* Buttons */
+button, .btn {
+  background: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: 14px;
+  padding: 0.7em 1.4em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(55,59,68,0.08);
+}
+button:hover, .btn:hover {
+  background: var(--accent);
+  color: var(--color5);
+}
+
+/* Forms */
+input, select, textarea {
+  border: 1px solid var(--color1);
+  border-radius: 14px;
+  padding: 0.6em 1em;
+  margin-bottom: 1em;
+  font-size: 1em;
+  background: #fff;
+  color: var(--text-main);
+  transition: border 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color5);
+  margin-top: 0;
+}
+
+/* Links */
+a {
+  color: var(--color4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--color3);
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  color: var(--text-main);
+  margin-bottom: 2em;
+}
+th, td {
+  padding: 0.8em 1em;
+  border-bottom: 1px solid var(--color1);
+}
+th {
+  background: var(--color1);
+  color: var(--text-light);
+}
+tr:hover {
+  background: var(--color2);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .navbar {
+    width: 98vw;
+    height: auto;
+    left: 1vw;
+    top: 1vh;
+    position: relative;
+    flex-direction: row;
+    box-shadow: none;
+    border-radius: 18px;
+    padding: 0.5em;
+  }
+  .navbar-floating-box {
+    width: 100%;
+    margin-bottom: 1em;
+    border-radius: 14px;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 1em;
+    border-radius: 14px;
+  }
+  .card {
+    padding: 1em;
+    border-radius: 14px;
+  }
+}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* apply nicer default for inputs across the app */

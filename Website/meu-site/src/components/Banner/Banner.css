@@ -1,0 +1,74 @@
+.banner {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 2px 12px rgba(55,59,68,0.08);
+  padding: 2em;
+  margin: 2em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+.banner-title {
+  color: var(--color5);
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 0.2em;
+}
+.banner-date {
+  color: var(--text-medium);
+  font-size: 1em;
+  margin-bottom: 1em;
+}
+.banner-users {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.banner-users img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color2);
+}
+.banner-add-user {
+  background: var(--color2);
+  color: var(--color5);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2em;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(55,59,68,0.08);
+  margin-left: 0.5em;
+}
+.banner-add-book {
+  background: var(--color4);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 0.7em 1.4em;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-top: 1em;
+  box-shadow: 0 1px 4px rgba(55,59,68,0.08);
+  transition: background 0.2s;
+}
+.banner-add-book:hover {
+  background: var(--color3);
+  color: var(--color5);
+}
+@media (max-width: 900px) {
+  .banner {
+    padding: 1em;
+    border-radius: 14px;
+  }
+  .banner-title {
+    font-size: 1.3em;
+  }
+}

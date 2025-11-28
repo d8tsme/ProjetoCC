@@ -1,0 +1,53 @@
+:root {
+  --color1: #73c8a9;
+  --color2: #dee1b6;
+  --color3: #e1b866;
+  --color4: #bd5532;
+  --color5: #373b44;
+  --primary: var(--color1);
+  --secondary: var(--color2);
+  --accent: var(--color3);
+  --danger: var(--color4);
+  --dark: var(--color5);
+  --bg-main: var(--color2);
+  --bg-card: #fff;
+  --text-main: var(--color5);
+  --text-light: #fff;
+  --text-medium: #555;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --transition-fast: 160ms;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.app-container {
+  min-height: 100vh;
+  background: var(--bg-main);
+  display: flex;
+  flex-direction: row;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2em;
+  background: var(--bg-main);
+  min-height: 100vh;
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+    padding: 0.5em;
+  }
+  .main-content {
+    padding: 1em;
+    border-radius: var(--radius-md);
+  }
+}

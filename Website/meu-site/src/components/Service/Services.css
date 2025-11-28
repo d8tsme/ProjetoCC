@@ -1,0 +1,94 @@
+.services {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+.service-card {
+  display: flex;
+  align-items: center;
+  background: #eaeaea;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(55,59,68,0.08);
+  padding: 1.5em;
+  gap: 1.5em;
+  position: relative;
+}
+.service-photo {
+  width: 80px;
+  height: 110px;
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  color: #888;
+  font-weight: 500;
+}
+.service-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+.service-title {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--color5);
+}
+.service-author {
+  font-size: 1em;
+  color: var(--text-medium);
+}
+.service-genre {
+  font-size: 1em;
+  color: var(--color5);
+}
+.service-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+}
+.service-edit, .service-delete {
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  padding: 0.4em 0.7em;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(55,59,68,0.08);
+  transition: background 0.2s;
+}
+.service-edit:hover, .service-delete:hover {
+  background: var(--color1);
+  color: var(--color5);
+}
+.service-status {
+  background: var(--color4);
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.4em 1em;
+  font-weight: 600;
+  margin-left: 0.5em;
+}
+.service-isbn {
+  position: absolute;
+  top: 1.2em;
+  right: 1.2em;
+  color: var(--color5);
+  font-size: 0.95em;
+  font-weight: 500;
+}
+@media (max-width: 900px) {
+  .service-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em;
+    border-radius: 14px;
+  }
+  .service-photo {
+    width: 60px;
+    height: 80px;
+    border-radius: 8px;
+  }
+}

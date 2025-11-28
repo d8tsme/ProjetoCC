@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// import '../../index.css';
 import { useNavigate } from 'react-router-dom';
 import apiFetch from '../../utils/apiFetch';
 import PropTypes from "prop-types";
@@ -84,6 +85,11 @@ export default function Tabela({ titulo = "Lista", rows, apiPath = '/livros/list
 
 function renderCell(row, key) {
     const v = row[key];
+    if (key === 'status') {
+        if (v === 'Emprestado') return 'encomendado';
+        if (v === 'Disponível') return 'disponível';
+        return v || '-';
+    }
     if (!v && v !== 0) return '-';
     if (key.toLowerCase().includes('foto') && typeof v === 'string') {
         return <img src={v} alt="foto" style={{ width: 60, height: 'auto', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import apiFetch from '../../utils/apiFetch';
-import './AddLivroCard.css';
 
 export default function AddLivroCard({ open, onClose, onCreated }) {
   const [titulo, setTitulo] = useState('');
