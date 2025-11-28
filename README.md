@@ -147,6 +147,3 @@ Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, p
 Este projeto é de finalidade acadêmica, criado como TCC do Curso Técnico de Informática — CEC.
 Consulte o arquivo de licença no repositório para mais informações.
 
----
-
-Se quiser, posso gerar também um **badge pack**, **screenshots organizados**, ou até um **roadmap** profissional para colocar no final do README. Quer que eu adicione?
