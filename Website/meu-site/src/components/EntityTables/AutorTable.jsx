@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import saveCsv from '../../utils/csv';
 
 export default function AutorTable() {
   const [autores, setAutores] = useState([]);
@@ -9,6 +10,7 @@ export default function AutorTable() {
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ nome: '', foto: '' });
+  const cols = [{key:'nome', label:'Nome'},{key:'foto',label:'Foto'},{key:'status',label:'Status'}];
 
   useEffect(() => {
     loadAutores();
@@ -77,7 +79,10 @@ export default function AutorTable() {
   return (
     <div>
       <h2>Autores</h2>
-      <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+        <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+        <button onClick={() => saveCsv('autores.csv', autores, cols)} className="btn">Salvar CSV</button>
+      </div>
       <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>

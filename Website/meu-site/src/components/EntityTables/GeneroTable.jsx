@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import saveCsv from '../../utils/csv';
 
 export default function GeneroTable() {
   const [generos, setGeneros] = useState([]);
@@ -9,6 +10,7 @@ export default function GeneroTable() {
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ nome: '' });
+  const cols = [{key:'nome', label:'Nome'}];
 
   useEffect(() => {
     loadGeneros();
@@ -55,7 +57,10 @@ export default function GeneroTable() {
   return (
     <div>
       <h2>Gêneros</h2>
-      <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+        <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+        <button className="btn" onClick={() => saveCsv('generos.csv', generos, cols)}>Salvar CSV</button>
+      </div>
       <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>

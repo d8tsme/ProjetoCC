@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import saveCsv from '../../utils/csv';
 
 export default function EmprestimoTable() {
   const [emprestimos, setEmprestimos] = useState([]);
@@ -9,6 +10,7 @@ export default function EmprestimoTable() {
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ livroId: '', pessoaId: '' });
+  const cols = [{key:'pessoa_nome', label:'Pessoa'},{key:'livro_titulo', label:'Livro'},{key:'status', label:'Status'}];
 
   useEffect(() => {
     loadEmprestimos();
@@ -53,7 +55,10 @@ export default function EmprestimoTable() {
   return (
     <div>
       <h2>Empréstimos</h2>
-      <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+      <div style={{display:'flex', gap:'0.5rem', marginBottom:'0.5rem'}}>
+        <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+        <button className="btn" onClick={() => saveCsv('emprestimos.csv', emprestimos, cols)}>Salvar CSV</button>
+      </div>
       <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>

@@ -23,12 +23,15 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = recuperarToken(request);
-        if (token != null) {
-            System.out.println("AutenticacaoViaTokenFilter: token present");
+        String rawAuth = request.getHeader("Authorization");
+        if (rawAuth != null && rawAuth.startsWith("Bearer ")) {
+            System.out.println("AutenticacaoViaTokenFilter: Authorization header present");
+        } else if (rawAuth != null) {
+            System.out.println("AutenticacaoViaTokenFilter: Authorization header present but not Bearer token");
         } else {
-            System.out.println("AutenticacaoViaTokenFilter: no token present");
+            System.out.println("AutenticacaoViaTokenFilter: no Authorization header present");
         }
+        String token = recuperarToken(request);
         if (token != null && tokenService.isTokenValido(token)) {
             String username = tokenService.getUsuario(token);
             System.out.println("AutenticacaoViaTokenFilter: token valid for user=" + username);

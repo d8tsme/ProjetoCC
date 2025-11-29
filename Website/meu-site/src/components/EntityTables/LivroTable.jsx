@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import saveCsv from '../../utils/csv';
 
 export default function LivroTable() {
   const [livros, setLivros] = useState([]);
@@ -9,6 +10,7 @@ export default function LivroTable() {
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ titulo: '', paginas: '', autorId: '', generoId: '', isbn: '', anoPublicacao: '', foto: '' });
+  const cols = [{key:'titulo', label:'Título'},{key:'autorNome', label:'Autor'},{key:'generoNome', label:'Gênero'},{key:'isbn', label:'ISBN'},{key:'status', label:'Status'}];
 
   useEffect(() => {
     loadLivros();
@@ -78,7 +80,10 @@ export default function LivroTable() {
   return (
     <div>
       <h2>Livros</h2>
-      <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+        <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+        <button className="btn" onClick={() => saveCsv('livros.csv', livros, cols)}>Salvar CSV</button>
+      </div>
       <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>

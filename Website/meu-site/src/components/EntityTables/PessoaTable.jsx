@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import saveCsv from '../../utils/csv';
 
 export default function PessoaTable() {
   const [pessoas, setPessoas] = useState([]);
@@ -9,6 +10,7 @@ export default function PessoaTable() {
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ nome: '', email: '', telefone: '' });
+  const cols = [{key:'nome', label:'Nome'},{key:'email', label:'Email'},{key:'telefone', label:'Telefone'}];
 
   useEffect(() => {
     loadPessoas();
@@ -75,7 +77,10 @@ export default function PessoaTable() {
   return (
     <div>
       <h2>Pessoas</h2>
-      <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+        <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
+        <button className="btn" onClick={() => saveCsv('pessoas.csv', pessoas, cols)}>Salvar CSV</button>
+      </div>
       <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>

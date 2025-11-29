@@ -23,8 +23,10 @@ public class TokenService {
     public void init() {
         if (jwtSecret != null && !jwtSecret.isBlank()) {
             CHAVE_SECRETA = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+            System.out.println("TokenService: jwt.secret provided in configuration (dev/prod");
         } else {
             CHAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+            System.out.println("TokenService: no jwt.secret set; using ephemeral secret (server restart breaks tokens)");
         }
     }
 

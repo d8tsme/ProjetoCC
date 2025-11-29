@@ -50,8 +50,22 @@ export default function Tabela({ titulo = "Lista", rows, apiPath = '/livros/list
         };
     }, [rows, navigate, apiPath]);
 
+    const exportCsv = () => {
+        const name = `${titulo.replace(/\s+/g,'_') || 'dados' }.csv`;
+        const cols = columns && columns.length ? columns : (defaultColumns());
+        const keys = cols.map(c => c.key);
+        // rows are in `data`
+        import('../../utils/csv').then(mod => mod.saveCsv(name, data, cols));
+    };
+
     return (
         <>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center', marginBottom: '0.5rem'}}>
+                <div style={{fontWeight:600}}>{titulo}</div>
+                <div>
+                    <button className="btn" onClick={exportCsv} style={{marginRight:'0.5rem'}}>Salvar CSV</button>
+                </div>
+            </div>
             {loading ? (
                 <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-medium)' }}>Carregando...</div>
             ) : error ? (
