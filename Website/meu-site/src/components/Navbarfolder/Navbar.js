@@ -19,6 +19,10 @@ function Navbar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">Bibliotech</div>
+      <div className="sidebar-user">
+        <div className="user-name">Olá, usuário</div>
+        <div className="user-role">Administrador</div>
+      </div>
       <ul className="sidebar-links">
         <li><NavLink to="/Main" className={({isActive}) => isActive ? 'active' : ''}>Livros</NavLink></li>
         <li><NavLink to="/autores" className={({isActive}) => isActive ? 'active' : ''}>Autor</NavLink></li>

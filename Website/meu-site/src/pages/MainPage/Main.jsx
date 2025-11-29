@@ -1,4 +1,4 @@
-import '../../../src';
+// global styling is imported in src/index.js so it's not needed here
 import Navbar from '../../components/Navbarfolder/Navbar.js';
 import LivroTable from '../../components/EntityTables/LivroTable';
 import { useState } from 'react';
@@ -10,9 +10,11 @@ function Main() {
     <div className="layout">
       <Navbar/>
       <div className="main-content">
-        <h1 style={{ textAlign: 'center', width: '100%' }}>Bem-vindo à Bibliotech</h1>
-        <div className="add-btn-bar">
-          <button className="btn primary" onClick={() => setShowAdd(true)}>Adicionar Livro</button>
+        <div className="page-header">
+          <h1>Bem-vindo à Bibliotech</h1>
+          <div className="add-btn-bar">
+            <button className="btn primary" onClick={() => setShowAdd(true)}>Adicionar Livro</button>
+          </div>
         </div>
             <LivroTable />
         <AddLivroCard open={showAdd} onClose={() => setShowAdd(false)} onCreated={() => { /* could refresh table */ }} />

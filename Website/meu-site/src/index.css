@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* UNIVERSAL RESET & GLOBAL FONT */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -23,7 +32,7 @@ code {
   --accent: var(--color3);
   --danger: var(--color4);
   --dark: var(--color5);
-  --bg-main: var(--color2);
+  --bg-main: #f4f4f4; /* main page background (slightly gray) */
   --bg-card: #fff;
   --text-main: var(--color5);
   --text-light: #fff;
@@ -36,8 +45,9 @@ code {
 /* global smooth helpers */
 *{box-sizing:border-box}
   /* Modern global styles */
+/* Keep the rest of the general body styles the same but ensure Poppins */
 body {
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
 }
@@ -57,26 +67,31 @@ body {
 }
 
 /* Navbar */
-.navbar {
-  background: var(--color5);
+.sidebar, .navbar {
+  /* Sidebar (or navbar) as part of layout */
+  width: 260px;
+  min-width: 240px;
+  max-width: 300px;
+  background: #111;
   color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-lg);
+  align-items: flex-start;
+  box-shadow: 0 8px 32px rgba(55,59,68,0.12);
+}
+/* Ensure the look and feel of the floating style if someone uses .navbar as fixed */
+.navbar.fixed {
   position: fixed;
   left: 2vw;
   top: 3vh;
-  width: 200px;
   height: 88vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 8px 32px rgba(55,59,68,0.18);
   z-index: 100;
-  border-radius: 22px;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1.2em 0.5em;
-  transition: box-shadow 0.2s, background 0.2s;
 }
 /* Floating box inside navbar */
-.navbar-floating-box {
+.sidebar-logo, .navbar-floating-box {
   background: var(--color1);
   color: var(--color5);
   border-radius: 18px;
@@ -90,7 +105,119 @@ body {
   letter-spacing: 0.5px;
   transition: box-shadow 0.2s, background 0.2s;
 }
-.navbar a {
+
+/* Sidebar specific styles (matching provided design) */
+.sidebar-title, .sidebar-logo {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+.sidebar-user {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+.sidebar-user .user-name { font-weight: 600; color: white; }
+.sidebar-user .user-role { font-size: 0.8rem; color: #bbb; }
+.sidebar-links, .sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+}
+.sidebar-links a, .sidebar-menu a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 1.05rem;
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.sidebar-links li { width: 100%; }
+.dashboard-btn{ align-self:flex-end; background:#2b3a67; color:white; border:none; padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer; }
+.dashboard-modal{ display:flex; flex-direction:column; gap:0.6rem; background:#fff; color:#333; padding:1rem; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.15); }
+.mode-toggle-btn, .logout-btn, .close-dashboard{ padding:0.5rem 0.8rem; border:none; background:#eee; border-radius:8px; cursor:pointer; }
+.mode-toggle-btn:hover, .logout-btn:hover, .close-dashboard:hover{ background:#ddd; }
+.sidebar-links a.active, .sidebar-links a:hover, .sidebar-menu a.active, .sidebar-menu a:hover {
+  color: white;
+  background: rgba(255,255,255,0.03);
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.page-header h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #2b3a67;
+}
+.add-btn-bar { text-align: right; margin-bottom: 1rem; }
+.add-btn-bar .btn.primary, .add-btn {
+  padding: 0.7rem 1.3rem;
+  border: none;
+  background: #c26f13;
+  color: white;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.add-btn-bar .btn.primary:hover, .add-btn:hover { background: #a65c0c; }
+
+/* Book card list */
+.book-list { display:flex; flex-direction:column; gap:1.2rem; }
+.book-card {
+  display:flex;
+  padding:1rem;
+  background:#ececec;
+  border-radius:12px;
+  align-items:center;
+  justify-content:space-between;
+}
+.book-left{ display:flex; gap:1rem; align-items:center; }
+.book-photo {
+  width:80px; height:110px; background:white; border-radius:8px;
+  display:flex; justify-content:center; align-items:center; color:#777; font-size:0.9rem;
+}
+.book-info h3{ font-size:1.2rem; font-weight:700; }
+.book-info p{ font-size:0.9rem; color:#444; }
+.book-actions{ display:flex; gap:0.6rem; }
+.action-btn { width:35px; height:35px; display:flex; justify-content:center; align-items:center; background:#ddd; border-radius:8px; cursor:pointer; }
+.action-btn:hover{ background:#c7c7c7; }
+.book-status{ padding:0.5rem 1rem; background:white; border-radius:12px; font-weight:600; }
+
+/* Tables override */
+thead { background:#2b3a67; color:white; }
+thead th{ padding:0.8rem; text-align:left; font-size:0.95rem; }
+tbody tr:nth-child(even){ background:#f1f1f1; }
+tbody td{ padding:0.8rem; font-size:0.9rem; }
+
+/* Modals */
+.modal-overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; }
+.modal-container{ background:white; padding:2rem; width:500px; border-radius:15px; }
+.form-group{ display:flex; flex-direction:column; margin-bottom:1rem; }
+.form-label{ margin-bottom:0.3rem; font-weight:600; }
+.form-input, .form-select{ padding:0.6rem; border-radius:8px; background:#f4f4f4; border:1px solid #ccc; }
+.form-actions{ display:flex; justify-content:flex-end; gap:1rem; }
+.btn-primary{ background:#2b3a67; color:white; padding:0.6rem 1rem; border-radius:8px; border:none; cursor:pointer; }
+.btn-secondary{ background:#aaa; color:white; padding:0.6rem 1rem; border-radius:8px; border:none; cursor:pointer; }
+
+/* Minor layout helpers */
+.layout { gap: 1.6rem; align-items: stretch; }
+
+/* enforce font inheritance for UI elements */
+input,button,textarea,select{ font-family: inherit }
+.sidebar a, .navbar a {
   color: var(--color1);
   padding: 1em;
   text-decoration: none;
@@ -102,12 +229,19 @@ body {
 }
 
 /* Main content grid */
-.main-content {
-  margin-left: 240px;
-  padding: 2em;
-  background: var(--bg-main);
+.layout {
+  display: flex;
+  width: 100%;
   min-height: 100vh;
-  border-radius: 22px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2.5rem;
+  background: white;
+  min-height: 100vh;
+  border-radius: 22px 0 0 22px;
+  overflow-y: auto;
 }
 
 /* Card style */
@@ -140,6 +274,9 @@ button:hover, .btn:hover {
   background: var(--accent);
   color: var(--color5);
 }
+/* support 'btn primary' two-class markup used in components */
+.btn.primary { background: var(--primary); color: var(--text-light); }
+.btn.primary:hover { background: var(--accent); color: var(--color5); }
 
 /* Forms */
 input, select, textarea {

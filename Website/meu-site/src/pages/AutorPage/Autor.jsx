@@ -29,9 +29,11 @@ function Autor() {
     <div className="layout">
       <Navbar/>
       <div className="main-content">
-        <h1>Autores</h1>
-        <div className="add-btn-bar">
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Autor</button>
+        <div className="page-header">
+          <h1>Autores</h1>
+          <div className="add-btn-bar">
+            <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Autor</button>
+          </div>
         </div>
         <AutorTable key={reloadKey} />
         <AddAutorCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />

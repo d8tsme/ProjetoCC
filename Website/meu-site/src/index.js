@@ -8,6 +8,7 @@ import Autor from './pages/AutorPage/Autor';
 import Pessoas from './pages/PessoasPage/Pessoas';
 import Emprestimo from './pages/EmprestimoPage/Emprestimo';
 import Genero from './pages/GeneroPage/Genero';
+import './index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

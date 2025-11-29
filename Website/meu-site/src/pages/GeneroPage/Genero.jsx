@@ -13,9 +13,11 @@ export default function Generos() {
     <div className="layout">
       <Navbar/>
       <div className="main-content">
-        <h1>Gêneros</h1>
-        <div className="add-btn-bar">
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Gênero</button>
+        <div className="page-header">
+          <h1>Gêneros</h1>
+          <div className="add-btn-bar">
+            <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Gênero</button>
+          </div>
         </div>
         <GeneroTable key={reloadKey} />
         <AddGeneroCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />

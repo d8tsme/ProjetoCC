@@ -1,0 +1,4 @@
+- [ ] Update Navbar.js to use CSS classes (sidebar-title, sidebar-menu)
+- [ ] Update Main.jsx for page-header and add-btn
+- [ ] Ensure LivroTable.jsx table structure matches CSS
+- [ ] Replace App.css with provided CSS

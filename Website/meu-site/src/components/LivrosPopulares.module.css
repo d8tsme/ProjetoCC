@@ -1,0 +1,66 @@
+.wrapper {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header h2 {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.header span {
+  font-size: 14px;
+  color: #777;
+}
+
+.bookRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+}
+
+.photo {
+  width: 90px;
+  height: 120px;
+  border-radius: 12px;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h3 {
+  font-size: 19px;
+}
+
+.info p {
+  font-size: 14px;
+  color: #555;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconBtn {
+  background: #efefef;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}

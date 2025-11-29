@@ -13,9 +13,11 @@ export default function Pessoas() {
     <div className="layout">
       <Navbar/>
       <div className="main-content">
-        <h1>Pessoas</h1>
-        <div className="add-btn-bar">
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Pessoa</button>
+        <div className="page-header">
+          <h1>Pessoas</h1>
+          <div className="add-btn-bar">
+            <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Pessoa</button>
+          </div>
         </div>
         <PessoaTable key={reloadKey} />
         <AddPessoaCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />

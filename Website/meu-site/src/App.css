@@ -21,7 +21,7 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
 }

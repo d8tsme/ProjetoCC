@@ -15,9 +15,11 @@ export default function Emprestimo() {
     <div className="layout">
       <Navbar/>
       <div className="main-content">
-        <h1>Empréstimos</h1>
-        <div className="add-btn-bar">
-          <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Empréstimo</button>
+        <div className="page-header">
+          <h1>Empréstimos</h1>
+          <div className="add-btn-bar">
+            <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Empréstimo</button>
+          </div>
         </div>
         <EmprestimosAtivosTable reloadKey={reloadKey} onDevolvido={() => setReloadKey(k=>k+1)} />
         <EmprestimosConcluidosTable reloadKey={reloadKey} />
