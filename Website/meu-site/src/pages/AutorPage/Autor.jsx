@@ -9,6 +9,8 @@ import { useState } from 'react';
 function Autor() {
   const [showAdd, setShowAdd] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  const [autorParaEditar, setAutorParaEditar] = useState(null);
+  const [autorParaDeletar, setAutorParaDeletar] = useState(null);
   async function getAutor() {
     try {
       const json = await (await import('../../utils/apiFetch')).default('/autores/listar');

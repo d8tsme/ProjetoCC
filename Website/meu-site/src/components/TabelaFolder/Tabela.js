@@ -34,6 +34,7 @@ export default function Tabela({ titulo = "Lista", rows, apiPath = '/livros/list
                 if (cancelled) return;
                 // on auth errors navigate to login
                 if (err.status === 401 || err.status === 403) {
+                    console.log(err)
                     navigate('/login');
                     return;
                 }

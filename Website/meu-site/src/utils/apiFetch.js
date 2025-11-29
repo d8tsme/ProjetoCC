@@ -27,7 +27,8 @@ export default async function apiFetch(path, options = {}) {
   if (!headers.Accept) headers.Accept = 'application/json';
 
   const res = await fetch(path, Object.assign({}, options, { headers }));
-
+  console.log(res);
+  console.log(headers);
   // try to parse body
   let body = null;
   const contentType = res.headers.get('content-type') || '';

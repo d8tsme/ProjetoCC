@@ -4,6 +4,7 @@ import Tabela from '../../components/TabelaFolder/Tabela';
 import AddPessoaCard from '../../components/EntityForms/AddPessoaCard';
 import PessoaTable from '../../components/EntityTables/PessoaTable';
 import { useState } from 'react';
+import Layout from '../../components/mainlayout/layout.jsx';
 
 export default function Pessoas() {
   const [showAdd, setShowAdd] = useState(false);

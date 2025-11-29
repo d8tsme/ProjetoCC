@@ -4,6 +4,7 @@ import Tabela from '../../components/TabelaFolder/Tabela';
 import AddGeneroCard from '../../components/EntityForms/AddGeneroCard';
 import GeneroTable from '../../components/EntityTables/GeneroTable';
 import { useState } from 'react';
+import Layout from '../../components/mainlayout/layout.jsx';
 
 export default function Generos() {
   const [showAdd, setShowAdd] = useState(false);

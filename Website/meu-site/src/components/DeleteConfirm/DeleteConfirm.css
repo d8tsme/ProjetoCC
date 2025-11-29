@@ -1,0 +1,28 @@
+.delete-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.delete-confirm-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 350px;
+  text-align: center;
+  color: rgb(138, 0, 0);
+}
+
+.delete-confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+p{
+    font-size: 15px;
+}

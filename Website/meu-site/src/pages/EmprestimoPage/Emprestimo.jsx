@@ -4,6 +4,7 @@ import Tabela from '../../components/TabelaFolder/Tabela';
 import AddEmprestimoCard from '../../components/EntityForms/AddEmprestimoCard';
 import EmprestimoTable from '../../components/EntityTables/EmprestimoTable';
 import { useState } from 'react';
+import Layout from '../../components/mainlayout/layout.jsx';
 
 export default function Emprestimo() {
   const [showAdd, setShowAdd] = useState(false);
