@@ -16,21 +16,36 @@ export default function AutorTable() {
 
   async function loadAutores() {
     let url = `/autores/listar`;
-    const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
-    let arr = Array.isArray(res) ? res : [];
-    if (search) arr = arr.filter(a => a.nome && a.nome.toLowerCase().includes(search.toLowerCase()));
-    setAutores(arr);
+    try {
+      const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      let arr = Array.isArray(res) ? res : [];
+      if (search) arr = arr.filter(a => a.nome && a.nome.toLowerCase().includes(search.toLowerCase()));
+      setAutores(arr);
+    } catch (err) {
+      console.error('Erro ao carregar autores', err);
+      alert(err.message || 'Erro ao carregar autores');
+    }
   }
 
   async function handleDelete(id) {
-    await apiFetch(`/autores/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
-    loadAutores();
+    try {
+      await apiFetch(`/autores/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      await loadAutores();
+    } catch (err) {
+      console.error('Erro ao excluir autor', err);
+      alert(err.message || 'Erro ao excluir autor');
+    }
   }
 
   async function handleBulkDelete() {
-    await Promise.all(selected.map(id => apiFetch(`/autores/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
-    setSelected([]);
-    loadAutores();
+    try {
+      await Promise.all(selected.map(id => apiFetch(`/autores/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
+      setSelected([]);
+      await loadAutores();
+    } catch (err) {
+      console.error('Erro ao excluir autores em lote', err);
+      alert(err.message || 'Erro ao excluir autores');
+    }
   }
 
   function handleEdit(autor) {
@@ -39,13 +54,18 @@ export default function AutorTable() {
   }
 
   async function handleEditSave() {
-    await apiFetch(`/autores/alterar`, {
-      method: 'PUT',
-      body: JSON.stringify({ id: editing, ...editData }),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-    });
-    setEditing(null);
-    loadAutores();
+    try {
+      await apiFetch(`/autores/alterar`, {
+        method: 'PUT',
+        body: JSON.stringify({ id: editing, ...editData }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+      });
+      setEditing(null);
+      await loadAutores();
+    } catch (err) {
+      console.error('Erro ao salvar autor', err);
+      alert(err.message || 'Erro ao salvar autor');
+    }
   }
 
   function handleSelect(id) {

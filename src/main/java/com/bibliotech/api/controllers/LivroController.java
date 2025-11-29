@@ -98,6 +98,36 @@ public class LivroController {
         return ResponseEntity.ok(new DadosListagemLivro(livro));
     }
 
+    // Alias to match other entities' routes and the frontend's existing requests
+    @PutMapping("/alterar")
+    @Transactional
+    public ResponseEntity<?> alterar(@RequestBody @Valid DadosAlteracaoLivro dados) {
+        Livro livro = livroRepositorio.getReferenceById(dados.id());
+
+        Optional<Autor> novoAutor = Optional.empty();
+        if (dados.autorId() != null) {
+            novoAutor = autorRepositorio.findById(dados.autorId());
+        }
+
+        Optional<Genero> novoGenero = Optional.empty();
+        if (dados.generoId() != null) {
+            novoGenero = generoRepositorio.findById(dados.generoId());
+        }
+
+        livro.atualizaInformacoes(dados, novoAutor.orElse(null), novoGenero.orElse(null));
+        return ResponseEntity.ok(new DadosListagemLivro(livro));
+    }
+
+    @DeleteMapping("/excluir/{id}")
+    @Transactional
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        if (!livroRepositorio.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        livroRepositorio.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/autor/{id}")
     public ResponseEntity<?> listarPeloId(@PathVariable Long id) {
         if(!autorRepositorio.existsById(id)){

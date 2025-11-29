@@ -13,8 +13,9 @@ export default function Form() {
     const senha = form.senha.value;
     try {
         setLoading(true);
-        // NOTE: keeping the full endpoint URL as requested
-        const res = await fetch("https://kelsi-scrobiculate-dina.ngrok-free.dev/auth", {
+        // Use environment configured API endpoint or local default
+        const API_TARGET = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+        const res = await fetch(`${API_TARGET}/auth`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ usuario, senha })

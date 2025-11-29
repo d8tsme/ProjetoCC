@@ -16,21 +16,36 @@ export default function PessoaTable() {
 
   async function loadPessoas() {
     let url = `/pessoas/listar`;
-    const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
-    let arr = Array.isArray(res) ? res : [];
-    if (search) arr = arr.filter(p => p.nome && p.nome.toLowerCase().includes(search.toLowerCase()));
-    setPessoas(arr);
+    try {
+      const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      let arr = Array.isArray(res) ? res : [];
+      if (search) arr = arr.filter(p => p.nome && p.nome.toLowerCase().includes(search.toLowerCase()));
+      setPessoas(arr);
+    } catch (err) {
+      console.error('Erro ao carregar pessoas', err);
+      alert(err.message || 'Erro ao carregar pessoas');
+    }
   }
 
   async function handleDelete(id) {
-    await apiFetch(`/pessoas/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
-    loadPessoas();
+    try {
+      await apiFetch(`/pessoas/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      await loadPessoas();
+    } catch (err) {
+      console.error('Erro ao excluir pessoa', err);
+      alert(err.message || 'Erro ao excluir');
+    }
   }
 
   async function handleBulkDelete() {
-    await Promise.all(selected.map(id => apiFetch(`/pessoas/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
-    setSelected([]);
-    loadPessoas();
+    try {
+      await Promise.all(selected.map(id => apiFetch(`/pessoas/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
+      setSelected([]);
+      await loadPessoas();
+    } catch (err) {
+      console.error('Erro ao excluir pessoas em lote', err);
+      alert(err.message || 'Erro ao excluir pessoas');
+    }
   }
 
   function handleEdit(pessoa) {
@@ -39,13 +54,18 @@ export default function PessoaTable() {
   }
 
   async function handleEditSave() {
-    await apiFetch(`/pessoas/alterar`, {
-      method: 'PUT',
-      body: JSON.stringify({ id: editing, ...editData }),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-    });
-    setEditing(null);
-    loadPessoas();
+    try {
+      await apiFetch(`/pessoas/alterar`, {
+        method: 'PUT',
+        body: JSON.stringify({ id: editing, ...editData }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+      });
+      setEditing(null);
+      await loadPessoas();
+    } catch (err) {
+      console.error('Erro ao salvar alterações da pessoa', err);
+      alert(err.message || 'Erro ao salvar pessoa');
+    }
   }
 
   function handleSelect(id) {

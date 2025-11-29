@@ -4,14 +4,29 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Service
 public class TokenService {
-    private static final Key CHAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private Key CHAVE_SECRETA;
+
+    @Value("${jwt.secret:}")
+    private String jwtSecret;
+
+    @PostConstruct
+    public void init() {
+        if (jwtSecret != null && !jwtSecret.isBlank()) {
+            CHAVE_SECRETA = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        } else {
+            CHAVE_SECRETA = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        }
+    }
 
     public String gerarToken(String usuario){
         return Jwts.builder()

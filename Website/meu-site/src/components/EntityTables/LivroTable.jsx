@@ -23,14 +23,24 @@ export default function LivroTable() {
   }
 
   async function handleDelete(id) {
-    await apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
-    loadLivros();
+    try {
+      await apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      await loadLivros();
+    } catch (err) {
+      console.error('Erro ao excluir livro', err);
+      alert(err.message || 'Erro ao excluir livro');
+    }
   }
 
   async function handleBulkDelete() {
-    await Promise.all(selected.map(id => apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
-    setSelected([]);
-    loadLivros();
+    try {
+      await Promise.all(selected.map(id => apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
+      setSelected([]);
+      await loadLivros();
+    } catch (err) {
+      console.error('Erro ao excluir livros em lote', err);
+      alert(err.message || 'Erro ao excluir livros');
+    }
   }
 
   function handleEdit(livro) {
@@ -47,13 +57,18 @@ export default function LivroTable() {
   }
 
   async function handleEditSave() {
-    await apiFetch(`/livros/alterar`, {
-      method: 'PUT',
-      body: JSON.stringify({ id: editing, ...editData }),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-    });
-    setEditing(null);
-    loadLivros();
+    try {
+      await apiFetch(`/livros/alterar`, {
+        method: 'PUT',
+        body: JSON.stringify({ id: editing, ...editData }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
+      });
+      setEditing(null);
+      await loadLivros();
+    } catch (err) {
+      console.error('Erro ao salvar alterações do livro', err);
+      alert(err.message || 'Erro ao salvar');
+    }
   }
 
   function handleSelect(id) {
