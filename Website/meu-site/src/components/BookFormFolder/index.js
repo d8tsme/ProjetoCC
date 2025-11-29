@@ -2,23 +2,26 @@ import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 // import './styles.css';
 // import '../../index.css';
-
-export default function AddLivroCard({ open, onClose, onCreated }) {
-  const [titulo, setTitulo] = useState('');
-  const [paginas, setPaginas] = useState('');
-  const [autor, setAutor] = useState('');
-  const [genero, setGenero] = useState('');
-  const [isbn, setIsbn] = useState('');
-  const [anoPublicacao, setAnoPublicacao] = useState('');
-  const [foto, setFoto] = useState('');
-  const [autores, setAutores] = useState([]);
-  const [generos, setGeneros] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
+    try {
+      const payload = { titulo, autor, genero, ano, isbn, foto };
+      console.log('POST /livros/cadastrar', payload);
+      await apiFetch('/livros/cadastrar', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      setTitulo('');
+      setAutor('');
+      setGenero('');
+      setAno('');
+      setIsbn('');
+      setFoto('');
+      onCreated && onCreated();
+      onClose();
+    } catch (err) {
+      console.error('Erro ao cadastrar livro:', err);
+      setError('Erro ao cadastrar livro: ' + (err?.message || ''));
+    }
     async function load() {
       try {
         const a = await apiFetch('/autores/listar');

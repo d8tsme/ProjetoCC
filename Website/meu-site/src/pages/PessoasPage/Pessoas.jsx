@@ -2,6 +2,7 @@ import '../LoginPage/App.css';
 import Navbar from '../../components/Navbarfolder/Navbar.js';
 import Tabela from '../../components/TabelaFolder/Tabela';
 import AddPessoaCard from '../../components/EntityForms/AddPessoaCard';
+import PessoaTable from '../../components/EntityTables/PessoaTable';
 import { useState } from 'react';
 
 export default function Pessoas() {
@@ -15,7 +16,7 @@ export default function Pessoas() {
         <div className="add-btn-bar">
           <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Pessoa</button>
         </div>
-        <Tabela titulo="Pessoas" apiPath="/pessoas/listar" key={reloadKey} columns={[{key:'nome',label:'Nome'},{key:'email',label:'Email'},{key:'telefone',label:'Telefone'}]} />
+        <PessoaTable key={reloadKey} />
         <AddPessoaCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
       </div>
     </div>

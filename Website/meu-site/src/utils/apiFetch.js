@@ -1,11 +1,17 @@
 // small helper to centralize API calls with token injection
 export default async function apiFetch(path, options = {}) {
-  const token = sessionStorage.getItem('token');
+  let token = sessionStorage.getItem('token');
+  if (token) token = token.trim();
 
   const headers = Object.assign({}, options.headers || {});
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
+    // Debug: log the token and headers
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('apiFetch sending token:', token);
+      console.log('apiFetch headers:', headers);
+    }
   }
 
   // ngrok sometimes shows an interstitial in browser; sending this header suppresses the warning when

@@ -12,16 +12,19 @@ export default function AddGeneroCard({ open, onClose, onCreated }) {
     e.preventDefault();
     setError(null);
     try {
+      const payload = { nome };
+      console.log('POST /generos/cadastrar', payload);
       await apiFetch('/generos/cadastrar', {
         method: 'POST',
-        body: JSON.stringify({ nome }),
+        body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
       setNome('');
       onCreated && onCreated();
       onClose();
     } catch (err) {
-      setError('Erro ao cadastrar gênero');
+      console.error('Erro ao cadastrar gênero:', err);
+      setError('Erro ao cadastrar gênero: ' + (err?.message || ''));
     }
   };
 

@@ -13,9 +13,11 @@ export default function AddAutorCard({ open, onClose, onCreated }) {
     e.preventDefault();
     setError(null);
     try {
+      const payload = { nome, foto };
+      console.log('POST /autores/cadastrar', payload);
       await apiFetch('/autores/cadastrar', {
         method: 'POST',
-        body: JSON.stringify({ nome, foto }),
+        body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
       setNome('');
@@ -23,7 +25,8 @@ export default function AddAutorCard({ open, onClose, onCreated }) {
       onCreated && onCreated();
       onClose();
     } catch (err) {
-      setError('Erro ao cadastrar autor');
+      console.error('Erro ao cadastrar autor:', err);
+      setError('Erro ao cadastrar autor: ' + (err?.message || '')); 
     }
   };
 

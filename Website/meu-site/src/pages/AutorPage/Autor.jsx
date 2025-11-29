@@ -3,6 +3,7 @@ import '../LoginPage/App.css';
 import Navbar from '../../components/Navbarfolder/Navbar.js';
 import Tabela from '../../components/TabelaFolder/Tabela';
 import AddAutorCard from '../../components/EntityForms/AddAutorCard';
+import AutorTable from '../../components/EntityTables/AutorTable';
 import { useState } from 'react';
 
 function Autor() {
@@ -30,7 +31,7 @@ function Autor() {
         <div className="add-btn-bar">
           <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Autor</button>
         </div>
-        <Tabela titulo="Autores" apiPath="/autores/listar" key={reloadKey} columns={[{key:'foto',label:'Foto'},{key:'nome',label:'Nome'}]} />
+        <AutorTable key={reloadKey} />
         <AddAutorCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
       </div>
     </div>

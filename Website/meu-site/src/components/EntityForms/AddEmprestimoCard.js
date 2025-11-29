@@ -4,30 +4,31 @@ import apiFetch from '../../utils/apiFetch';
 export default function AddEmprestimoCard({ open, onClose, onCreated }) {
   const [livroId, setLivroId] = useState('');
   const [pessoaId, setPessoaId] = useState('');
-  const [dataEmprestimo, setDataEmprestimo] = useState('');
-  const [dataDevolucao, setDataDevolucao] = useState('');
   const [error, setError] = useState(null);
 
   if (!open) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ...existing code...
     setError(null);
     try {
+      const payload = {
+        livroId: parseInt(livroId, 10),
+        pessoaId: parseInt(pessoaId, 10)
+      };
+      console.log('POST /emprestimos/cadastrar', payload);
       await apiFetch('/emprestimos/cadastrar', {
         method: 'POST',
-        body: JSON.stringify({ livroId, pessoaId, dataEmprestimo, dataDevolucao }),
+        body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
       setLivroId('');
       setPessoaId('');
-      setDataEmprestimo('');
-      setDataDevolucao('');
       onCreated && onCreated();
       onClose();
     } catch (err) {
-      setError('Erro ao cadastrar empréstimo');
+      console.error('Erro ao cadastrar empréstimo:', err);
+      setError('Erro ao cadastrar empréstimo: ' + (err?.message || ''));
     }
   };
 
@@ -48,14 +49,7 @@ export default function AddEmprestimoCard({ open, onClose, onCreated }) {
             Pessoa ID
             <input type="text" value={pessoaId} onChange={e => setPessoaId(e.target.value)} required />
           </label>
-          <label>
-            Data do Empréstimo
-            <input type="date" value={dataEmprestimo} onChange={e => setDataEmprestimo(e.target.value)} required />
-          </label>
-          <label>
-            Data de Devolução
-            <input type="date" value={dataDevolucao} onChange={e => setDataDevolucao(e.target.value)} />
-          </label>
+          {/* Campos removidos conforme modelo do backend */}
           <div className="addlivro-actions">
             <button type="submit" className="btn primary">Salvar</button>
             <button type="button" className="btn secondary" onClick={onClose}>Cancelar</button>

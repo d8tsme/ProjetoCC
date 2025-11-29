@@ -2,6 +2,7 @@ import '../LoginPage/App.css';
 import Navbar from '../../components/Navbarfolder/Navbar.js';
 import Tabela from '../../components/TabelaFolder/Tabela';
 import AddGeneroCard from '../../components/EntityForms/AddGeneroCard';
+import GeneroTable from '../../components/EntityTables/GeneroTable';
 import { useState } from 'react';
 
 export default function Generos() {
@@ -15,7 +16,7 @@ export default function Generos() {
         <div className="add-btn-bar">
           <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Gênero</button>
         </div>
-        <Tabela titulo="Gêneros" apiPath="/generos/listar" key={reloadKey} columns={[{key:'id',label:'ID'},{key:'nome',label:'Nome'}]} />
+        <GeneroTable key={reloadKey} />
         <AddGeneroCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
       </div>
     </div>

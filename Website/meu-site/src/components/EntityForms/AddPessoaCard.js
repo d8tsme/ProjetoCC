@@ -5,6 +5,7 @@ import apiFetch from '../../utils/apiFetch';
 export default function AddPessoaCard({ open, onClose, onCreated }) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [error, setError] = useState(null);
 
   if (!open) return null;
@@ -13,17 +14,21 @@ export default function AddPessoaCard({ open, onClose, onCreated }) {
     e.preventDefault();
     setError(null);
     try {
+      const payload = { nome, email, telefone: parseInt(telefone, 10) };
+      console.log('POST /pessoas/cadastrar', payload);
       await apiFetch('/pessoas/cadastrar', {
         method: 'POST',
-        body: JSON.stringify({ nome, email }),
+        body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' },
       });
       setNome('');
       setEmail('');
+      setTelefone('');
       onCreated && onCreated();
       onClose();
     } catch (err) {
-      setError('Erro ao cadastrar pessoa');
+      console.error('Erro ao cadastrar pessoa:', err);
+      setError('Erro ao cadastrar pessoa: ' + (err?.message || ''));
     }
   };
 
@@ -43,6 +48,10 @@ export default function AddPessoaCard({ open, onClose, onCreated }) {
           <label>
             Email
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          </label>
+          <label>
+            Telefone
+            <input type="number" value={telefone} onChange={e => setTelefone(e.target.value)} required />
           </label>
           <div className="addlivro-actions">
             <button type="submit" className="btn primary">Salvar</button>

@@ -1,6 +1,6 @@
 import '../../../src';
 import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Table from '../../components/TabelaFolder/Tabela';
+import LivroTable from '../../components/EntityTables/LivroTable';
 import { useState } from 'react';
 import AddLivroCard from '../../components/AddLivroCard/AddLivroCard.jsx'; // Now uses index.js in AddLivroCard folder
 
@@ -14,7 +14,7 @@ function Main() {
         <div className="add-btn-bar">
           <button className="btn primary" onClick={() => setShowAdd(true)}>Adicionar Livro</button>
         </div>
-        <Table/>
+            <LivroTable />
         <AddLivroCard open={showAdd} onClose={() => setShowAdd(false)} onCreated={() => { /* could refresh table */ }} />
       </div>
     </div>
