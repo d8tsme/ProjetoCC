@@ -7,20 +7,44 @@ export default function LivroTable() {
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('titulo');
-  const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ titulo: '', paginas: '', autorId: '', generoId: '', isbn: '', anoPublicacao: '', foto: '' });
+  // filter and view states
+  const [authors, setAuthors] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [authorFilter, setAuthorFilter] = useState('');
+  const [genreFilter, setGenreFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+  const [viewMode, setViewMode] = useState('table'); // 'table' or 'cards'
   const cols = [{key:'titulo', label:'Título'},{key:'autorNome', label:'Autor'},{key:'generoNome', label:'Gênero'},{key:'isbn', label:'ISBN'},{key:'status', label:'Status'}];
 
   useEffect(() => {
     loadLivros();
-  }, [sort, page, search]);
+  }, [sort]);
+
+  useEffect(() => {
+    // load authors and genres for filters
+    let cancelled = false;
+    async function loadMeta() {
+      try {
+        const a = await apiFetch('/autores/listar');
+        const g = await apiFetch('/generos/listar');
+        if (!cancelled) {
+          setAuthors(Array.isArray(a) ? a : []);
+          setGenres(Array.isArray(g) ? g : []);
+        }
+      } catch (err) {
+        console.error('Erro ao carregar metadados para filtro', err);
+      }
+    }
+    loadMeta();
+    return () => { cancelled = true; }
+  }, []);
 
   async function loadLivros() {
     let url = `/livros/listar`;
     const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
     let arr = Array.isArray(res) ? res : [];
-    if (search) arr = arr.filter(l => l.titulo && l.titulo.toLowerCase().includes(search.toLowerCase()));
     setLivros(arr);
   }
 
@@ -77,15 +101,41 @@ export default function LivroTable() {
     setSelected(selected.includes(id) ? selected.filter(s => s !== id) : [...selected, id]);
   }
 
+  // derived filtered array
+  const filteredLivros = livros.filter(l => {
+    if (search && (!l.titulo || !l.titulo.toLowerCase().includes(search.toLowerCase()))) return false;
+    if (authorFilter && String(l.autorId) !== String(authorFilter) && String(l.autor) !== String(authorFilter) && String(l.autorNome) !== String(authorFilter)) return false;
+    if (genreFilter && String(l.generoId) !== String(genreFilter) && String(l.generoNome) !== String(genreFilter)) return false;
+    if (statusFilter && String(l.status) !== String(statusFilter)) return false;
+    return true;
+  });
+
   return (
     <div>
       <h2>Livros</h2>
-      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+      <div className="table-controls" style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems:'center'}}>
         <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
-        <button className="btn" onClick={() => saveCsv('livros.csv', livros, cols)}>Salvar CSV</button>
+        <select value={authorFilter} onChange={e => setAuthorFilter(e.target.value)}>
+          <option value="">Todos autores</option>
+          {authors.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
+        </select>
+        <select value={genreFilter} onChange={e => setGenreFilter(e.target.value)}>
+          <option value="">Todos gêneros</option>
+          {genres.map(g => <option key={g.id} value={g.id}>{g.nome}</option>)}
+        </select>
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+          <option value="">Todos status</option>
+          <option value="Disponível">Disponível</option>
+          <option value="Emprestado">Emprestado</option>
+        </select>
+        <button className="btn" onClick={() => saveCsv('livros.csv', (filteredLivros.length ? filteredLivros : livros), cols)}>Salvar CSV</button>
+        <div style={{marginLeft:'auto', display:'flex', gap:'0.5rem', alignItems:'center'}}>
+          <button className="btn bulk-delete-btn" onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
+          <button className="btn" onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}>{viewMode === 'table' ? 'Ver em Cards' : 'Ver em Tabela'}</button>
+        </div>
       </div>
-      <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
-      <table>
+      {viewMode === 'table' ? (
+        <table>
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? livros.map(a => a.id) : [])} checked={selected.length === livros.length && livros.length > 0} /></th>
@@ -100,7 +150,7 @@ export default function LivroTable() {
           </tr>
         </thead>
         <tbody>
-          {livros.map(livro => (
+          {(filteredLivros.length ? filteredLivros : livros).map(livro => (
             <tr key={livro.id}>
               <td><input type="checkbox" checked={selected.includes(livro.id)} onChange={() => handleSelect(livro.id)} /></td>
               <td>{editing === livro.id ? <input value={editData.titulo} onChange={e => setEditData({ ...editData, titulo: e.target.value })} /> : livro.titulo}</td>
@@ -124,11 +174,25 @@ export default function LivroTable() {
           ))}
         </tbody>
       </table>
-      <div>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>Anterior</button>
-        <span>Página {page}</span>
-        <button onClick={() => setPage(page + 1)}>Próxima</button>
-      </div>
+      ) : (
+        <div className="records-card-view">
+          {filteredLivros.map(livro => (
+            <div key={livro.id} className="record-card">
+              <div className="card-left">
+                <div className="book-photo-small">{livro.foto ? <img src={livro.foto} alt="Capa" /> : 'sem imagem'}</div>
+              </div>
+              <div className="card-content">
+                <div className="card-title">{livro.titulo}</div>
+                <div className="card-meta">{livro.autorNome || livro.autorId} • {livro.generoNome || livro.generoId}</div>
+                <div className="card-actions">
+                  <button className="btn" onClick={() => handleEdit(livro)}>Editar</button>
+                  <button className="btn" onClick={() => handleDelete(livro.id)}>Excluir</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

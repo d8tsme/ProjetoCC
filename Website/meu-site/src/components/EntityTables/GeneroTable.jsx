@@ -57,11 +57,13 @@ export default function GeneroTable() {
   return (
     <div>
       <h2>Gêneros</h2>
-      <div style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem'}}>
+      <div className="table-controls" style={{display:'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems:'center'}}>
         <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
         <button className="btn" onClick={() => saveCsv('generos.csv', generos, cols)}>Salvar CSV</button>
+        <div style={{marginLeft:'auto'}}>
+          <button className="btn bulk-delete-btn" onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
+        </div>
       </div>
-      <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>
           <tr>
@@ -89,11 +91,7 @@ export default function GeneroTable() {
           ))}
         </tbody>
       </table>
-      <div>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>Anterior</button>
-        <span>Página {page}</span>
-        <button onClick={() => setPage(page + 1)}>Próxima</button>
-      </div>
+      {/* Pagination removed - we show all rows */}
     </div>
   );
 }

@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo">Bibliotech</div>
+      <div className="sidebar-logo">Biblio.<br/>tech</div>
       <div className="sidebar-user">
         <div className="user-name">Olá, usuário</div>
         <div className="user-role">Administrador</div>

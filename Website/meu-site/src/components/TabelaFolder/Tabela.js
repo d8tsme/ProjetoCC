@@ -60,7 +60,7 @@ export default function Tabela({ titulo = "Lista", rows, apiPath = '/livros/list
 
     return (
         <>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center', marginBottom: '0.5rem'}}>
+            <div className="table-toolbar" style={{display:'flex',justifyContent:'space-between',alignItems:'center', marginBottom: '0.5rem'}}>
                 <div style={{fontWeight:600}}>{titulo}</div>
                 <div>
                     <button className="btn" onClick={exportCsv} style={{marginRight:'0.5rem'}}>Salvar CSV</button>

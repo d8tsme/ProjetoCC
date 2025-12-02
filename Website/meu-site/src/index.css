@@ -22,24 +22,37 @@ code {
 }
 
 :root {
-  --color1: #73c8a9;
-  --color2: #dee1b6;
-  --color3: #e1b866;
-  --color4: #bd5532;
-  --color5: #373b44;
-  --primary: var(--color1);
-  --secondary: var(--color2);
-  --accent: var(--color3);
-  --danger: var(--color4);
-  --dark: var(--color5);
-  --bg-main: #f4f4f4; /* main page background (slightly gray) */
-  --bg-card: #fff;
-  --text-main: var(--color5);
-  --text-light: #fff;
-  --text-medium: #555;
-  --radius-lg: 14px;
+  /* MONOCHROME THEME */
+  --black: #000000;
+  --black-700: #111111;
+  --black-600: #222222;
+  --gray-200: #ededed;
+  --gray-300: #e7e7e7;
+  --white: #ffffff;
+
+  /* Theme tokens */
+  --primary: var(--black-700);
+  --accent: var(--black-600);
+  --bg-main: var(--gray-300); /* subtle background for pages */
+  --bg-card: var(--white);
+  --text-main: var(--black-700);
+  --text-muted: #6b6b6b;
+  --text-light: var(--white);
+  --radius-lg: 18px;
   --radius-md: 10px;
   --transition-fast: 160ms;
+  --space-xs: 0.4rem;
+  --space-sm: 0.8rem;
+  --space-md: 1.4rem;
+  --space-lg: 2.2rem;
+  --sidebar-width: 320px;
+  /* Compatibility aliases used by components */
+  --color1: var(--black-700);
+  --color2: var(--gray-300);
+  --color3: var(--gray-200);
+  --color4: var(--black-700);
+  --color5: var(--black-700);
+  --bg-gradient: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 100%);
 }
 
 /* global smooth helpers */
@@ -50,6 +63,7 @@ body {
   font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 /* All properties above are now inside valid blocks. Add additional styles below, ensuring proper syntax. */
 
@@ -68,56 +82,55 @@ body {
 
 /* Navbar */
 .sidebar, .navbar {
-  /* Sidebar (or navbar) as part of layout */
-  width: 260px;
-  min-width: 240px;
-  max-width: 300px;
-  background: #111;
+  /* Sidebar (or navbar) as part of layout - fixed left column */
+  width: var(--sidebar-width);
+  min-width: 280px;
+  max-width: 340px;
+  background: var(--black);
   color: var(--text-light);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem 1.5rem;
+  gap: var(--space-lg);
+  padding: 2.2rem 1.6rem;
   border-radius: var(--radius-lg);
   align-items: flex-start;
-  box-shadow: 0 8px 32px rgba(55,59,68,0.12);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.32);
+  position: fixed;
+  left: 22px;
+  top: 22px;
+  height: calc(100vh - 44px);
+  z-index: 1000;
 }
 /* Ensure the look and feel of the floating style if someone uses .navbar as fixed */
-.navbar.fixed {
-  position: fixed;
-  left: 2vw;
-  top: 3vh;
-  height: 88vh;
-  z-index: 100;
-}
+.navbar.fixed { /* keep compatibility if used in code */ }
 /* Floating box inside navbar */
 .sidebar-logo, .navbar-floating-box {
-  background: var(--color1);
-  color: var(--color5);
-  border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(55,59,68,0.12);
-  padding: 1.2em 1em;
-  margin-bottom: 1.5em;
-  width: 90%;
-  text-align: center;
-  font-weight: 500;
-  font-size: 1.1em;
-  letter-spacing: 0.5px;
-  transition: box-shadow 0.2s, background 0.2s;
+  background: transparent;
+  color: var(--text-light);
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 0.6rem;
+  width: 100%;
+  text-align: left;
+  font-weight: 700;
+  font-size: 4.2rem;
+  line-height: 2.2rem;
+  letter-spacing: -0.5px;
 }
 
 /* Sidebar specific styles (matching provided design) */
 .sidebar-title, .sidebar-logo {
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.5px;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text-light);
+  letter-spacing: -0.6px;
 }
 .sidebar-user {
   display: flex;
   flex-direction: column;
   font-size: 0.95rem;
-  color: #ccc;
+  color: #c9c9c9;
+  gap: 0.2rem;
 }
 .sidebar-user .user-name { font-weight: 600; color: white; }
 .sidebar-user .user-role { font-size: 0.8rem; color: #bbb; }
@@ -131,22 +144,35 @@ body {
   width: 100%;
 }
 .sidebar-links a, .sidebar-menu a {
-  color: #bbb;
+  color: #bfbfbf;
   text-decoration: none;
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   display: block;
-  padding: 0.45rem 0.6rem;
+  padding: 0.5rem 0.6rem;
   border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.16s, color 0.16s, transform 0.12s;
 }
+
+/* Default main content (without a sidebar) */
+.main-content {
 .sidebar-links li { width: 100%; }
-.dashboard-btn{ align-self:flex-end; background:#2b3a67; color:white; border:none; padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer; }
-.dashboard-modal{ display:flex; flex-direction:column; gap:0.6rem; background:#fff; color:#333; padding:1rem; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.15); }
+.dashboard-btn{ align-self:flex-end; background:transparent; color:var(--text-light); border:1px solid rgba(255,255,255,0.08); padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer; opacity:0.95 }
+.dashboard-modal{ position:absolute; right:12px; top:56px; display:flex; flex-direction:column; gap:0.6rem; background:var(--white); color:var(--text-muted); padding:0.6rem; border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.18); max-width:260px; z-index: 1100; max-height: calc(100vh - 90px); overflow:auto }
 .mode-toggle-btn, .logout-btn, .close-dashboard{ padding:0.5rem 0.8rem; border:none; background:#eee; border-radius:8px; cursor:pointer; }
 .mode-toggle-btn:hover, .logout-btn:hover, .close-dashboard:hover{ background:#ddd; }
 .sidebar-links a.active, .sidebar-links a:hover, .sidebar-menu a.active, .sidebar-menu a:hover {
-  color: white;
-  background: rgba(255,255,255,0.03);
+  color: var(--white);
+  font-weight: 700;
+  transform: translateX(2px);
+  text-decoration: none;
+  background: transparent;
+}}
+
+/* When inside a layout that has a fixed sidebar, add the left margin */
+.layout .main-content {
+  margin-left: calc(var(--sidebar-width) + 44px);
+  background: rgba(255,255,255,0.06);
+  transform: translateX(4px);
 }
 
 /* Page header */
@@ -157,76 +183,122 @@ body {
   margin-bottom: 1rem;
 }
 .page-header h1 {
-  font-size: 1.9rem;
+  font-size: 2.15rem;
   font-weight: 700;
-  color: #2b3a67;
+  color: var(--black-700);
 }
 .add-btn-bar { text-align: right; margin-bottom: 1rem; }
 .add-btn-bar .btn.primary, .add-btn {
-  padding: 0.7rem 1.3rem;
-  border: none;
-  background: #c26f13;
-  color: white;
-  font-size: 1rem;
-  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--black-700);
+  background: transparent;
+  color: var(--black-700);
+  font-size: 0.95rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.14s ease;
 }
-.add-btn-bar .btn.primary:hover, .add-btn:hover { background: #a65c0c; }
+.add-btn-bar .btn.primary:hover, .add-btn:hover { background: var(--gray-200); transform: translateY(-1px); }
 
 /* Book card list */
-.book-list { display:flex; flex-direction:column; gap:1.2rem; }
+.book-list { display:flex; flex-direction:column; gap:var(--space-md); }
 .book-card {
   display:flex;
   padding:1rem;
-  background:#ececec;
+  background: var(--gray-200);
   border-radius:12px;
   align-items:center;
   justify-content:space-between;
 }
 .book-left{ display:flex; gap:1rem; align-items:center; }
 .book-photo {
-  width:80px; height:110px; background:white; border-radius:8px;
+  width:80px; height:110px; background:var(--white); border-radius:8px;
   display:flex; justify-content:center; align-items:center; color:#777; font-size:0.9rem;
 }
 .book-info h3{ font-size:1.2rem; font-weight:700; }
 .book-info p{ font-size:0.9rem; color:#444; }
 .book-actions{ display:flex; gap:0.6rem; }
-.action-btn { width:35px; height:35px; display:flex; justify-content:center; align-items:center; background:#ddd; border-radius:8px; cursor:pointer; }
-.action-btn:hover{ background:#c7c7c7; }
-.book-status{ padding:0.5rem 1rem; background:white; border-radius:12px; font-weight:600; }
+.action-btn { width:34px; height:34px; display:flex; justify-content:center; align-items:center; background:transparent; border:1px solid #ddd; color:var(--black-700); border-radius:8px; cursor:pointer; }
+.action-btn:hover{ background:#eee; }
+.book-status{ padding:0.46rem 0.9rem; background:transparent; border:1px solid #ddd; border-radius:12px; font-weight:600; color:var(--black-700); }
 
 /* Tables override */
-thead { background:#2b3a67; color:white; }
+thead { background:#111; color:white; }
 thead th{ padding:0.8rem; text-align:left; font-size:0.95rem; }
 tbody tr:nth-child(even){ background:#f1f1f1; }
 tbody td{ padding:0.8rem; font-size:0.9rem; }
 
 /* Modals */
-.modal-overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; justify-content:center; align-items:center; }
-.modal-container{ background:white; padding:2rem; width:500px; border-radius:15px; }
+.modal-overlay{ position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; }
+.modal-container{ background:var(--white); padding:1.6rem; width:480px; border-radius:14px; border: 1px solid var(--gray-200) }
+/* AddLivro / Form overlays */
+.addlivro-overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); z-index:2000 }
+.addlivro-card{ background:var(--white); padding:1.4rem; border-radius: 12px; width: 460px; box-shadow: 0 16px 40px rgba(0,0,0,0.18); border: 1px solid var(--gray-200) }
+.addlivro-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem }
+.addlivro-title{ font-weight:700; font-size:1.12rem; color:var(--black-700) }
+.addlivro-form{ display:flex; flex-direction:column; gap:var(--space-sm) }
+.addlivro-actions{ display:flex; justify-content:flex-end; gap:var(--space-sm); margin-top: .6rem }
+
+/* Table toolbar small button sizes */
+.table-toolbar .btn, .table-controls .btn { padding: 0.32rem 0.6rem; font-size: 0.92rem; border-radius: 8px }
+.table-toolbar { gap: 0.6rem }
+.bulk-delete-btn { margin-left: 1rem; margin-top: 0.75rem }
+
+/* space action buttons per cell */
+table tbody td > button, table tbody td > .btn { margin-right: 0.6rem; }
+table tbody td .btn { padding: 0.28rem 0.58rem; }
+
+/* Form and modal styles: ensure modal and form card are consistent with addlivro */
+.form-overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.45); z-index:2000 }
+.form-card{ background:var(--white); padding:1.4rem; border-radius: 12px; width: 640px; box-shadow: 0 20px 48px rgba(0,0,0,0.22); border: 1px solid var(--gray-200); max-height: 80vh; overflow-y:auto }
+.form-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem }
+.form-title{ font-weight:700; font-size:1.15rem; color:var(--black-700) }
+.form-body{ display:flex; flex-direction:column; gap:var(--space-sm) }
+
+.addlivro-card select, .addlivro-card input, .addlivro-card .form-input, .addlivro-card .form-select, .form-card select, .form-card input { width: 100%; max-width: 100%; box-sizing: border-box; min-width: 0 }
+
+/* scrollbar styling: dark translucent */
+.addlivro-card::-webkit-scrollbar, .form-card::-webkit-scrollbar, .main-content::-webkit-scrollbar { width: 10px; }
+.addlivro-card::-webkit-scrollbar-thumb, .form-card::-webkit-scrollbar-thumb, .main-content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.28); border-radius: 999px; }
+.addlivro-card::-webkit-scrollbar-track, .form-card::-webkit-scrollbar-track, .main-content::-webkit-scrollbar-track { background: transparent; }
+.addlivro-card, .form-card, .main-content { scrollbar-color: rgba(0,0,0,0.28) transparent; scrollbar-width: thin }
+
+/* Card view for records layout */
+.records-card-view { display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 1rem }
+.record-card { background: var(--white); border-radius:12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.06); width: calc(33.333% - 1rem); display:flex; gap: 0.8rem; align-items:flex-start }
+.record-card .book-photo-small { width:72px; height:96px; background:var(--gray-200); display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden }
+.record-card .book-photo-small img{ width:100%; height:100%; object-fit:cover }
+.record-card .card-content { flex:1; display:flex; flex-direction:column }
+.record-card .card-title { font-weight:700; font-size:1.1rem; margin-bottom:0.2rem }
+.record-card .card-meta { font-size:0.9rem; color: var(--text-muted); margin-bottom:0.6rem }
+.record-card .card-actions { margin-top:auto; display:flex; gap:0.6rem }
+
+@media (max-width: 900px) {
+  .record-card { width: calc(50% - 1rem) }
+}
+@media (max-width: 560px) {
+  .record-card { width: 100% }
+}
+
 .form-group{ display:flex; flex-direction:column; margin-bottom:1rem; }
 .form-label{ margin-bottom:0.3rem; font-weight:600; }
 .form-input, .form-select{ padding:0.6rem; border-radius:8px; background:#f4f4f4; border:1px solid #ccc; }
 .form-actions{ display:flex; justify-content:flex-end; gap:1rem; }
-.btn-primary{ background:#2b3a67; color:white; padding:0.6rem 1rem; border-radius:8px; border:none; cursor:pointer; }
-.btn-secondary{ background:#aaa; color:white; padding:0.6rem 1rem; border-radius:8px; border:none; cursor:pointer; }
+.btn-primary{ background:transparent; color:var(--black-700); padding:0.46rem 0.84rem; border-radius:8px; border:1px solid var(--black-700); cursor:pointer; font-weight:600 }
+.btn-secondary{ background:transparent; color:var(--text-muted); padding:0.46rem 0.84rem; border-radius:8px; border:1px solid var(--gray-200); cursor:pointer }
 
 /* Minor layout helpers */
-.layout { gap: 1.6rem; align-items: stretch; }
+.layout { gap: var(--space-lg); align-items: stretch; }
 
 /* enforce font inheritance for UI elements */
 input,button,textarea,select{ font-family: inherit }
 .sidebar a, .navbar a {
-  color: var(--color1);
-  padding: 1em;
+  color: var(--text-muted);
+  padding: 0.8em 0.2em;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.12s, color 0.12s, transform 0.08s;
 }
-.navbar a:hover {
-  background: var(--color1);
-  color: var(--color5);
-}
+.navbar a:hover { background: transparent; color: var(--white); transform: translateX(2px); font-weight:700 }
 
 /* Main content grid */
 .layout {
@@ -238,10 +310,12 @@ input,button,textarea,select{ font-family: inherit }
 .main-content {
   flex: 1;
   padding: 2.5rem;
-  background: white;
+  background: var(--bg-card);
   min-height: 100vh;
   border-radius: 22px 0 0 22px;
   overflow-y: auto;
+  margin-left: calc(var(--sidebar-width) + 44px);
+  box-shadow: 0 6px 40px rgba(0,0,0,0.06);
 }
 
 /* Card style */
@@ -249,8 +323,8 @@ input,button,textarea,select{ font-family: inherit }
   background: var(--bg-card);
   border-radius: 18px;
   box-shadow: 0 2px 12px rgba(55,59,68,0.08);
-  padding: 2em;
-  margin-bottom: 2em;
+  padding: 1.4em;
+  margin-bottom: 1.6rem;
   color: var(--text-main);
   transition: box-shadow 0.2s;
 }
@@ -258,25 +332,21 @@ input,button,textarea,select{ font-family: inherit }
   box-shadow: 0 4px 24px rgba(55,59,68,0.16);
 }
 
-/* Buttons */
+/* Buttons - subtle monochrome */
 button, .btn {
-  background: var(--primary);
-  color: var(--text-light);
-  border: none;
-  border-radius: 14px;
-  padding: 0.7em 1.4em;
-  font-size: 1em;
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--black-700);
+  border-radius: 10px;
+  padding: 0.55em 1em;
+  font-size: 0.98rem;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 4px rgba(55,59,68,0.08);
+  transition: background 0.12s, transform 0.08s;
 }
-button:hover, .btn:hover {
-  background: var(--accent);
-  color: var(--color5);
-}
+button:hover, .btn:hover { background: var(--gray-200); transform: translateY(-1px) }
 /* support 'btn primary' two-class markup used in components */
-.btn.primary { background: var(--primary); color: var(--text-light); }
-.btn.primary:hover { background: var(--accent); color: var(--color5); }
+.btn.primary { background: transparent; color: var(--black-700); border: 1px solid var(--black-700); }
+.btn.primary:hover { background: var(--gray-200); transform: translateY(-1px); }
 
 /* Forms */
 input, select, textarea {
@@ -332,27 +402,13 @@ tr:hover {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .navbar {
-    width: 98vw;
-    height: auto;
-    left: 1vw;
-    top: 1vh;
-    position: relative;
-    flex-direction: row;
-    box-shadow: none;
-    border-radius: 18px;
-    padding: 0.5em;
-  }
+  .navbar, .sidebar { position: relative; left: 0; top: 0; width: 100%; height: auto; border-radius: 14px; box-shadow: none; display:flex; flex-direction:row; padding: 0.4rem; }
   .navbar-floating-box {
     width: 100%;
     margin-bottom: 1em;
     border-radius: 14px;
   }
-  .main-content {
-    margin-left: 0;
-    padding: 1em;
-    border-radius: 14px;
-  }
+  .main-content { margin-left: 0; padding: 1em; border-radius: 14px; }
   .card {
     padding: 1em;
     border-radius: 14px;
@@ -362,4 +418,3 @@ tr:hover {
 
 /* apply nicer default for inputs across the app */
 input,textarea,select,button{font-family:inherit}
-
