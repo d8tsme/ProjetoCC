@@ -1,19 +1,28 @@
 import Form from '../../components/Formfolder/Form';
-import LogoPeople from './logo-people.svg';
+import './Login.css';
 
 export default function Login() {
   return (
-    <div className="login-page">
-      <div className="login-card fade-in">
-        <div className="login-header">
-          <img src={LogoPeople} alt="logo" className="login-brand-icon" />
-          <h1 className="login-brand-title">Bibliotech™</h1>
-          <p className="login-brand-subtitle">Use sua conta para entrar.</p>
-        </div>
+    <div className="login-page full-viewport">
+      <div className="login-split">
+        <aside className="login-left" style={{ backgroundImage: `url('/terf.jpg')` }}>
+          <div className="photo-credit">Photo by Pinkbadger</div>
+        </aside>
 
-        <div className="login-body">
-          <Form />
-        </div>
+        <main className="login-right">
+          <div className="login-card fade-in">
+            <header className="login-panel-header">
+              <h1 className="login-brand-title">Biblio.<br></br>tech</h1>
+              <p className="login-brand-subtitle">Que bom te ver de novo!</p>
+            </header>
+
+            <section className="login-panel-body">
+              <Form />
+            </section>
+
+            <footer className="login-panel-footer">© Bibliotech 2025</footer>
+          </div>
+        </main>
       </div>
     </div>
   );
