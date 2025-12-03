@@ -1,13 +1,15 @@
 import Form from '../../components/Formfolder/Form';
 import './Login.css';
+import terf from "./terf.png";
+
 
 export default function Login() {
   return (
     <div className="login-page full-viewport">
       <div className="login-split">
         <aside className="login-left">
-          <img className="login-photo" src="/Website/meu-site/src/pages/LoginPage/terf.png" alt="Biblioteca" />
-          <div className="photo-credit">Photo by Pinkbadger</div>
+          <img className="login-photo" src={terf} alt="Biblioteca" />
+          <div className="photo-credit">Foto de Pinkbadger</div>
         </aside>
 
         <main className="login-right">

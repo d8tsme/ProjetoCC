@@ -55,6 +55,25 @@ code {
   --bg-gradient: linear-gradient(135deg, var(--white) 0%, var(--gray-300) 100%);
 }
 
+/* ===== TEMA ESCURO ===== */
+.darkmode {
+  --black: #ffffff;
+  --black-700: #eaeaea;
+  --black-600: #dcdcdc;
+  --gray-200: #222222;
+  --gray-300: #1a1a1a;
+  --white: #111111;
+
+  --primary: var(--white);
+  --accent: #444444;
+  --bg-main: #111111;
+  --bg-card: #1a1a1a;
+  --text-main: #f8f8f8;
+  --text-muted: #bdbdbd;
+  --text-light: #ffffff;
+}
+
+
 /* global smooth helpers */
 *{box-sizing:border-box}
   /* Modern global styles */
@@ -100,6 +119,7 @@ body {
   top: 22px;
   height: calc(100vh - 44px);
   z-index: 1000;
+  overflow-y: auto;
 }
 /* Ensure the look and feel of the floating style if someone uses .navbar as fixed */
 .navbar.fixed { /* keep compatibility if used in code */ }
@@ -156,32 +176,78 @@ body {
 /* Default main content (without a sidebar) */
 .main-content {
 .sidebar-links li { width: 100%; }
-.dashboard-btn{ align-self:flex-end; background:transparent; color:var(--text-light); border:1px solid rgba(255,255,255,0.08); padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer; opacity:0.95 }
-.dashboard-modal{
-  position: fixed; /* fix to viewport so it won't overflow sidebar/container */
-  right: 12px;
-  top: 56px;
-  display:flex;
-  flex-direction:column;
-  gap:0.6rem;
-  background:var(--white);
-  color:var(--text-muted);
-  padding:0.6rem;
-  border-radius:10px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.18);
-  max-width: min(260px, calc(100vw - 24px)); /* keep inside viewport */
-  z-index: 1100;
-  max-height: calc(100vh - 90px);
-  overflow:auto;
-  box-sizing: border-box;
+
+/* Container do popup */
+.sidebar-menu-popup {
+  position: absolute;
+  top: 50px;              /* afasta do topo, ajuste conforme seu layout */
+  right: 20px;            /* alinha à direita, perto do botão */
+  background: rgba(0, 0, 0, 0.8); /* fundo escuro */
+  backdrop-filter: blur(10px);    /* blur estilo glassmorphism */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 12px;
+  z-index: 999;
+  min-width: 180px;
+
+  /* animação */
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: popupFade 0.25s ease forwards;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
 }
 
-/* Ensure modal fits on smaller screens */
-@media (max-width: 900px) {
-  .dashboard-modal { right: 12px; left: 12px; top: auto; bottom: 12px; max-width: none; width: calc(100% - 24px); }
+/* Botões dentro do popup */
+.sidebar-menu-btn {
+  background: #ffffff22;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
-.mode-toggle-btn, .logout-btn, .close-dashboard{ padding:0.5rem 0.8rem; border:none; background:#eee; border-radius:8px; cursor:pointer; }
-.mode-toggle-btn:hover, .logout-btn:hover, .close-dashboard:hover{ background:#ddd; }
+
+.sidebar-menu-btn:hover {
+  background: #ffffff33;
+}
+
+.sidebar-menu-btn.logout {
+  background: #ff3b3b33;
+}
+
+.sidebar-menu-btn.logout:hover {
+  background: #ff3b3b55;
+}
+
+/* Botão X para fechar */
+.sidebar-menu-close {
+  align-self: flex-end;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* animação de entrada */
+@keyframes popupFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Remove old sidebar divider and bottom menu */
+.sidebar-divider { display: none; }
+.sidebar-bottom-menu { display: none; }
+
+
 .sidebar-links a.active, .sidebar-links a:hover, .sidebar-menu a.active, .sidebar-menu a:hover {
   color: var(--white);
   font-weight: 700;
@@ -189,6 +255,34 @@ body {
   text-decoration: none;
   background: transparent;
 }}
+
+/* ===== Scrollbar para navegadores Webkit (Chrome, Edge, Opera) ===== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* fundo preto 10% */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff; /* botão branco */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e3e3e3; /* leve alteração no hover */
+}
+
+
+/* ===== Scrollbar para Firefox ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff rgba(0, 0, 0, 0.1);
+}
+
 
 /* When inside a layout that has a fixed sidebar, add the left margin */
 .layout .main-content {

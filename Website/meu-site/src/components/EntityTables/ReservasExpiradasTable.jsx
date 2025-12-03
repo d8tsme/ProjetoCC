@@ -6,6 +6,7 @@ import EditReservaCard from '../EntityForms/EditReservaCard';
 export default function ReservasExpiradasTable({ reloadKey }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('dataValidade');
   const [editOpen, setEditOpen] = useState(false);
   const [editingReserva, setEditingReserva] = useState(null);
   const cols = [
@@ -20,7 +21,7 @@ export default function ReservasExpiradasTable({ reloadKey }) {
 
   // avoid exhaustive-deps warning: loader intentionally recreated
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { load(); }, [search, reloadKey]);
+  useEffect(() => { load(); }, [search, sort, reloadKey]);
 
   async function handleDelete(id) {
     if (!window.confirm('Deseja realmente deletar esta reserva?')) return;
@@ -56,7 +57,7 @@ export default function ReservasExpiradasTable({ reloadKey }) {
   async function load() {
     try {
       const res = await apiFetch('/reservas/listar');
-      let arr = Array.isArray(res) ? res : [];
+      let arr = Array.isArray(res) ? res : (res && res.content ? res.content : []);
       const today = new Date();
       arr = arr.filter(r => {
         if (!r.dataValidade) return false;
@@ -64,6 +65,12 @@ export default function ReservasExpiradasTable({ reloadKey }) {
         return val < new Date(today.getFullYear(), today.getMonth(), today.getDate());
       });
       if (search) arr = arr.filter(r => (r.pessoa_nome && r.pessoa_nome.toLowerCase().includes(search.toLowerCase())) || (r.livro_titulo && r.livro_titulo.toLowerCase().includes(search.toLowerCase())));
+      
+      // Sort
+      if (sort === 'dataValidade') arr.sort((a, b) => new Date(a.dataValidade) - new Date(b.dataValidade));
+      else if (sort === 'pessoa') arr.sort((a, b) => (a.pessoa_nome || '').localeCompare(b.pessoa_nome || ''));
+      else if (sort === 'livro') arr.sort((a, b) => (a.livro_titulo || '').localeCompare(b.livro_titulo || ''));
+      
       setData(arr);
     } catch (err) {
       console.error('Erro ao carregar reservas expiradas', err);
@@ -86,7 +93,11 @@ export default function ReservasExpiradasTable({ reloadKey }) {
       <table className="table">
         <thead>
           <tr>
-            {cols.map(c => <th key={c.key}>{c.label}</th>)}
+            {cols.map(c => (
+              <th key={c.key} onClick={() => c.key !== 'actions' && c.key !== 'livro_foto' && setSort(c.key)} style={{cursor: c.key !== 'actions' && c.key !== 'livro_foto' ? 'pointer' : 'default'}}>
+                {c.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -99,9 +110,9 @@ export default function ReservasExpiradasTable({ reloadKey }) {
               <td>{r.dataValidade}</td>
               <td>{r.confirmarPosse ? <span style={{color: 'green', fontWeight: 'bold'}}>✓ Confirmada</span> : <span style={{color: 'orange'}}>Pendente</span>}</td>
               <td>
-                <button className="btn" onClick={() => handleEdit(r)}>Editar</button>
-                {!r.confirmarPosse && <button className="btn" onClick={() => handleConfirmPosse(r.id)}>Confirmar Posse</button>}
-                <button className="btn" onClick={() => handleDelete(r.id)}>Deletar</button>
+                <button className="btn btn-small" onClick={() => handleEdit(r)}>Editar</button>
+                {!r.confirmarPosse && <button className="btn btn-small" onClick={() => handleConfirmPosse(r.id)}>Confirmar</button>}
+                <button className="btn btn-small" onClick={() => handleDelete(r.id)}>Deletar</button>
               </td>
             </tr>
           ))}

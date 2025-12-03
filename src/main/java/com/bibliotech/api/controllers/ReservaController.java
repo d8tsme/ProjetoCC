@@ -156,4 +156,12 @@ public class ReservaController {
 
         return ResponseEntity.ok("Reservas vencidas atualizadas.");
     }
+
+    @PutMapping("/{id}/confirmar-posse")
+    @Transactional
+    public ResponseEntity<?> confirmarPosseUpdate(@PathVariable Long id) {
+        Reserva reserva = reservaRepositorio.getReferenceById(id);
+        reserva.setConfirmarPosse(true);
+        return ResponseEntity.ok(new DadosListagemReserva(reserva));
+    }
 }
