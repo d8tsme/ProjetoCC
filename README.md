@@ -1,4 +1,4 @@
-# 📚 Bibliotech — Projeto de Conclusão de Curso (TCC)
+# Bibliotech — Projeto de Conclusão de Curso (TCC)
 
 Bibliotech é uma aplicação **web/mobile** desenvolvida como **Projeto de Conclusão de Curso** do **Curso Técnico de Informática (Ensino Médio Técnico)** do **Centro Educacional Renato Cozzolino (CEC)**.
 O curso teve duração de **2 anos**, sendo finalizado com esta proposta de desenvolvimento profissional aplicada.
@@ -12,7 +12,7 @@ O projeto foi criado e desenvolvido pelos estudantes da **turma CTI 2025**:
 
 ---
 
-## 📖 Sobre o Projeto
+## Sobre o Projeto
 
 Bibliotech é uma **biblioteca virtual completa**, permitindo que usuários autenticados gerenciem um acervo de livros com total praticidade. A plataforma oferece:
 
@@ -25,7 +25,7 @@ O sistema foi pensado para ser acessível tanto via navegadores (web) quanto com
 
 ---
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 ### 🔐 Autenticação
 
@@ -59,7 +59,7 @@ O sistema foi pensado para ser acessível tanto via navegadores (web) quanto com
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando ferramentas modernas e amplamente usadas no mercado:
 
@@ -73,7 +73,7 @@ O projeto foi desenvolvido utilizando ferramentas modernas e amplamente usadas n
 
 ---
 
-## 🧱 Arquitetura do Sistema
+## Arquitetura do Sistema
 
 * **Frontend React** para interface web responsiva
 * **Backend Java** para regras de negócio, API e persistência
@@ -83,7 +83,7 @@ O projeto foi desenvolvido utilizando ferramentas modernas e amplamente usadas n
 
 ---
 
-## 🎯 Objetivo Geral
+## Objetivo Geral
 
 Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, possibilitando:
 
@@ -94,7 +94,7 @@ Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, p
 
 ---
 
-## 🧪 Como Executar o Projeto
+## Como Executar o Projeto
 
 1. **Clone o repositório:**
 
@@ -122,7 +122,7 @@ Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, p
 
 ---
 
-## 👥 Equipe Responsável (Turma CTI 2025)
+## Equipe Responsável (Turma CTI 2025)
 
 * **Davi Gama** — Fullstack / Coordenação
 * **Arthur Valezio** — Backend / Modelagem
@@ -131,7 +131,7 @@ Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, p
 
 ---
 
-## 📌 Status do Projeto
+## Status do Projeto
 
 * ✔ Sistema de login
 * ✔ CRUD de livros
@@ -142,7 +142,7 @@ Criar uma plataforma acessível e funcional que simule uma biblioteca moderna, p
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto é de finalidade acadêmica, criado como TCC do Curso Técnico de Informática — CEC.
 Consulte o arquivo de licença no repositório para mais informações.
