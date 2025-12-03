@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import ModalForm from '../../components/modalform/modalform'
 
-export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
+export default function EditLivroCard({ open, onClose, onUpdated, livro }) {
   const [titulo, setTitulo] = useState('');
   const [paginas, setPaginas] = useState('');
   const [autor, setAutor] = useState('');
@@ -15,8 +15,8 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  React.useEffect(() => {
-    if (!open) return;
+  useEffect(() => {
+    if (!open || !livro) return;
     let cancelled = false;
     async function load() {
       try {
@@ -25,6 +25,14 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
         if (!cancelled) {
           setAutores(Array.isArray(a) ? a : []);
           setGeneros(Array.isArray(g) ? g : []);
+          // Populate form with livro data
+          setTitulo(livro.titulo || '');
+          setPaginas(livro.paginas || '');
+          setAutor(livro.autorId || livro.autorId || '');
+          setGenero(livro.generoId || livro.generoId || '');
+          setIsbn(livro.isbn || '');
+          setAnoPublicacao(livro.anoPublicacao || '');
+          setFoto(livro.foto || '');
         }
       } catch (err) {
         console.error(err);
@@ -33,9 +41,9 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
     }
     load();
     return () => { cancelled = true; };
-  }, [open]);
+  }, [open, livro]);
 
-  if (!open) return null;
+  if (!open || !livro) return null;
 
   const reset = () => {
     setTitulo('');
@@ -54,6 +62,7 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
     setError(null);
     try {
       const payload = {
+        id: livro.id,
         titulo,
         paginas: parseInt(paginas, 10),
         autorId: parseInt(autor, 10),
@@ -62,19 +71,23 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
         anoPublicacao: parseInt(anoPublicacao, 10),
         foto
       };
-      const res = await apiFetch('/livros/cadastrar', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' }});
+      await apiFetch('/livros/alterar', { 
+        method: 'PUT', 
+        body: JSON.stringify(payload), 
+        headers: { 'Content-Type': 'application/json' }
+      });
       reset();
-      onCreated && onCreated(res);
+      onUpdated && onUpdated();
       onClose && onClose();
     } catch (err) {
-      setError(err.message || 'Erro ao criar livro');
+      setError(err.message || 'Erro ao atualizar livro');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <ModalForm open={open} onClose={onClose} handleSubmit={handleSubmit} header="Adicionar Livro">
+    <ModalForm open={open} onClose={onClose} handleSubmit={handleSubmit} header="Editar Livro">
           {error && <div className="error-message">{error}</div>}
           <div className="form-group">
             <label className="form-label">Título</label>
@@ -112,7 +125,7 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
           </div>
           <div className="form-actions">
             <button type="button" className="btn btn-secondary" onClick={() => { reset(); onClose && onClose(); }}>Cancelar</button>
-            <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Enviando...' : 'Adicionar'}</button>
+            <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Salvando...' : 'Salvar Alterações'}</button>
           </div>
     </ModalForm>
   );

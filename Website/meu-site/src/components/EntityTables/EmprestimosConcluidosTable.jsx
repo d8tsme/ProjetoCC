@@ -16,6 +16,8 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
     { key: 'dataDevolucao', label: 'Data devolução' }
   ];
 
+  // avoid exhaustive-deps warning: loader intentionally recreated each render
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [search, reloadKey]);
 
   async function load() {

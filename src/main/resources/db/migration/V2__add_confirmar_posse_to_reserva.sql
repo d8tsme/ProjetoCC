@@ -1,0 +1,1 @@
+ALTER TABLE Reserva ADD COLUMN confirmar_posse BOOLEAN DEFAULT FALSE;

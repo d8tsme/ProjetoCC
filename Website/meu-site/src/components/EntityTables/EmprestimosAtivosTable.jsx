@@ -16,6 +16,8 @@ export default function EmprestimosAtivosTable({ onDevolvido, reloadKey }) {
     { key: 'status', label: 'Status' }
   ];
 
+  // avoid exhaustive-deps warning: loader intentionally recreated each render
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [search, reloadKey]);
 
   async function load() {

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import saveCsv from '../../utils/csv';
+import EditPessoaCard from '../EntityForms/EditPessoaCard';
 
 export default function PessoaTable() {
   const [pessoas, setPessoas] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('nome');
-  const [editing, setEditing] = useState(null);
-  const [editData, setEditData] = useState({ nome: '', email: '', telefone: '' });
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingPessoa, setEditingPessoa] = useState(null);
   const cols = [{key:'nome', label:'Nome'},{key:'email', label:'Email'},{key:'telefone', label:'Telefone'}];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadPessoas();
   }, [sort, search]);
@@ -50,23 +52,12 @@ export default function PessoaTable() {
   }
 
   function handleEdit(pessoa) {
-    setEditing(pessoa.id);
-    setEditData({ nome: pessoa.nome, email: pessoa.email, telefone: pessoa.telefone });
+    setEditingPessoa(pessoa);
+    setEditOpen(true);
   }
 
   async function handleEditSave() {
-    try {
-      await apiFetch(`/pessoas/alterar`, {
-        method: 'PUT',
-        body: JSON.stringify({ id: editing, ...editData }),
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-      });
-      setEditing(null);
-      await loadPessoas();
-    } catch (err) {
-      console.error('Erro ao salvar alterações da pessoa', err);
-      alert(err.message || 'Erro ao salvar pessoa');
-    }
+    await loadPessoas();
   }
 
   function handleSelect(id) {
@@ -97,24 +88,21 @@ export default function PessoaTable() {
           {pessoas.map(pessoa => (
             <tr key={pessoa.id}>
               <td><input type="checkbox" checked={selected.includes(pessoa.id)} onChange={() => handleSelect(pessoa.id)} /></td>
-              <td>{editing === pessoa.id ? <input value={editData.nome} onChange={e => setEditData({ ...editData, nome: e.target.value })} /> : pessoa.nome}</td>
-              <td>{editing === pessoa.id ? <input value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })} /> : pessoa.email}</td>
-              <td>{editing === pessoa.id ? <input value={editData.telefone} onChange={e => setEditData({ ...editData, telefone: e.target.value })} /> : pessoa.telefone}</td>
+              <td>{pessoa.nome}</td>
+              <td>{pessoa.email}</td>
+              <td>{pessoa.telefone}</td>
               <td>
-                {editing === pessoa.id ? (
-                  <button onClick={handleEditSave}>Salvar</button>
-                ) : (
-                  <>
-                    <button onClick={() => handleEdit(pessoa)}>Editar</button>
-                    <button onClick={() => handleDelete(pessoa.id)}>Excluir</button>
-                  </>
-                )}
+                <>
+                  <button onClick={() => handleEdit(pessoa)}>Editar</button>
+                  <button onClick={() => handleDelete(pessoa.id)}>Excluir</button>
+                </>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       {/* Pagination removed - table renders all items */}
+      <EditPessoaCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} pessoa={editingPessoa} />
     </div>
   );
 }

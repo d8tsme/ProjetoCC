@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import saveCsv from '../../utils/csv';
+import EditAutorCard from '../EntityForms/EditAutorCard';
 
 export default function AutorTable() {
   const [autores, setAutores] = useState([]);
@@ -9,10 +10,12 @@ export default function AutorTable() {
   const [sort, setSort] = useState('nome');
   const [viewMode, setViewMode] = useState('table');
   const [hasPhotoFilter, setHasPhotoFilter] = useState('');
-  const [editing, setEditing] = useState(null);
-  const [editData, setEditData] = useState({ nome: '', foto: '' });
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingAutor, setEditingAutor] = useState(null);
   const cols = [{key:'nome', label:'Nome'},{key:'foto',label:'Foto'},{key:'status',label:'Status'}];
 
+  // intentionally call loadAutores when sort or search changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadAutores();
   }, [sort, search]);
@@ -54,23 +57,12 @@ export default function AutorTable() {
   }
 
   function handleEdit(autor) {
-    setEditing(autor.id);
-    setEditData({ nome: autor.nome, foto: autor.foto });
+    setEditingAutor(autor);
+    setEditOpen(true);
   }
 
   async function handleEditSave() {
-    try {
-      await apiFetch(`/autores/alterar`, {
-        method: 'PUT',
-        body: JSON.stringify({ id: editing, ...editData }),
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-      });
-      setEditing(null);
-      await loadAutores();
-    } catch (err) {
-      console.error('Erro ao salvar autor', err);
-      alert(err.message || 'Erro ao salvar autor');
-    }
+    await loadAutores();
   }
 
   function handleSelect(id) {
@@ -114,17 +106,13 @@ export default function AutorTable() {
           {autores.map(autor => (
             <tr key={autor.id}>
               <td><input type="checkbox" checked={selected.includes(autor.id)} onChange={() => handleSelect(autor.id)} /></td>
-              <td>{editing === autor.id ? <input value={editData.nome} onChange={e => setEditData({ ...editData, nome: e.target.value })} /> : autor.nome}</td>
-              <td>{editing === autor.id ? <input value={editData.foto} onChange={e => setEditData({ ...editData, foto: e.target.value })} /> : autor.foto ? <img src={autor.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
+              <td>{autor.nome}</td>
+              <td>{autor.foto ? <img src={autor.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
               <td>
-                {editing === autor.id ? (
-                  <button onClick={handleEditSave}>Salvar</button>
-                ) : (
-                  <>
-                    <button onClick={() => handleEdit(autor)}>Editar</button>
-                    <button onClick={() => handleDelete(autor.id)}>Excluir</button>
-                  </>
-                )}
+                <>
+                  <button onClick={() => handleEdit(autor)}>Editar</button>
+                  <button onClick={() => handleDelete(autor.id)}>Excluir</button>
+                </>
               </td>
             </tr>
           ))}
@@ -147,6 +135,7 @@ export default function AutorTable() {
           ))}
         </div>
       )}
+      <EditAutorCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} autor={editingAutor} />
     </div>
   );
 }

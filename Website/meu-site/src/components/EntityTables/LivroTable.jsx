@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import saveCsv from '../../utils/csv';
+import EditLivroCard from '../AddLivroCard/EditLivroCard';
 
 export default function LivroTable() {
   const [livros, setLivros] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('titulo');
-  const [editing, setEditing] = useState(null);
-  const [editData, setEditData] = useState({ titulo: '', paginas: '', autorId: '', generoId: '', isbn: '', anoPublicacao: '', foto: '' });
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingLivro, setEditingLivro] = useState(null);
   // filter and view states
   const [authors, setAuthors] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -70,31 +71,12 @@ export default function LivroTable() {
   }
 
   function handleEdit(livro) {
-    setEditing(livro.id);
-    setEditData({
-      titulo: livro.titulo,
-      paginas: livro.paginas,
-      autorId: livro.autorId,
-      generoId: livro.generoId,
-      isbn: livro.isbn,
-      anoPublicacao: livro.anoPublicacao,
-      foto: livro.foto
-    });
+    setEditingLivro(livro);
+    setEditOpen(true);
   }
 
   async function handleEditSave() {
-    try {
-      await apiFetch(`/livros/alterar`, {
-        method: 'PUT',
-        body: JSON.stringify({ id: editing, ...editData }),
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-      });
-      setEditing(null);
-      await loadLivros();
-    } catch (err) {
-      console.error('Erro ao salvar alterações do livro', err);
-      alert(err.message || 'Erro ao salvar');
-    }
+    await loadLivros();
   }
 
   function handleSelect(id) {
@@ -153,22 +135,18 @@ export default function LivroTable() {
           {(filteredLivros.length ? filteredLivros : livros).map(livro => (
             <tr key={livro.id}>
               <td><input type="checkbox" checked={selected.includes(livro.id)} onChange={() => handleSelect(livro.id)} /></td>
-              <td>{editing === livro.id ? <input value={editData.titulo} onChange={e => setEditData({ ...editData, titulo: e.target.value })} /> : livro.titulo}</td>
-              <td>{editing === livro.id ? <input value={editData.paginas} onChange={e => setEditData({ ...editData, paginas: e.target.value })} /> : livro.paginas}</td>
-              <td>{editing === livro.id ? <input value={editData.autorId} onChange={e => setEditData({ ...editData, autorId: e.target.value })} /> : livro.autorId}</td>
-              <td>{editing === livro.id ? <input value={editData.generoId} onChange={e => setEditData({ ...editData, generoId: e.target.value })} /> : livro.generoId}</td>
-              <td>{editing === livro.id ? <input value={editData.isbn} onChange={e => setEditData({ ...editData, isbn: e.target.value })} /> : livro.isbn}</td>
-              <td>{editing === livro.id ? <input value={editData.anoPublicacao} onChange={e => setEditData({ ...editData, anoPublicacao: e.target.value })} /> : livro.anoPublicacao}</td>
-              <td>{editing === livro.id ? <input value={editData.foto} onChange={e => setEditData({ ...editData, foto: e.target.value })} /> : livro.foto ? <img src={livro.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
+              <td>{livro.titulo}</td>
+              <td>{livro.paginas}</td>
+              <td>{livro.autorId}</td>
+              <td>{livro.generoId}</td>
+              <td>{livro.isbn}</td>
+              <td>{livro.anoPublicacao}</td>
+              <td>{livro.foto ? <img src={livro.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
               <td>
-                {editing === livro.id ? (
-                  <button onClick={handleEditSave}>Salvar</button>
-                ) : (
-                  <>
-                    <button onClick={() => handleEdit(livro)}>Editar</button>
-                    <button onClick={() => handleDelete(livro.id)}>Excluir</button>
-                  </>
-                )}
+                <>
+                  <button onClick={() => handleEdit(livro)}>Editar</button>
+                  <button onClick={() => handleDelete(livro.id)}>Excluir</button>
+                </>
               </td>
             </tr>
           ))}
@@ -193,6 +171,7 @@ export default function LivroTable() {
           ))}
         </div>
       )}
+      <EditLivroCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} livro={editingLivro} />
     </div>
   );
 }

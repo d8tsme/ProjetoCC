@@ -7,6 +7,7 @@ import Main from './pages/MainPage/Main';
 import Autor from './pages/AutorPage/Autor';
 import Pessoas from './pages/PessoasPage/Pessoas';
 import Emprestimo from './pages/EmprestimoPage/Emprestimo';
+import Reserva from './pages/ReservaPage/Reserva';
 import Genero from './pages/GeneroPage/Genero';
 import './index.css'
 
@@ -22,6 +23,7 @@ root.render(
           <Route path="/autores" element={<Autor />} />
           <Route path="/pessoas" element={<Pessoas />} />
           <Route path="/emprestimos" element={<Emprestimo />} />
+          <Route path="/reservas" element={<Reserva />} />
           <Route path="/generos" element={<Genero />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

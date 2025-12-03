@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import saveCsv from '../../utils/csv';
+import EditGeneroCard from '../EntityForms/EditGeneroCard';
 
 export default function GeneroTable() {
   const [generos, setGeneros] = useState([]);
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('nome');
-  const [page, setPage] = useState(1);
-  const [editing, setEditing] = useState(null);
-  const [editData, setEditData] = useState({ nome: '' });
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingGenero, setEditingGenero] = useState(null);
   const cols = [{key:'nome', label:'Nome'}];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     loadGeneros();
-  }, [sort, page, search]);
+  }, [sort, /*page omitted*/ search]);
 
   async function loadGeneros() {
     let url = `/generos/listar`;
@@ -36,17 +37,11 @@ export default function GeneroTable() {
   }
 
   function handleEdit(genero) {
-    setEditing(genero.id);
-    setEditData({ nome: genero.nome });
+    setEditingGenero(genero);
+    setEditOpen(true);
   }
 
   async function handleEditSave() {
-    await apiFetch(`/generos/alterar`, {
-      method: 'PUT',
-      body: JSON.stringify({ id: editing, ...editData }),
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${sessionStorage.getItem('token')}` },
-    });
-    setEditing(null);
     loadGeneros();
   }
 
@@ -76,22 +71,19 @@ export default function GeneroTable() {
           {generos.map(genero => (
             <tr key={genero.id}>
               <td><input type="checkbox" checked={selected.includes(genero.id)} onChange={() => handleSelect(genero.id)} /></td>
-              <td>{editing === genero.id ? <input value={editData.nome} onChange={e => setEditData({ ...editData, nome: e.target.value })} /> : genero.nome}</td>
+              <td>{genero.nome}</td>
               <td>
-                {editing === genero.id ? (
-                  <button onClick={handleEditSave}>Salvar</button>
-                ) : (
-                  <>
-                    <button onClick={() => handleEdit(genero)}>Editar</button>
-                    <button onClick={() => handleDelete(genero.id)}>Excluir</button>
-                  </>
-                )}
+                <>
+                  <button onClick={() => handleEdit(genero)}>Editar</button>
+                  <button onClick={() => handleDelete(genero.id)}>Excluir</button>
+                </>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       {/* Pagination removed - we show all rows */}
+      <EditGeneroCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} genero={editingGenero} />
     </div>
   );
 }

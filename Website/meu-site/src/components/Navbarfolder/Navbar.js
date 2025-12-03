@@ -29,6 +29,7 @@ function Navbar() {
         <li><NavLink to="/pessoas" className={({isActive}) => isActive ? 'active' : ''}>Pessoas</NavLink></li>
         <li><NavLink to="/emprestimos" className={({isActive}) => isActive ? 'active' : ''}>Empréstimos</NavLink></li>
         <li><NavLink to="/generos" className={({isActive}) => isActive ? 'active' : ''}>Gêneros</NavLink></li>
+        <li><NavLink to="/reservas" className={({isActive}) => isActive ? 'active' : ''}>Reservas</NavLink></li>
       </ul>
       <button className="dashboard-btn" onClick={()=>setShowDashboard(s=>!s)} title="Abrir Dashboard">☰</button>
       {showDashboard && (

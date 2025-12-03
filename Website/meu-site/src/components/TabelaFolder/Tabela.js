@@ -53,7 +53,6 @@ export default function Tabela({ titulo = "Lista", rows, apiPath = '/livros/list
     const exportCsv = () => {
         const name = `${titulo.replace(/\s+/g,'_') || 'dados' }.csv`;
         const cols = columns && columns.length ? columns : (defaultColumns());
-        const keys = cols.map(c => c.key);
         // rows are in `data`
         import('../../utils/csv').then(mod => mod.saveCsv(name, data, cols));
     };

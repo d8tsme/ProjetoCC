@@ -157,7 +157,29 @@ body {
 .main-content {
 .sidebar-links li { width: 100%; }
 .dashboard-btn{ align-self:flex-end; background:transparent; color:var(--text-light); border:1px solid rgba(255,255,255,0.08); padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer; opacity:0.95 }
-.dashboard-modal{ position:absolute; right:12px; top:56px; display:flex; flex-direction:column; gap:0.6rem; background:var(--white); color:var(--text-muted); padding:0.6rem; border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,0.18); max-width:260px; z-index: 1100; max-height: calc(100vh - 90px); overflow:auto }
+.dashboard-modal{
+  position: fixed; /* fix to viewport so it won't overflow sidebar/container */
+  right: 12px;
+  top: 56px;
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+  background:var(--white);
+  color:var(--text-muted);
+  padding:0.6rem;
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.18);
+  max-width: min(260px, calc(100vw - 24px)); /* keep inside viewport */
+  z-index: 1100;
+  max-height: calc(100vh - 90px);
+  overflow:auto;
+  box-sizing: border-box;
+}
+
+/* Ensure modal fits on smaller screens */
+@media (max-width: 900px) {
+  .dashboard-modal { right: 12px; left: 12px; top: auto; bottom: 12px; max-width: none; width: calc(100% - 24px); }
+}
 .mode-toggle-btn, .logout-btn, .close-dashboard{ padding:0.5rem 0.8rem; border:none; background:#eee; border-radius:8px; cursor:pointer; }
 .mode-toggle-btn:hover, .logout-btn:hover, .close-dashboard:hover{ background:#ddd; }
 .sidebar-links a.active, .sidebar-links a:hover, .sidebar-menu a.active, .sidebar-menu a:hover {

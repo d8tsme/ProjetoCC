@@ -15,7 +15,7 @@ module.exports = function (app) {
 
   // Optionally proxy other API paths you use during dev:
   app.use(
-    ['/autores', '/books', '/livros', '/pessoas', '/emprestimos', '/generos'],
+    ['/autores', '/books', '/livros', '/pessoas', '/emprestimos', '/generos', '/reservas'],
     createProxyMiddleware({
       target: API_TARGET,
       changeOrigin: true,

@@ -5,7 +5,8 @@ export default function Login() {
   return (
     <div className="login-page full-viewport">
       <div className="login-split">
-        <aside className="login-left" style={{ backgroundImage: `url('/terf.jpg')` }}>
+        <aside className="login-left">
+          <img className="login-photo" src="/Website/meu-site/src/pages/LoginPage/terf.png" alt="Biblioteca" />
           <div className="photo-credit">Photo by Pinkbadger</div>
         </aside>
 
