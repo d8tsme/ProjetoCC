@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+Note: The site UI now has a monochrome, modern theme with a fixed left-hand navbar and Poppins font. Adjustments were made to `src/index.css`, `src/components/*/`, and various module CSS files to use a subtle black/white grayscale UI with improved spacing.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

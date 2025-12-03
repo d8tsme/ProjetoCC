@@ -2,35 +2,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--color5);
-  color: var(--text-light);
-  padding: 1.2em 2em;
+  background: transparent;
+  color: var(--text-main);
+  padding: 1em 1.5em;
   border-radius: 22px;
-  box-shadow: 0 4px 24px rgba(55,59,68,0.12);
 }
 .header-logo {
-  font-size: 2.2em;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.5px;
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.3px;
+  color: var(--black-700);
 }
 .header-nav {
   display: flex;
   gap: 2em;
 }
 .header-nav a {
-  color: var(--color1);
-  font-size: 1.1em;
+  color: var(--text-muted);
+  font-size: 1.04rem;
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.5em 1em;
-  border-radius: 14px;
-  transition: background 0.2s, color 0.2s;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  transition: background 0.14s, color 0.14s, transform 0.08s;
 }
-.header-nav a:hover {
-  background: var(--color1);
-  color: var(--color5);
-}
+.header-nav a:hover { color: var(--text-main) ; transform: translateY(-1px) }
 .header-user {
   text-align: right;
 }
@@ -38,11 +35,7 @@
   display: block;
   font-weight: 600;
 }
-.user-email {
-  display: block;
-  font-size: 0.95em;
-  color: var(--color2);
-}
+.user-email { display:block; font-size:0.9rem; color: var(--text-muted); }
 @media (max-width: 900px) {
   .header {
     flex-direction: column;

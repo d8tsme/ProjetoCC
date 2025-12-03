@@ -1,5 +1,5 @@
 .banner {
-  background: #fff;
+  background: var(--white);
   border-radius: 22px;
   box-shadow: 0 2px 12px rgba(55,59,68,0.08);
   padding: 2em;
@@ -10,7 +10,7 @@
   position: relative;
 }
 .banner-title {
-  color: var(--color5);
+  color: var(--black-700);
   font-size: 2em;
   font-weight: 700;
   margin-bottom: 0.2em;
@@ -34,8 +34,8 @@
   border: 2px solid var(--color2);
 }
 .banner-add-user {
-  background: var(--color2);
-  color: var(--color5);
+  background: var(--gray-200);
+  color: var(--black-700);
   border: none;
   border-radius: 50%;
   width: 32px;
@@ -46,8 +46,8 @@
   margin-left: 0.5em;
 }
 .banner-add-book {
-  background: var(--color4);
-  color: #fff;
+  background: transparent;
+  color: var(--black-700);
   border: none;
   border-radius: 14px;
   padding: 0.7em 1.4em;
@@ -60,8 +60,8 @@
   transition: background 0.2s;
 }
 .banner-add-book:hover {
-  background: var(--color3);
-  color: var(--color5);
+  background: var(--gray-200);
+  color: var(--black-700);
 }
 @media (max-width: 900px) {
   .banner {

@@ -7,14 +7,14 @@ export default function EmprestimoTable() {
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('id');
-  const [page, setPage] = useState(1);
+  const [statusFilter, setStatusFilter] = useState('');
   const [editing, setEditing] = useState(null);
   const [editData, setEditData] = useState({ livroId: '', pessoaId: '' });
   const cols = [{key:'pessoa_nome', label:'Pessoa'},{key:'livro_titulo', label:'Livro'},{key:'status', label:'Status'}];
 
   useEffect(() => {
     loadEmprestimos();
-  }, [search, sort, page]);
+  }, [search, sort]);
 
   async function loadEmprestimos() {
     let url = `/emprestimos/listar`;
@@ -52,14 +52,27 @@ export default function EmprestimoTable() {
     setSelected(selected.includes(id) ? selected.filter(s => s !== id) : [...selected, id]);
   }
 
+  const filteredEmprestimos = emprestimos.filter(e => {
+    if (search && (!e.livro_titulo || !e.livro_titulo.toLowerCase().includes(search.toLowerCase())) && !String(e.id).includes(search)) return false;
+    if (statusFilter && String(e.status) !== String(statusFilter)) return false;
+    return true;
+  });
+
   return (
     <div>
       <h2>Empréstimos</h2>
-      <div style={{display:'flex', gap:'0.5rem', marginBottom:'0.5rem'}}>
+      <div className="table-controls table-toolbar" style={{display:'flex', gap:'0.5rem', marginBottom:'0.5rem', alignItems:'center'}}>
         <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
-        <button className="btn" onClick={() => saveCsv('emprestimos.csv', emprestimos, cols)}>Salvar CSV</button>
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+          <option value="">Todos status</option>
+          <option value="Disponível">Disponível</option>
+          <option value="Emprestado">Emprestado</option>
+        </select>
+        <button className="btn" onClick={() => saveCsv('emprestimos.csv', filteredEmprestimos.length ? filteredEmprestimos : emprestimos, cols)}>Salvar CSV</button>
+        <div style={{marginLeft:'auto'}}>
+          <button className="btn bulk-delete-btn" onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
+        </div>
       </div>
-      <button onClick={handleBulkDelete} disabled={!selected.length}>Excluir Selecionados</button>
       <table>
         <thead>
           <tr>
@@ -71,7 +84,7 @@ export default function EmprestimoTable() {
           </tr>
         </thead>
         <tbody>
-          {emprestimos.map(emp => (
+          {(filteredEmprestimos.length ? filteredEmprestimos : emprestimos).map(emp => (
             <tr key={emp.id}>
               <td><input type="checkbox" checked={selected.includes(emp.id)} onChange={() => handleSelect(emp.id)} /></td>
               <td>{emp.id}</td>
@@ -91,11 +104,7 @@ export default function EmprestimoTable() {
           ))}
         </tbody>
       </table>
-      <div>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>Anterior</button>
-        <span>Página {page}</span>
-        <button onClick={() => setPage(page + 1)}>Próxima</button>
-      </div>
+      {/* Pagination removed */}
     </div>
   );
 }

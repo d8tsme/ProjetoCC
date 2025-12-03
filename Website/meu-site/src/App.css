@@ -1,23 +1,5 @@
-:root {
-  --color1: #73c8a9;
-  --color2: #dee1b6;
-  --color3: #e1b866;
-  --color4: #bd5532;
-  --color5: #373b44;
-  --primary: var(--color1);
-  --secondary: var(--color2);
-  --accent: var(--color3);
-  --danger: var(--color4);
-  --dark: var(--color5);
-  --bg-main: var(--color2);
-  --bg-card: #fff;
-  --text-main: var(--color5);
-  --text-light: #fff;
-  --text-medium: #555;
-  --radius-lg: 22px;
-  --radius-md: 14px;
-  --transition-fast: 160ms;
-}
+/* App-level layout styles should rely on index.css variables for color tokens */
+:root { /* keep to override only if needed */ }
 
 body {
   margin: 0;
@@ -31,12 +13,13 @@ body {
   background: var(--bg-main);
   display: flex;
   flex-direction: row;
+  gap: var(--space-lg);
 }
 
 .main-content {
   flex: 1;
   padding: 2em;
-  background: var(--bg-main);
+  background: var(--bg-card);
   min-height: 100vh;
   border-radius: var(--radius-lg);
 }

@@ -19,7 +19,7 @@ export default function AddPessoaCard({ open, onClose, onCreated }) {
       await apiFetch('/pessoas/cadastrar', {
         method: 'POST',
         body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
       });
       setNome('');
       setEmail('');

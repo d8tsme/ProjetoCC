@@ -66,19 +66,21 @@ export default function Form() {
 return (
     <form onSubmit={handleSubmit} className="login-form" aria-label="login-form">
         <div className="login-input-group">
-            <label className="login-input-label">Usuário</label>
-            <input name="usuario" type="text" required className="login-input-field" placeholder="Usuário" />
+            <label className="login-input-label">Login</label>
+            <input name="usuario" type="text" required className="login-input-field" placeholder="Digite seu usuário" />
         </div>
 
         <div className="login-input-group">
-            <label className="login-input-label">Senha</label>
+            <label className="login-input-label">Password</label>
             <div className="login-password-row">
-                <input name="senha" type={showPassword ? 'text' : 'password'} required className="login-input-field" placeholder="Senha" />
+                <input name="senha" type={showPassword ? 'text' : 'password'} required className="login-input-field" placeholder="Digite a senha" />
                 <button type="button" className="login-toggle-btn" onClick={() => setShowPassword(!showPassword)} aria-label="Mostrar senha">
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? '👁' : '⌣'}
                 </button>
             </div>
         </div>
+
+        {/* Removed Remember me and Forgot password controls per update */}
 
         <button type="submit" className="login-submit-btn" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
     </form>

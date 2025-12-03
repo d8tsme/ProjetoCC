@@ -62,7 +62,7 @@ export default function AddLivroCard({ open, setOpen, onClose, onCreated }) {
         anoPublicacao: parseInt(anoPublicacao, 10),
         foto
       };
-      const res = await apiFetch('/livros/inserir', { method: 'POST', body: JSON.stringify(payload) });
+      const res = await apiFetch('/livros/cadastrar', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' }});
       reset();
       onCreated && onCreated(res);
       onClose && onClose();

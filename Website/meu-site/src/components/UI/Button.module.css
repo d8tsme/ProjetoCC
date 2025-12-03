@@ -1,20 +1,22 @@
 .btn {
-  padding: 10px 24px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  border: none;
+  border: 1px solid #111;
+  background: transparent;
 }
 
 .primary {
-  background: #b76715;
+  background: #111;
   color: #fff;
 }
 
 .secondary {
-  background: #ececec;
-  color: #333;
+  background: transparent;
+  color: #222;
+  border: 1px solid #ddd;
 }
 
 .ghost {
