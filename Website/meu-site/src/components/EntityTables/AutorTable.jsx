@@ -104,8 +104,8 @@ export default function AutorTable() {
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? autores.map(a => a.id) : [])} checked={selected.length === autores.length && autores.length > 0} /></th>
-            <th onClick={() => setSort('nome')}>Nome</th>
-            <th>Foto</th>
+            <th onClick={() => setSort('nome')} style={{cursor: 'pointer'}}>Nome</th>
+            <th onClick={() => setSort('foto')} style={{cursor: 'pointer'}}>Foto</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -117,8 +117,8 @@ export default function AutorTable() {
               <td>{autor.foto ? <img src={autor.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
               <td>
                 <>
-                  <button onClick={() => handleEdit(autor)}>Editar</button>
-                  <button onClick={() => handleDelete(autor.id)}>Excluir</button>
+                  <button className="btn btn-small" onClick={() => handleEdit(autor)}>Editar</button>
+                  <button className="btn btn-small" onClick={() => handleDelete(autor.id)}>Excluir</button>
                 </>
               </td>
             </tr>

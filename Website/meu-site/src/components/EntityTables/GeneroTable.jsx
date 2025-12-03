@@ -63,7 +63,7 @@ export default function GeneroTable() {
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? generos.map(a => a.id) : [])} checked={selected.length === generos.length && generos.length > 0} /></th>
-            <th onClick={() => setSort('nome')}>Nome</th>
+            <th onClick={() => setSort('nome')} style={{cursor: 'pointer'}}>Nome</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -74,8 +74,8 @@ export default function GeneroTable() {
               <td>{genero.nome}</td>
               <td>
                 <>
-                  <button onClick={() => handleEdit(genero)}>Editar</button>
-                  <button onClick={() => handleDelete(genero.id)}>Excluir</button>
+                  <button className="btn btn-small" onClick={() => handleEdit(genero)}>Editar</button>
+                  <button className="btn btn-small" onClick={() => handleDelete(genero.id)}>Excluir</button>
                 </>
               </td>
             </tr>

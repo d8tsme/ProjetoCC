@@ -161,8 +161,8 @@ export default function LivroTable() {
               <td>{livro.foto ? <img src={livro.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
               <td>
                 <>
-                  <button onClick={() => handleEdit(livro)}>Editar</button>
-                  <button onClick={() => handleDelete(livro.id)}>Excluir</button>
+                  <button className="btn btn-small" onClick={() => handleEdit(livro)}>Editar</button>
+                  <button className="btn btn-small" onClick={() => handleDelete(livro.id)}>Excluir</button>
                 </>
               </td>
             </tr>
@@ -181,7 +181,7 @@ export default function LivroTable() {
                 <div className="card-meta">{livro.autorNome || livro.autorId} • {livro.generoNome || livro.generoId}</div>
                 <div className="card-status">
                   <span style={{
-                    backgroundColor: livro.status === 'Disponível' ? 'green' : livro.status === 'Emprestado' ? 'red' : 'yellow',
+                    backgroundColor: livro.status === 'Disponível' ? 'green' : livro.status === 'Emprestado' ? 'red' : 'blue',
                     color: 'white',
                     padding: '2px 6px',
                     borderRadius: '4px',

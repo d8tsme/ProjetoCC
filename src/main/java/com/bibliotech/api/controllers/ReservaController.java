@@ -89,7 +89,7 @@ public class ReservaController {
     }
 
 
-    @PostMapping("confirmar-posse/{id}")
+    @PutMapping("/confirmar-posse/{id}")
     @Transactional
     public ResponseEntity<?> confirmarPosse(@PathVariable Long id) {
 

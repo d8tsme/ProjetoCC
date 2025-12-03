@@ -58,6 +58,11 @@ export default function EmprestimoTable() {
     return true;
   });
 
+  // Sort the filtered array
+  if (sort === 'id') filteredEmprestimos.sort((a, b) => (a.id || 0) - (b.id || 0));
+  else if (sort === 'livro') filteredEmprestimos.sort((a, b) => (a.livro_titulo || '').localeCompare(b.livro_titulo || ''));
+  else if (sort === 'pessoa') filteredEmprestimos.sort((a, b) => (a.pessoa_nome || '').localeCompare(b.pessoa_nome || ''));
+
   return (
     <div>
       <h2>Empréstimos</h2>
@@ -77,9 +82,9 @@ export default function EmprestimoTable() {
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? emprestimos.map(a => a.id) : [])} checked={selected.length === emprestimos.length && emprestimos.length > 0} /></th>
-            <th onClick={() => setSort('id')}>ID</th>
-            <th>Livro</th>
-            <th>Pessoa</th>
+            <th onClick={() => setSort('id')} style={{cursor: 'pointer'}}>ID</th>
+            <th onClick={() => setSort('livro')} style={{cursor: 'pointer'}}>Livro</th>
+            <th onClick={() => setSort('pessoa')} style={{cursor: 'pointer'}}>Pessoa</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -92,11 +97,11 @@ export default function EmprestimoTable() {
               <td>{editing === emp.id ? <input value={editData.pessoaId} onChange={e => setEditData({ ...editData, pessoaId: e.target.value })} /> : emp.pessoaId}</td>
               <td>
                 {editing === emp.id ? (
-                  <button onClick={handleEditSave}>Salvar</button>
+                  <button className="btn btn-small" onClick={handleEditSave}>Salvar</button>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(emp)}>Editar</button>
-                    <button onClick={() => handleDelete(emp.id)}>Excluir</button>
+                    <button className="btn btn-small" onClick={() => handleEdit(emp)}>Editar</button>
+                    <button className="btn btn-small" onClick={() => handleDelete(emp.id)}>Excluir</button>
                   </>
                 )}
               </td>

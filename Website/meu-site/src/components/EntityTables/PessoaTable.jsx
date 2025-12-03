@@ -97,8 +97,8 @@ export default function PessoaTable() {
               <td>{pessoa.telefone}</td>
               <td>
                 <>
-                  <button onClick={() => handleEdit(pessoa)}>Editar</button>
-                  <button onClick={() => handleDelete(pessoa.id)}>Excluir</button>
+                  <button className="btn btn-small" onClick={() => handleEdit(pessoa)}>Editar</button>
+                  <button className="btn btn-small" onClick={() => handleDelete(pessoa.id)}>Excluir</button>
                 </>
               </td>
             </tr>

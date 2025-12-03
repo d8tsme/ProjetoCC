@@ -9,6 +9,7 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
   }, [reloadKey]);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('dataDevolucao');
   const cols = [
     { key: 'pessoa_nome', label: 'Pessoa' },
     { key: 'livro_titulo', label: 'Livro' },
@@ -18,7 +19,7 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
 
   // avoid exhaustive-deps warning: loader intentionally recreated each render
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { load(); }, [search, reloadKey]);
+  useEffect(() => { load(); }, [search, sort, reloadKey]);
 
   async function load() {
     try {
@@ -26,6 +27,12 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
       let arr = Array.isArray(res) ? res : [];
       arr = arr.filter(e => e.status === 'Finalizado');
       if (search) arr = arr.filter(r => (r.pessoa_nome && r.pessoa_nome.toLowerCase().includes(search.toLowerCase())) || (r.livro_titulo && r.livro_titulo.toLowerCase().includes(search.toLowerCase())));
+      
+      // Sort
+      if (sort === 'dataDevolucao') arr.sort((a, b) => new Date(a.dataDevolucao) - new Date(b.dataDevolucao));
+      else if (sort === 'pessoa_nome') arr.sort((a, b) => (a.pessoa_nome || '').localeCompare(b.pessoa_nome || ''));
+      else if (sort === 'livro_titulo') arr.sort((a, b) => (a.livro_titulo || '').localeCompare(b.livro_titulo || ''));
+      
       setData(arr);
     } catch (err) {
       console.error('Erro ao carregar emprestimos concluidos', err);
@@ -48,7 +55,11 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
       <table className="table">
         <thead>
           <tr>
-            {cols.map(c => <th key={c.key}>{c.label}</th>)}
+            {cols.map(c => (
+              <th key={c.key} onClick={() => setSort(c.key)} style={{cursor: 'pointer'}}>
+                {c.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
