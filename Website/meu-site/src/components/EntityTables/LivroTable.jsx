@@ -83,14 +83,22 @@ export default function LivroTable() {
     setSelected(selected.includes(id) ? selected.filter(s => s !== id) : [...selected, id]);
   }
 
-  // derived filtered array
-  const filteredLivros = livros.filter(l => {
+  // derived filtered and sorted array
+  let filteredLivros = livros.filter(l => {
     if (search && (!l.titulo || !l.titulo.toLowerCase().includes(search.toLowerCase()))) return false;
     if (authorFilter && String(l.autorId) !== String(authorFilter) && String(l.autor) !== String(authorFilter) && String(l.autorNome) !== String(authorFilter)) return false;
     if (genreFilter && String(l.generoId) !== String(genreFilter) && String(l.generoNome) !== String(genreFilter)) return false;
     if (statusFilter && String(l.status) !== String(statusFilter)) return false;
     return true;
   });
+
+  // Sort the filtered array
+  if (sort === 'titulo') filteredLivros.sort((a, b) => (a.titulo || '').localeCompare(b.titulo || ''));
+  else if (sort === 'paginas') filteredLivros.sort((a, b) => (a.paginas || 0) - (b.paginas || 0));
+  else if (sort === 'autor') filteredLivros.sort((a, b) => (a.autorNome || '').localeCompare(b.autorNome || ''));
+  else if (sort === 'genero') filteredLivros.sort((a, b) => (a.generoNome || '').localeCompare(b.generoNome || ''));
+  else if (sort === 'isbn') filteredLivros.sort((a, b) => (a.isbn || '').localeCompare(b.isbn || ''));
+  else if (sort === 'ano') filteredLivros.sort((a, b) => (a.anoPublicacao || '').localeCompare(b.anoPublicacao || ''));
 
   return (
     <div>
@@ -109,6 +117,7 @@ export default function LivroTable() {
           <option value="">Todos status</option>
           <option value="Disponível">Disponível</option>
           <option value="Emprestado">Emprestado</option>
+          <option value="Reservado">Reservado</option>
         </select>
         <button className="btn" onClick={() => saveCsv('livros.csv', (filteredLivros.length ? filteredLivros : livros), cols)}>Salvar CSV</button>
         <div style={{marginLeft:'auto', display:'flex', gap:'0.5rem', alignItems:'center'}}>
@@ -121,12 +130,13 @@ export default function LivroTable() {
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? livros.map(a => a.id) : [])} checked={selected.length === livros.length && livros.length > 0} /></th>
-            <th onClick={() => setSort('titulo')}>Título</th>
-            <th>Páginas</th>
-            <th>Autor</th>
-            <th>Gênero</th>
-            <th>ISBN</th>
-            <th>Ano</th>
+            <th onClick={() => setSort('titulo')} style={{cursor: 'pointer'}}>Título</th>
+            <th onClick={() => setSort('paginas')} style={{cursor: 'pointer'}}>Páginas</th>
+            <th onClick={() => setSort('autor')} style={{cursor: 'pointer'}}>Autor</th>
+            <th onClick={() => setSort('genero')} style={{cursor: 'pointer'}}>Gênero</th>
+            <th onClick={() => setSort('isbn')} style={{cursor: 'pointer'}}>ISBN</th>
+            <th onClick={() => setSort('ano')} style={{cursor: 'pointer'}}>Ano</th>
+            <th>Status</th>
             <th>Foto</th>
             <th>Ações</th>
           </tr>
@@ -141,6 +151,13 @@ export default function LivroTable() {
               <td>{livro.generoId}</td>
               <td>{livro.isbn}</td>
               <td>{livro.anoPublicacao}</td>
+              <td><span style={{
+                backgroundColor: livro.status === 'Disponível' ? 'green' : livro.status === 'Emprestado' ? 'red' : 'blue',
+                color: 'white',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                fontSize: '12px'
+              }}>{livro.status}</span></td>
               <td>{livro.foto ? <img src={livro.foto} alt="Foto" style={{maxWidth:40,maxHeight:40}} /> : null}</td>
               <td>
                 <>
@@ -162,6 +179,15 @@ export default function LivroTable() {
               <div className="card-content">
                 <div className="card-title">{livro.titulo}</div>
                 <div className="card-meta">{livro.autorNome || livro.autorId} • {livro.generoNome || livro.generoId}</div>
+                <div className="card-status">
+                  <span style={{
+                    backgroundColor: livro.status === 'Disponível' ? 'green' : livro.status === 'Emprestado' ? 'red' : 'yellow',
+                    color: 'white',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontSize: '12px'
+                  }}>{livro.status}</span>
+                </div>
                 <div className="card-actions">
                   <button className="btn" onClick={() => handleEdit(livro)}>Editar</button>
                   <button className="btn" onClick={() => handleDelete(livro.id)}>Excluir</button>

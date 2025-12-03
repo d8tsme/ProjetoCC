@@ -60,10 +60,14 @@ public class ReservaController {
 
 
     @GetMapping("/listar")
-    public ResponseEntity<Page<DadosListagemReserva>> listar(Pageable paginacao) {
-        Page<DadosListagemReserva> page = reservaRepositorio.findAll(paginacao)
-                .map(DadosListagemReserva::new);
-        return ResponseEntity.ok(page);
+    public ResponseEntity<?> listar() {
+        try {
+            var reservas = reservaRepositorio.findAll();
+            var dados = reservas.stream().map(DadosListagemReserva::new).toList();
+            return ResponseEntity.ok(dados);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao listar reservas: " + e.getMessage());
+        }
     }
 
 

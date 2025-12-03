@@ -52,5 +52,52 @@ public class EmprestimoController {
             return ResponseEntity.badRequest().body("Erro ao cadastrar empréstimo: " + e.getMessage());
         }
     }
+
+    @GetMapping("/listar")
+    public ResponseEntity<?> listar() {
+        try {
+            var emprestimos = emprestimoRepositorio.findAll();
+            var dados = emprestimos.stream().map(DadosListagemEmprestimo::new).toList();
+            return ResponseEntity.ok(dados);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao listar empréstimos: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/devolucao/{id}")
+    @Transactional
+    public ResponseEntity<?> devolver(@PathVariable Long id) {
+        try {
+            Optional<Emprestimo> emprestimoOpt = emprestimoRepositorio.findById(id);
+            if (emprestimoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            Emprestimo emprestimo = emprestimoOpt.get();
+            Livro livro = emprestimo.getLivro();
+            livro.atualizaStatus("Disponível");
+            emprestimoRepositorio.delete(emprestimo);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao devolver livro: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        try {
+            Optional<Emprestimo> emprestimoOpt = emprestimoRepositorio.findById(id);
+            if (emprestimoOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            Emprestimo emprestimo = emprestimoOpt.get();
+            Livro livro = emprestimo.getLivro();
+            livro.atualizaStatus("Disponível");
+            emprestimoRepositorio.delete(emprestimo);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao excluir empréstimo: " + e.getMessage());
+        }
+    }
 }
 

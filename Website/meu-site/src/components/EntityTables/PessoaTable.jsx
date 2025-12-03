@@ -23,6 +23,10 @@ export default function PessoaTable() {
       const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
       let arr = Array.isArray(res) ? res : [];
       if (search) arr = arr.filter(p => p.nome && p.nome.toLowerCase().includes(search.toLowerCase()));
+      // Sort the array
+      if (sort === 'nome') arr.sort((a, b) => (a.nome || '').localeCompare(b.nome || ''));
+      else if (sort === 'email') arr.sort((a, b) => (a.email || '').localeCompare(b.email || ''));
+      else if (sort === 'telefone') arr.sort((a, b) => (a.telefone || '').localeCompare(b.telefone || ''));
       setPessoas(arr);
     } catch (err) {
       console.error('Erro ao carregar pessoas', err);
@@ -78,9 +82,9 @@ export default function PessoaTable() {
         <thead>
           <tr>
             <th><input type="checkbox" onChange={e => setSelected(e.target.checked ? pessoas.map(a => a.id) : [])} checked={selected.length === pessoas.length && pessoas.length > 0} /></th>
-            <th onClick={() => setSort('nome')}>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
+            <th onClick={() => setSort('nome')} style={{cursor: 'pointer'}}>Nome</th>
+            <th onClick={() => setSort('email')} style={{cursor: 'pointer'}}>Email</th>
+            <th onClick={() => setSort('telefone')} style={{cursor: 'pointer'}}>Telefone</th>
             <th>Ações</th>
           </tr>
         </thead>

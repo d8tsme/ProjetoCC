@@ -26,6 +26,13 @@ export default function AutorTable() {
       const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
       let arr = Array.isArray(res) ? res : [];
       if (search) arr = arr.filter(a => a.nome && a.nome.toLowerCase().includes(search.toLowerCase()));
+      // Sort the array
+      if (sort === 'nome') arr.sort((a, b) => (a.nome || '').localeCompare(b.nome || ''));
+      else if (sort === 'foto') arr.sort((a, b) => {
+        const aHasFoto = a.foto ? 1 : 0;
+        const bHasFoto = b.foto ? 1 : 0;
+        return bHasFoto - aHasFoto; // Sort by has foto first
+      });
       setAutores(arr);
     } catch (err) {
       console.error('Erro ao carregar autores', err);
