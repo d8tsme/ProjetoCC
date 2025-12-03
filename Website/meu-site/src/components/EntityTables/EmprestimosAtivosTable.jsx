@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
 
 export default function EmprestimosAtivosTable({ onDevolvido, reloadKey }) {
@@ -37,8 +38,7 @@ export default function EmprestimosAtivosTable({ onDevolvido, reloadKey }) {
     } catch (err) {
       console.error('Erro ao carregar emprestimos ativos', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setData([]);
@@ -59,9 +59,7 @@ export default function EmprestimosAtivosTable({ onDevolvido, reloadKey }) {
     } catch (err) {
       console.error('Erro ao devolver livro', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        alert('Sessão expirada ou sem permissão. Faça o login novamente.');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       alert(err.message || 'Erro ao devolver');

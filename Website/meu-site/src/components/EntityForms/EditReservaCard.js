@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 
 export default function EditReservaCard({ open, onClose, onUpdated, reserva }) {
   const [livros, setLivros] = useState([]);
@@ -63,9 +64,7 @@ export default function EditReservaCard({ open, onClose, onUpdated, reserva }) {
     } catch (err) {
       console.error('Erro ao atualizar reserva', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        alert('Sessão expirada ou sem permissão. Faça o login novamente.');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setError(err?.message || 'Erro ao atualizar reserva');

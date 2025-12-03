@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 
 // AddReservaCard
 // - shows selects: livros (Disponível) and pessoas and a date input for the reservation
@@ -53,9 +54,7 @@ export default function AddReservaCard({ open, onClose, onCreated }) {
     } catch (err) {
       console.error('Erro ao cadastrar reserva', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        alert('Sessão expirada ou sem permissão. Faça o login novamente.');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setError(err?.message || 'Erro ao cadastrar reserva');

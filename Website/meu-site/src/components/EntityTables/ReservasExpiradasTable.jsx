@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
 import EditReservaCard from '../EntityForms/EditReservaCard';
 
@@ -75,8 +76,7 @@ export default function ReservasExpiradasTable({ reloadKey }) {
     } catch (err) {
       console.error('Erro ao carregar reservas expiradas', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setData([]);

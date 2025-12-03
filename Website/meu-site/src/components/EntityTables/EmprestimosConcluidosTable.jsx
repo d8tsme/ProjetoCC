@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
 
 export default function EmprestimosConcluidosTable({ reloadKey }) {
@@ -37,8 +38,7 @@ export default function EmprestimosConcluidosTable({ reloadKey }) {
     } catch (err) {
       console.error('Erro ao carregar emprestimos concluidos', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setData([]);

@@ -28,7 +28,18 @@
   position: relative;
 }
 
-.login-left::after{ content:''; position:absolute; inset:0; background: linear-gradient(90deg, rgba(0,0,0,0.28) 0%, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0) 50%); }
+.login-left::after{ content:''; position:absolute; inset:0; background: linear-gradient(90deg, rgba(0,0,0,0.28) 0%, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0) 50%); z-index:2 }
+
+/* Photo element (img) should fill the left column and respect its bounds */
+.login-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
 
 .photo-credit {
   position: absolute;
@@ -40,6 +51,7 @@
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
+  z-index: 3;
 }
 
 /* Right side: login white panel */

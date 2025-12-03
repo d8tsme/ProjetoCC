@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
 import EditReservaCard from '../EntityForms/EditReservaCard';
 
@@ -26,7 +27,7 @@ export default function ReservasAtivasTable({ reloadKey }) {
   async function handleDelete(id) {
     if (!window.confirm('Deseja realmente deletar esta reserva?')) return;
     try {
-      await apiFetch(`/reservas/${id}`, { method: 'DELETE' });
+      await apiFetch(`/reservas/excluir/${id}`, { method: 'DELETE' });
       await load();
     } catch (err) {
       console.error('Erro ao deletar reserva', err);
@@ -45,7 +46,7 @@ export default function ReservasAtivasTable({ reloadKey }) {
 
   async function handleConfirmPosse(id) {
     try {
-      await apiFetch(`/reservas/${id}/confirmar-posse`, { method: 'PUT' });
+      await apiFetch(`/reservas/confirmar-posse/${id}`, { method: 'PUT' });
       alert('Posse confirmada com sucesso!');
       await load();
     } catch (err) {
@@ -75,8 +76,7 @@ export default function ReservasAtivasTable({ reloadKey }) {
     } catch (err) {
       console.error('Erro ao carregar reservas ativas', err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setData([]);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import apiFetch from '../../utils/apiFetch';
+import handleAuthError from '../../utils/authError';
 
 // AddEmprestimoCard
 // - shows selects: livros (Disponível) and pessoas
@@ -52,9 +53,7 @@ export default function AddEmprestimoCard({ open, onClose, onCreated }) {
     } catch (err) {
       console.error(err);
       if (err && (err.status === 401 || err.status === 403)) {
-        sessionStorage.removeItem('token');
-        alert('Sessão expirada ou sem permissão. Faça o login novamente.');
-        window.location.href = '/login';
+        handleAuthError();
         return;
       }
       setError(err?.message || 'Erro ao cadastrar empréstimo');
