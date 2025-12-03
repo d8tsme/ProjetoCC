@@ -36,17 +36,8 @@ public class LivroController {
     @Autowired
     private GeneroRepositorio generoRepositorio;
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroLivro dados) {
-        Autor autor = autorRepositorio.getReferenceById(dados.autorId());
-        Genero genero = generoRepositorio.getReferenceById(dados.generoId());
-        Livro livro = new Livro(dados, autor, genero);
-        livroRepositorio.save(livro);
-        return ResponseEntity.ok().build();
-    }
 
-    @PostMapping("/inserir")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<?> cadastrarComFoto(@RequestBody @Valid DadosCadastroLivroComFoto dados) {
         try {
@@ -83,7 +74,7 @@ public class LivroController {
         }
     }
 
-    @PutMapping("/atualizar/{id}")
+    @PutMapping("/alterar/{id}")
     @Transactional
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAlteracaoLivro dados) {
         Livro livro = livroRepositorio.getReferenceById(id);

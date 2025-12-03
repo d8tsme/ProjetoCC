@@ -16,7 +16,7 @@ public class PessoaController {
     @Autowired
     private PessoaRepositorio pessoaRepositorio;
 
-    @PostMapping("/inserir")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody DadosCadastroPessoa dados) {
         Pessoa a = pessoaRepositorio.save(new Pessoa(dados));

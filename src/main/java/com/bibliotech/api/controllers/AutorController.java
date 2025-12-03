@@ -21,7 +21,7 @@ public class AutorController {
     private AutorRepositorio autorRepositorio;
     private static final Logger log = LoggerFactory.getLogger(AutorController.class);
 
-    @PostMapping("/inserir")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody DadosCadastroAutor dados) {
         Autor a = autorRepositorio.save(new Autor(dados));

@@ -19,6 +19,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/emprestimos")
 public class EmprestimoController {
+
     @Autowired
     private EmprestimoRepositorio emprestimoRepositorio;
     @Autowired
@@ -26,55 +27,30 @@ public class EmprestimoController {
     @Autowired
     private PessoaRepositorio pessoaRepositorio;
 
-    @PostMapping("/inserir")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody @Valid DadosCadastroEmprestimo dados) {
         try {
             Livro livro = livroRepositorio.getReferenceById(dados.livroId());
+
+            if (livro.getStatus().equals("Reservado")) {
+                return ResponseEntity.badRequest().body("Livro está reservado — não pode ser emprestado.");
+            }
+            if (livro.getStatus().equals("Emprestado")) {
+                return ResponseEntity.badRequest().body("Livro já emprestado.");
+            }
+
             Pessoa pessoa = pessoaRepositorio.getReferenceById(dados.pessoaId());
             Emprestimo emprestimo = new Emprestimo(dados, livro, pessoa);
-            emprestimoRepositorio.save(emprestimo);
 
+            emprestimoRepositorio.save(emprestimo);
             livro.atualizaStatus("Emprestado");
 
             return ResponseEntity.ok().build();
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao cadastrar empréstimo: " + e.getMessage());
         }
     }
-
-    @GetMapping("/listar")
-    public ResponseEntity<?> listar(){
-        var lista = emprestimoRepositorio.findAll().stream().map(DadosListagemEmprestimo::new)
-                .toList();
-        return ResponseEntity.ok(lista);
-    }
-
-    @PutMapping("/{id}")
-    @Transactional
-    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DadosAlteracaoEmprestimo dados) {
-        if (!emprestimoRepositorio.existsById(dados.id())) {
-            return ResponseEntity.notFound().build();
-        }
-        Emprestimo emprestimo = emprestimoRepositorio.getReferenceById(id);
-        Livro livro = livroRepositorio.getReferenceById(dados.livroId());
-        Pessoa pessoa = pessoaRepositorio.getReferenceById(dados.pessoaId());
-        emprestimo.atualizaInformacoes(dados, livro, pessoa);
-        return ResponseEntity.ok(new DadosListagemEmprestimo(emprestimo));
-    }
-
-    @PutMapping("/devolucao/{id}")
-    @Transactional
-    // atualizaDataDevolucao (emprestimo)
-    // livro -> atualizaStatus ("Disponivel")
-    public ResponseEntity devolver(@PathVariable Long id, @RequestBody @Valid DadosAlteracaoEmprestimo dados) {
-        if (!emprestimoRepositorio.existsById(dados.id())) {
-            return ResponseEntity.notFound().build();
-        }
-        Emprestimo emprestimo = emprestimoRepositorio.getReferenceById(id);
-        Livro livro = livroRepositorio.getReferenceById(dados.livroId());
-        livro.atualizaStatus("Disponível");
-        emprestimo.atualizaDataDevolucao();
-        return ResponseEntity.ok().build();
-    }
 }
+

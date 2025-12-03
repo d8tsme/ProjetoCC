@@ -16,7 +16,7 @@ public class GeneroController {
     @Autowired
     private GeneroRepositorio generoRepositorio;
 
-    @PostMapping("/inserir")
+    @PostMapping("/cadastrar")
     @Transactional
     public ResponseEntity<?> cadastrar(@RequestBody DadosCadastroGenero dados) {
         Genero a = generoRepositorio.save(new Genero(dados));

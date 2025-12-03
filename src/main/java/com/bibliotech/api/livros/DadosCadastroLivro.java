@@ -19,7 +19,6 @@ public record DadosCadastroLivro(
         String foto,
 
         @NotBlank(message = "O ISBN é obrigatório")
-        @Pattern(regexp = "\\d{13}|\\d{10}", message = "ISBN inválido")
         String isbn,
 
         int anoPublicacao

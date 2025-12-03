@@ -23,6 +23,7 @@ public class Reserva {
     private Long id;
     private LocalDate dataReserva;
     private LocalDate dataValidade;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "livroId")
@@ -39,6 +40,7 @@ public class Reserva {
         this.dataValidade = dados.dataReserva().plusDays(15);
         this.livro = livro;
         this.pessoa = pessoa;
+        this.status = "Em andamento";
     }
 
 
@@ -54,6 +56,9 @@ public class Reserva {
             this.pessoa = novoPessoa;
         }
         this.dataValidade = dados.dataReserva().plusDays(15);
+    }
+    public boolean estaVencida() {
+        return this.dataValidade.isBefore(LocalDate.now());
     }
 
 }
