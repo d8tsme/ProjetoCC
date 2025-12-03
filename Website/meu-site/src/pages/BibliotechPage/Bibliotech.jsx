@@ -16,9 +16,7 @@ export default function Bibliotech() {
           
           <div className="bibliotech-intro">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Bibliotech é uma biblioteca virtual completa que facilita o gerenciamento de acervos. Com login de usuários, cadastro de obras, controle de empréstimos e reservas, nossa plataforma torna o processo simples e organizado — acessível via web ou mobile.
             </p>
           </div>
 

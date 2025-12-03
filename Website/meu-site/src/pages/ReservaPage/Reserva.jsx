@@ -9,11 +9,9 @@ import Layout from '../../components/mainlayout/layout.jsx';
 export default function Reserva() {
 	const [showAdd, setShowAdd] = useState(false);
 	const [reloadKey, setReloadKey] = useState(0);
-
-	const handleReservaConfirmed = () => {
-		setReloadKey(k => k + 1);
-	};
-
+	
+	const triggerReload = () => setReloadKey(k => k + 1);
+	
 	return (
 		<div className="layout">
 			<Navbar/>
@@ -24,9 +22,9 @@ export default function Reserva() {
 						<button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Reserva</button>
 					</div>
 				</div>
-				<ReservasAtivasTable reloadKey={reloadKey} onReservaConfirmed={handleReservaConfirmed} />
+				<ReservasAtivasTable reloadKey={reloadKey} onStatusChanged={triggerReload} />
 				<ReservasAntigasTable reloadKey={reloadKey} />
-				<AddReservaCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
+				<AddReservaCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={triggerReload} />
 			</div>
 		</div>
 	);

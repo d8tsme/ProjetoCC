@@ -4,7 +4,7 @@ import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
 import EditReservaCard from '../EntityForms/EditReservaCard';
 
-export default function ReservasAtivasTable({ reloadKey, onReservaConfirmed }) {
+export default function ReservasAtivasTable({ reloadKey, onStatusChanged }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('dataValidade');
@@ -44,14 +44,12 @@ export default function ReservasAtivasTable({ reloadKey, onReservaConfirmed }) {
     await load();
   }
 
-  async function handleConfirmPosse(reserva) {
+  async function handleConfirmPosse(id) {
     try {
-      await apiFetch(`/reservas/confirmar-posse/${reserva.id}`, { method: 'PUT', body: JSON.stringify({}) });
-      // Remove otimisticamente da tabela de ativas
-      setData(d => d.filter(item => item.id !== reserva.id));
-      // Alerta e recarrega ambas as tabelas
-      alert('Posse confirmada com sucesso! Reserva movida para Antigas.');
-      onReservaConfirmed && onReservaConfirmed();
+      await apiFetch(`/reservas/confirmar-posse/${id}`, { method: 'PUT', body: JSON.stringify({}) });
+      alert('Posse confirmada com sucesso!');
+      if (onStatusChanged) onStatusChanged();
+      await load();
     } catch (err) {
       console.error('Erro ao confirmar posse', err);
       alert(err.message || 'Erro ao confirmar posse');
@@ -66,7 +64,7 @@ export default function ReservasAtivasTable({ reloadKey, onReservaConfirmed }) {
       arr = arr.filter(r => {
         if (!r.dataValidade) return true;
         const val = new Date(r.dataValidade);
-        return val >= new Date(today.getFullYear(), today.getMonth(), today.getDate()) && !r.confirmarPosse;
+        return val >= new Date(today.getFullYear(), today.getMonth(), today.getDate());
       });
       if (search) arr = arr.filter(r => (r.pessoa_nome && r.pessoa_nome.toLowerCase().includes(search.toLowerCase())) || (r.livro_titulo && r.livro_titulo.toLowerCase().includes(search.toLowerCase())));
       
@@ -114,7 +112,7 @@ export default function ReservasAtivasTable({ reloadKey, onReservaConfirmed }) {
               <td>{r.confirmarPosse ? <span style={{color: 'green', fontWeight: 'bold'}}>✓ Confirmada</span> : <span style={{color: 'orange'}}>Pendente</span>}</td>
               <td>
                 <button className="btn btn-small" onClick={() => handleEdit(r)}>Editar</button>
-                {!r.confirmarPosse && <button className="btn btn-small" onClick={() => handleConfirmPosse(r)}>Confirmar</button>}
+                {!r.confirmarPosse && <button className="btn btn-small" onClick={() => handleConfirmPosse(r.id)}>Confirmar</button>}
                 <button className="btn btn-small" onClick={() => handleDelete(r.id)}>Deletar</button>
               </td>
             </tr>

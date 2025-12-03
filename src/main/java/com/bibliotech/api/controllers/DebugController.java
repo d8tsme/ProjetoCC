@@ -2,7 +2,6 @@ package com.bibliotech.api.controllers;
 
 import com.bibliotech.api.seguranca.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/debug")
-@Profile("dev") // only enabled when Spring profile 'dev' is active
 public class DebugController {
     private final TokenService tokenService;
 

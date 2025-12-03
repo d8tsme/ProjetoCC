@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import apiFetch from '../../utils/apiFetch';
 import handleAuthError from '../../utils/authError';
 import saveCsv from '../../utils/csv';
+import EditReservaCard from '../EntityForms/EditReservaCard';
 
-export default function ReservasAntigasTable({ reloadKey }) {
+export default function ReservasExpiradasTable({ reloadKey }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('dataValidade');
+  const [editOpen, setEditOpen] = useState(false);
+  const [editingReserva, setEditingReserva] = useState(null);
   const cols = [
     { key: 'livro_foto', label: 'Foto' },
     { key: 'livro_titulo', label: 'Livro' },
@@ -14,17 +17,48 @@ export default function ReservasAntigasTable({ reloadKey }) {
     { key: 'dataReserva', label: 'Data Reserva' },
     { key: 'dataValidade', label: 'Data Validade' },
     { key: 'confirmarPosse', label: 'Status' },
+    { key: 'actions', label: 'Ações' }
   ];
 
   // avoid exhaustive-deps warning: loader intentionally recreated
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [search, sort, reloadKey]);
 
+  async function handleDelete(id) {
+    if (!window.confirm('Deseja realmente deletar esta reserva?')) return;
+    try {
+      await apiFetch(`/reservas/${id}`, { method: 'DELETE' });
+      await load();
+    } catch (err) {
+      console.error('Erro ao deletar reserva', err);
+      alert(err.message || 'Erro ao deletar reserva');
+    }
+  }
+
+  function handleEdit(reserva) {
+    setEditingReserva(reserva);
+    setEditOpen(true);
+  }
+
+  async function handleEditSave() {
+    await load();
+  }
+
+  async function handleConfirmPosse(id) {
+    try {
+      await apiFetch(`/reservas/${id}/confirmar-posse`, { method: 'PUT' });
+      alert('Posse confirmada com sucesso!');
+      await load();
+    } catch (err) {
+      console.error('Erro ao confirmar posse', err);
+      alert(err.message || 'Erro ao confirmar posse');
+    }
+  }
+
   async function load() {
     try {
       const res = await apiFetch('/reservas/listar');
       let arr = Array.isArray(res) ? res : (res && res.content ? res.content : []);
-      // Mostrar apenas reservas confirmadas (confirmarPosse === true)
       arr = arr.filter(r => r.confirmarPosse === true);
       if (search) arr = arr.filter(r => (r.pessoa_nome && r.pessoa_nome.toLowerCase().includes(search.toLowerCase())) || (r.livro_titulo && r.livro_titulo.toLowerCase().includes(search.toLowerCase())));
       
@@ -46,7 +80,7 @@ export default function ReservasAntigasTable({ reloadKey }) {
 
   return (
     <div>
-      <h3>Reservas Antigas (Confirmadas)</h3>
+      <h3>Reservas antigas</h3>
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
         <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
         <button className="btn" onClick={() => saveCsv('reservas_antigas.csv', data, cols)}>Salvar CSV</button>
@@ -55,7 +89,7 @@ export default function ReservasAntigasTable({ reloadKey }) {
         <thead>
           <tr>
             {cols.map(c => (
-              <th key={c.key} onClick={() => c.key !== 'livro_foto' && setSort(c.key)} style={{cursor: c.key !== 'livro_foto' ? 'pointer' : 'default'}}>
+              <th key={c.key} onClick={() => c.key !== 'actions' && c.key !== 'livro_foto' && setSort(c.key)} style={{cursor: c.key !== 'actions' && c.key !== 'livro_foto' ? 'pointer' : 'default'}}>
                 {c.label}
               </th>
             ))}
@@ -69,11 +103,15 @@ export default function ReservasAntigasTable({ reloadKey }) {
               <td>{r.pessoa_nome}</td>
               <td>{r.dataReserva}</td>
               <td>{r.dataValidade}</td>
-              <td><span style={{color: 'green', fontWeight: 'bold'}}>✓ Confirmada</span></td>
+              <td>{r.confirmarPosse ? <span style={{color: 'green', fontWeight: 'bold'}}>✓ Confirmada</span> : <span style={{color: 'orange'}}>Pendente</span>}</td>
+              <td>
+                <button className="btn btn-small" onClick={() => handleEdit(r)}>Editar</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <EditReservaCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} reserva={editingReserva} />
     </div>
   );
 }

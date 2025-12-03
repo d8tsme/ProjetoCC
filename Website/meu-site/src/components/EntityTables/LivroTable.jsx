@@ -44,14 +44,14 @@ export default function LivroTable() {
 
   async function loadLivros() {
     let url = `/livros/listar`;
-    const res = await apiFetch(url, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+    const res = await apiFetch(url);
     let arr = Array.isArray(res) ? res : [];
     setLivros(arr);
   }
 
   async function handleDelete(id) {
     try {
-      await apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      await apiFetch(`/livros/excluir/${id}`, { method: 'DELETE' });
       await loadLivros();
     } catch (err) {
       console.error('Erro ao excluir livro', err);
@@ -61,7 +61,7 @@ export default function LivroTable() {
 
   async function handleBulkDelete() {
     try {
-      await Promise.all(selected.map(id => apiFetch(`/livros/excluir/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } }))); 
+      await Promise.all(selected.map(id => apiFetch(`/livros/excluir/${id}`, { method: 'DELETE' }))); 
       setSelected([]);
       await loadLivros();
     } catch (err) {
