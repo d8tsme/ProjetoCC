@@ -120,6 +120,20 @@ body {
   z-index: 1000;
   overflow-y: auto;
   padding-bottom: 100px;
+  .sidebar-logout-btn {
+  width: 100%;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
 }
 
 
@@ -188,46 +202,9 @@ body {
 }
 
 
-.sidebar-logout-btn {
-  width: 100%;
-  background: #dc3545;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-}
 
-.sidebar-logout-btn:hover:not(:disabled) {
-  background: #c82333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(200, 35, 51, 0.5);
-}
 
-.sidebar-logout-btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(200, 35, 51, 0.4);
-}
 
-.sidebar-logout-btn:hover:not(:disabled) {
-  background: #c82333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(200, 35, 51, 0.5);
-}
-
-.sidebar-logout-btn:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(200, 35, 51, 0.4);
-}
-
-.sidebar-logout-btn:active {
-  transform: translateY(0);
-}
 
 
 .sidebar-divider { display: none; }
@@ -386,20 +363,20 @@ table {
 .addlivro-card::-webkit-scrollbar-track, .form-card::-webkit-scrollbar-track, .main-content::-webkit-scrollbar-track { background: transparent; }
 .addlivro-card, .form-card, .main-content { scrollbar-color: rgba(0,0,0,0.28) transparent; scrollbar-width: thin }
 
-.records-card-view1 { display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 1rem }
-.record-card1 { background: var(--gray-300); border-radius:12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.06); width: calc(33.333% - 1rem); display:flex; gap: 1rem; }
-.record-card1 .book-photo-small1 { width:72px; height:96px; background:var(--gray-200); display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden }
-.record-card1 .book-photo-small1 img{ width:100%; height:100%; object-fit:cover }
-.record-card1 .card-content1 { flex:1; display:flex; flex-direction:column }
-.record-card1 .card-title1 { font-weight:700; font-size:1.1rem; margin-bottom:0.2rem }
-.record-card1 .card-meta1 { font-size:0.9rem; color: var(--text-muted); margin-bottom:0.6rem }
-.record-card1 .card-actions1 { margin-top:auto; display:flex; gap:0.6rem }
+.records-card-viewi { display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 1rem }
+.record-cardi { background: var(--gray-300); border-radius:12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.06); width: calc(33.333% - 1rem); display:flex; gap: 1rem; }
+.record-cardi .book-photo-smalli { width:72px; height:96px; background:var(--gray-200); display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden }
+.record-cardi .book-photo-smalli img{ width:100%; height:100%; object-fit:cover }
+.record-cardi .card-contenti { flex:1; display:flex; flex-direction:column }
+.record-cardi .card-titlei { font-weight:700; font-size:1.1rem; margin-bottom:0.2rem }
+.record-cardi .card-metai { font-size:0.9rem; color: var(--text-muted); margin-bottom:0.6rem }
+.record-cardi .card-actionsi { margin-top:auto; display:flex; gap:0.6rem }
 
 @media (max-width: 900px) {
-  .record-card1 { width: calc(50% - 1rem) }
+  .record-cardi { width: calc(50% - 1rem) }
 }
 @media (max-width: 560px) {
-  .record-card1 { width: 100% }
+  .record-cardi { width: 100% }
 }
 
 /* === CORRIGE O GRID DAS CARDS DE LIVROS === */
@@ -414,7 +391,8 @@ table {
 
 /* === CARD DO LIVRO === */
 .record-card {
-  width: 100% !important;
+  width: 106% !important;
+  height: 220px;
   background: var(--gray-300);
   border-radius: 12px;
   padding: 1rem;
@@ -426,7 +404,7 @@ table {
 
 /* === IMAGEM DO LIVRO SEM DISTORCER === */
 .record-card .book-photo-small {
-  width: 100px;
+  width: 40%;
   height: 150px;
   background: var(--gray-200);
   border-radius: 8px;
@@ -443,16 +421,22 @@ table {
 
 /* === TEXTO AJUSTADO === */
 .record-card .card-content {
+  width: 60%;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.1rem;
 }
 
 .record-card .card-title {
   font-size: 1.05rem;
   line-height: 1.25rem;
   font-weight: 700;
+  display: -webkit-inline-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 2.54em;
 }
 
 .record-card .card-meta {

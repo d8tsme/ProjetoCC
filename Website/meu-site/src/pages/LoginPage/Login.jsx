@@ -1,4 +1,4 @@
-import Form from '../../components/Formfolder/Form';
+import Form from '../../components/Form/Formfolder/Form.js';
 import './Login.css';
 import terf from "./terf.png";
 

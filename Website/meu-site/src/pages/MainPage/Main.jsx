@@ -1,8 +1,8 @@
 // global styling is imported in src/index.js so it's not needed here
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import LivroTable from '../../components/EntityTables/LivroTable';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import LivroTable from '../../components/Table/EntityTables/LivroTable.jsx';
 import { useState } from 'react';
-import AddLivroCard from '../../components/AddLivroCard/AddLivroCard.jsx'; // Now uses index.js in AddLivroCard folder
+import AddLivroCard from '../../components/PageComponents/SoftComp/AddLivroCard/AddLivroCard.jsx'; // Now uses index.js in AddLivroCard folder
 
 function Main() {
   const [showAdd, setShowAdd] = useState(false);

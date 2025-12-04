@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Tabela from '../../components/TabelaFolder/Tabela';
-import AddAutorCard from '../../components/EntityForms/AddAutorCard';
-import AutorTable from '../../components/EntityTables/AutorTable';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import Tabela from '../../components/Table/TabelaFolder/Tabela.js';
+import AddAutorCard from '../../components/Form/EntityForms/AddAutorCard.js';
+import AutorTable from '../../components/Table/EntityTables/AutorTable.jsx';
 import { useState } from 'react';
 
 function Autor() {
@@ -13,7 +13,7 @@ function Autor() {
   const [autorParaDeletar, setAutorParaDeletar] = useState(null);
   async function getAutor() {
     try {
-      const json = await (await import('../../utils/apiFetch')).default('/autores/listar');
+      const json = await (await import('../../IndexApputils/Utils/utils/apiFetch.js')).default('/autores/listar');
       console.log(json);
     } catch (err) {
       console.error('Erro ao buscar autores:', err);

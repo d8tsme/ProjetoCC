@@ -1,12 +1,12 @@
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Tabela from '../../components/TabelaFolder/Tabela';
-import AddEmprestimoCard from '../../components/EntityForms/AddEmprestimoCard';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import Tabela from '../../components/Table/TabelaFolder/Tabela.js';
+import AddEmprestimoCard from '../../components/Form/EntityForms/AddEmprestimoCard.js';
 //import EmprestimoTable from '../../components/EntityTables/EmprestimoTable';
-import EmprestimosAtivosTable from '../../components/EntityTables/EmprestimosAtivosTable';
-import EmprestimosConcluidosTable from '../../components/EntityTables/EmprestimosConcluidosTable';
+import EmprestimosAtivosTable from '../../components/Table/EntityTables/EmprestimosAtivosTable.jsx';
+import EmprestimosConcluidosTable from '../../components/Table/EntityTables/EmprestimosConcluidosTable.jsx';
 import { useState } from 'react';
-import Layout from '../../components/mainlayout/layout.jsx';
+import Layout from '../../components/PageComponents/mainlayout/layout.jsx';
 
 export default function Emprestimo() {
   const [showAdd, setShowAdd] = useState(false);

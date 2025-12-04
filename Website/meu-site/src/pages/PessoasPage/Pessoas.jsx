@@ -1,10 +1,10 @@
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Tabela from '../../components/TabelaFolder/Tabela';
-import AddPessoaCard from '../../components/EntityForms/AddPessoaCard';
-import PessoaTable from '../../components/EntityTables/PessoaTable';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import Tabela from '../../components/Table/TabelaFolder/Tabela.js';
+import AddPessoaCard from '../../components/Form/EntityForms/AddPessoaCard';
+import PessoaTable from '../../components/Table/EntityTables/PessoaTable';
 import { useState } from 'react';
-import Layout from '../../components/mainlayout/layout.jsx';
+import Layout from '../../components/PageComponents/mainlayout/layout.jsx';
 
 export default function Pessoas() {
   const [showAdd, setShowAdd] = useState(false);

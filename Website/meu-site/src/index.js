@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './IndexApputils/Utils/reportWebVitals';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/LoginPage/Login';
 import Main from './pages/MainPage/Main';
@@ -10,7 +10,7 @@ import Emprestimo from './pages/EmprestimoPage/Emprestimo';
 import Reserva from './pages/ReservaPage/Reserva';
 import Genero from './pages/GeneroPage/Genero';
 import Bibliotech from './pages/BibliotechPage/Bibliotech';
-import './index.css'
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

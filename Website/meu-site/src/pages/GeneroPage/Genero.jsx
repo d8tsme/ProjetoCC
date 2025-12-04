@@ -1,10 +1,10 @@
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Tabela from '../../components/TabelaFolder/Tabela';
-import AddGeneroCard from '../../components/EntityForms/AddGeneroCard';
-import GeneroTable from '../../components/EntityTables/GeneroTable';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import Tabela from '../../components/Table/TabelaFolder/Tabela.js';
+import AddGeneroCard from '../../components/Form/EntityForms/AddGeneroCard';
+import GeneroTable from '../../components/Table/EntityTables/GeneroTable';
 import { useState } from 'react';
-import Layout from '../../components/mainlayout/layout.jsx';
+import Layout from '../../components/PageComponents/mainlayout/layout.jsx';
 
 export default function Generos() {
   const [showAdd, setShowAdd] = useState(false);

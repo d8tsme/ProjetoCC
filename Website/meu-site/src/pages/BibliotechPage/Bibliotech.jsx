@@ -1,7 +1,7 @@
 import React from 'react';
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import Layout from '../../components/mainlayout/layout.jsx';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import Layout from '../../components/PageComponents/mainlayout/layout.jsx';
 import './Bibliotech.css';
 
 export default function Bibliotech() {
@@ -27,7 +27,7 @@ export default function Bibliotech() {
             <a href="https://app.flutterflow.io/project/projeto-final-8p0rcf" target="_blank" rel="noopener noreferrer" className="bibliotech-btn">
               Flutter Flow
             </a>
-            <a href="#" className="bibliotech-btn">
+            <a href="https://docs.google.com/document/d/1UwnAzJB9lY0T-014Hiv68IrVr8XS9iWFYCsBCxP4wb8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="bibliotech-btn">
               Documentação
             </a>
           </div>

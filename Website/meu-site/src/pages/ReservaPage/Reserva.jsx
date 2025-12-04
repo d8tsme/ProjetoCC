@@ -1,10 +1,10 @@
 import '../LoginPage/App.css';
-import Navbar from '../../components/Navbarfolder/Navbar.js';
-import ReservasAtivasTable from '../../components/EntityTables/ReservasAtivasTable';
-import ReservasAntigasTable from '../../components/EntityTables/ReservasAntigasTable';
-import AddReservaCard from '../../components/EntityForms/AddReservaCard';
+import Navbar from '../../components/PageComponents/Navbarfolder/Navbar.js';
+import ReservasAtivasTable from '../../components/Table/EntityTables/ReservasAtivasTable';
+import ReservasAntigasTable from '../../components/Table/EntityTables/ReservasAntigasTable';
+import AddReservaCard from '../../components/Form/EntityForms/AddReservaCard';
 import { useState } from 'react';
-import Layout from '../../components/mainlayout/layout.jsx';
+import Layout from '../../components/PageComponents/mainlayout/layout.jsx';
 
 export default function Reserva() {
 	const [showAdd, setShowAdd] = useState(false);
