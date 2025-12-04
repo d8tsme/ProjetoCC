@@ -16,7 +16,7 @@ export default async function apiFetch(path, options = {}) {
 
   // ngrok sometimes shows an interstitial in browser; sending this header suppresses the warning when
   // requests are proxied through ngrok. Value can be any non-empty string.
-  headers['ngrok-skip-browser-warning'] = '1';
+  headers['ngrok-skip-browser-warning'] = 'true';
 
   // if body present and no Content-Type, assume JSON
   if (options.body && !headers['Content-Type'] && !(options.body instanceof FormData)) {
@@ -45,7 +45,20 @@ export default async function apiFetch(path, options = {}) {
   if (contentType.includes('application/json')) {
     body = await res.json();
   } else {
-    try { body = await res.text(); } catch (e) { body = null; }
+    try { 
+      const text = await res.text();
+      // Tentar parsear como JSON mesmo sem header correto
+      if (text) {
+        try {
+          body = JSON.parse(text);
+        } catch {
+          // Se não for JSON válido, retornar como texto ou objeto vazio
+          body = text.length > 0 ? { message: text } : {};
+        }
+      }
+    } catch (e) { 
+      body = null; 
+    }
   }
 
   if (!res.ok) {

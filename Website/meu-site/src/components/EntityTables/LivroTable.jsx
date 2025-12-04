@@ -21,9 +21,9 @@ export default function LivroTable({ reloadKey }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const cols = [{key:'titulo', label:'Título'},{key:'autorNome', label:'Autor'},{key:'generoNome', label:'Gênero'},{key:'isbn', label:'ISBN'},{key:'status', label:'Status'}];
 
-  // Determine cards per page based on window width (carousel showing 2-3 books)
+  // Determine cards per page based on window width (carousel showing 3 books)
   const getCardsPerPage = () => {
-    if (windowWidth >= 1440) return 3; // Show 3 cards
+    if (windowWidth >= 1024) return 3; // Show 3 cards
     if (windowWidth >= 768) return 2;  // Show 2 cards
     return 1; // Show 1 card mobile
   };
@@ -188,15 +188,16 @@ export default function LivroTable({ reloadKey }) {
         </tbody>
       </table>
       ) : (
-        <div style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
-          {/* Carousel wrapper */}
+        <div style={{display:'flex', flexDirection:'column', gap:'1.5rem'}}>
+          {/* Carousel wrapper com grid */}
           <div style={{
             position: 'relative',
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'stretch',
             justifyContent: 'center',
-            gap: '1rem',
-            padding: '0 2rem'
+            gap: '1.5rem',
+            padding: '0 3rem',
+            minHeight: '300px'
           }}>
             {/* Previous button */}
             <button 
@@ -205,21 +206,23 @@ export default function LivroTable({ reloadKey }) {
               disabled={currentPage === 1}
               style={{
                 position: 'absolute',
-                left: 0,
+                left: '0.5rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                zIndex: 10
+                zIndex: 10,
+                height: '40px',
+                width: '40px'
               }}
             >←</button>
 
-            {/* Carousel content - shows cardsPerPage books */}
+            {/* Grid layout - mantém proporções mesmo com menos items */}
             <div style={{
-              display: 'flex',
+              display: 'grid',
+              gridTemplateColumns: `repeat(${cardsPerPage}, 1fr)`,
               gap: '1rem',
               flex: 1,
-              overflowX: 'hidden',
-              justifyContent: 'center',
-              alignItems: 'stretch'
+              alignItems: 'stretch',
+              width: '100%'
             }}>
               {filteredLivros
                 .slice((currentPage - 1) * cardsPerPage, currentPage * cardsPerPage)
@@ -233,18 +236,18 @@ export default function LivroTable({ reloadKey }) {
                   borderRadius:'8px',
                   boxShadow:'0 2px 4px rgba(0,0,0,0.1)',
                   transition:'transform 0.2s',
-                  minWidth: cardsPerPage === 1 ? '100%' : `calc((100% - ${(cardsPerPage - 1)}rem) / ${cardsPerPage})`,
-                  flex: '1 1 auto'
+                  minWidth: '0'
                 }}
                 onMouseEnter={e => e.currentTarget.style.transform='scale(1.02)'}
                 onMouseLeave={e => e.currentTarget.style.transform='scale(1)'}>
-                  <div style={{minHeight:'180px', display:'flex', justifyContent:'center', alignItems:'center', backgroundColor:'#f0f0f0', borderRadius:'4px'}}>
-                    {livro.foto ? <img src={livro.foto} alt="Capa" style={{maxWidth:'100%', maxHeight:'100%', objectFit:'cover'}} /> : <div style={{fontSize:'12px', color:'#999'}}>sem imagem</div>}
+                  {/* Imagem com tamanho fixo obrigatório */}
+                  <div style={{width:'100%', height:'160px', display:'flex', justifyContent:'center', alignItems:'center', backgroundColor:'#f0f0f0', borderRadius:'4px', overflow:'hidden', flexShrink: 0}}>
+                    {livro.foto ? <img src={livro.foto} alt="Capa" style={{width:'100%', height:'100%', objectFit:'cover'}} /> : <div style={{fontSize:'12px', color:'#999'}}>sem imagem</div>}
                   </div>
-                  <div style={{flex:1}}>
-                    <div style={{fontWeight:'bold', fontSize:'14px', marginBottom:'4px', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.titulo}</div>
-                    <div style={{fontSize:'12px', color:'#666', marginBottom:'8px', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.autorNome || livro.autorId}</div>
-                    <div style={{fontSize:'11px', color:'#888'}}>{livro.generoNome || livro.generoId}</div>
+                  <div style={{flex:1, display:'flex', flexDirection:'column', gap:'0.4rem', minHeight: 0}}>
+                    <div style={{fontWeight:'bold', fontSize:'13px', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient:'vertical', minHeight:'32px', lineHeight:'1.6'}}>{livro.titulo}</div>
+                    <div style={{fontSize:'11px', color:'#666', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.autorNome || livro.autorId}</div>
+                    <div style={{fontSize:'10px', color:'#888', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.generoNome || livro.generoId}</div>
                   </div>
                   <div>
                     <span style={{
@@ -262,6 +265,14 @@ export default function LivroTable({ reloadKey }) {
                   </div>
                 </div>
               ))}
+              
+              {/* Placeholder cards para manter grid completo */}
+              {Array.from({length: cardsPerPage - (filteredLivros.length % cardsPerPage || cardsPerPage)}).map((_, idx) => (
+                <div key={`placeholder-${idx}`} style={{
+                  opacity: 0,
+                  pointerEvents: 'none'
+                }}></div>
+              ))}
             </div>
 
             {/* Next button */}
@@ -271,10 +282,12 @@ export default function LivroTable({ reloadKey }) {
               disabled={currentPage === Math.ceil(filteredLivros.length / cardsPerPage)}
               style={{
                 position: 'absolute',
-                right: 0,
+                right: '0.5rem',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                zIndex: 10
+                zIndex: 10,
+                height: '40px',
+                width: '40px'
               }}
             >→</button>
           </div>

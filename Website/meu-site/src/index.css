@@ -190,8 +190,8 @@ body {
 
 .sidebar-logout-btn {
   width: 100%;
-  background: white;
-  color: rgb(0, 0, 0);
+  background: #dc3545;
+  color: white;
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
@@ -200,12 +200,13 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(255, 59, 59, 0.3);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .sidebar-logout-btn:hover {
+  background: #c82333;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 59, 59, 0.5);
+  box-shadow: 0 4px 12px rgba(200, 35, 51, 0.5);
 }
 
 .sidebar-logout-btn:active {
@@ -960,3 +961,227 @@ select {
     padding: 0.2rem 0.3rem;
   }
 }
+
+/* ===== EFEITOS CSS MODERNOS E FLUIDOS ===== */
+
+/* Animações suaves para entrada */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Aplicar animações aos elementos principais */
+button {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para inputs */
+input, select, textarea {
+  transition: all 0.2s ease;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Tabelas com hover effect */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+tr {
+  transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+td, th {
+  transition: color 0.2s ease;
+}
+
+/* Cards com efeito hover */
+.record-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid #e0e0e0;
+}
+
+.record-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  border-color: #bbb;
+}
+
+/* Modal overlay com fade suave */
+.addlivro-overlay, .modal-overlay {
+  animation: fadeIn 0.25s ease-out;
+}
+
+.addlivro-card, .modal-content {
+  animation: scaleIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Badges e tags */
+span[style*="background"] {
+  transition: all 0.2s ease;
+}
+
+
+
+/* Transição de páginas */
+.layout, .main-content {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Effect para imagens */
+img {
+  transition: all 0.3s ease;
+}
+
+img:hover {
+  filter: brightness(1.05);
+}
+
+/* Links com efeito */
+a {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+a:hover {
+  color: #333;
+}
+
+/* Skeleton loading (se usado) */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Checkbox e radio com transição */
+input[type="checkbox"], input[type="radio"] {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:hover, input[type="radio"]:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip effect (se houver) */
+.tooltip {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading spinner (básico) */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Efeito de pulse para elementos ativos */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Efeito para elementos com alert/atenção */
+@keyframes highlight {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(220, 53, 69, 0.1);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlight {
+  animation: highlight 1s ease-in-out;
+}
+

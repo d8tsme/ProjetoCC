@@ -26,23 +26,7 @@ export default function ReservasAntigasTable({ reloadKey }) {
     try {
       const res = await apiFetch('/reservas/listar');
       let arr = Array.isArray(res) ? res : [];
-      
-      // Debug: mostrar primeiro item e seus status
-      if (arr.length > 0) {
-        console.log('Primeiro item:', arr[0]);
-        console.log('Propriedades do primeiro item:', Object.keys(arr[0]));
-        console.log('Status do primeiro item:', arr[0].status);
-      }
-      
-      const beforeFilter = arr.length;
-      arr = arr.filter(r => {
-        const statusNormalizado = r.status ? r.status.trim().toLowerCase() : '';
-        const match = statusNormalizado === 'finalizada';
-        if (!match && arr.length <= 10) console.log(`Status "${r.status}" → normalizado "${statusNormalizado}" → match: ${match}`);
-        return match;
-      });
-      console.log(`Filtradas ${beforeFilter} → ${arr.length} (status === 'finalizada' - case insensitive)`);
-      
+      arr = arr.filter(r => r.status === 'Finalizada');
       if (search) arr = arr.filter(r => (r.pessoa_nome && r.pessoa_nome.toLowerCase().includes(search.toLowerCase())) || (r.livro_titulo && r.livro_titulo.toLowerCase().includes(search.toLowerCase())));
       
       // Sort
@@ -61,12 +45,39 @@ export default function ReservasAntigasTable({ reloadKey }) {
     }
   }
 
+  async function handleDeleteAll() {
+    if (!data.length) {
+      alert('Nenhum registro para deletar');
+      return;
+    }
+    if (!window.confirm(`Tem certeza que deseja deletar todas as ${data.length} reserva(s)?`)) {
+      return;
+    }
+    try {
+      let deletedCount = 0;
+      for (const item of data) {
+        try {
+          await apiFetch(`/reservas/excluir/${item.id}`, { method: 'DELETE' });
+          deletedCount++;
+        } catch (err) {
+          console.error(`Erro ao deletar item ${item.id}:`, err);
+        }
+      }
+      await load();
+      alert(`${deletedCount} reserva(s) deletada(s) com sucesso`);
+    } catch (err) {
+      console.error('Erro ao deletar reservas', err);
+      alert(err.message || 'Erro ao deletar');
+    }
+  }
+
   return (
     <div>
       <h3>Reservas confirmadas</h3>
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
         <input placeholder="Buscar" value={search} onChange={e => setSearch(e.target.value)} />
         <button className="btn" onClick={() => saveCsv('reservas_confirmadas.csv', data, cols)}>Salvar CSV</button>
+        <button className="btn" onClick={handleDeleteAll} style={{marginLeft: 'auto', backgroundColor: '#dc3545', color: 'white'}} disabled={!data.length}>Limpar Reservas</button>
       </div>
       <table className="table">
         <thead>
