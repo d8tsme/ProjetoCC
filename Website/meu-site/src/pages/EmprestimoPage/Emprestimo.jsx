@@ -11,6 +11,11 @@ import Layout from '../../components/mainlayout/layout.jsx';
 export default function Emprestimo() {
   const [showAdd, setShowAdd] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  
+  const handleDevolvido = () => {
+    setReloadKey(k => k + 1);
+  };
+
   return (
     <div className="layout">
       <Navbar/>
@@ -21,7 +26,7 @@ export default function Emprestimo() {
             <button onClick={()=>setShowAdd(true)} className="btn primary">Adicionar Empréstimo</button>
           </div>
         </div>
-        <EmprestimosAtivosTable reloadKey={reloadKey} onDevolvido={() => setReloadKey(k=>k+1)} />
+        <EmprestimosAtivosTable reloadKey={reloadKey} onDevolvido={handleDevolvido} />
         <EmprestimosConcluidosTable reloadKey={reloadKey} />
         <AddEmprestimoCard open={showAdd} onClose={()=>setShowAdd(false)} onCreated={()=>setReloadKey(k=>k+1)} />
       </div>

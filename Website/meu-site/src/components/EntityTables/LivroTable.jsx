@@ -188,133 +188,44 @@ export default function LivroTable({ reloadKey }) {
         </tbody>
       </table>
       ) : (
-        <div style={{display:'flex', flexDirection:'column', gap:'1.5rem'}}>
-          {/* Carousel wrapper com grid */}
-          <div style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'stretch',
-            justifyContent: 'center',
-            gap: '1.5rem',
-            padding: '0 3rem',
-            minHeight: '300px'
-          }}>
-            {/* Previous button */}
-            <button 
-              className="btn btn-small" 
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              style={{
-                position: 'absolute',
-                left: '0.5rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                zIndex: 10,
-                height: '40px',
-                width: '40px'
-              }}
-            >←</button>
+          <div className="records-card-view">
 
-            {/* Grid layout - mantém proporções mesmo com menos items */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${cardsPerPage}, minmax(240px, 1fr))`,
-              gap: '1.5rem',
-              flex: 1,
-              alignItems: 'start',
-              width: '100%',
-              maxWidth: '1200px'
-            }}>
-              {filteredLivros
-                .slice((currentPage - 1) * cardsPerPage, currentPage * cardsPerPage)
-                .map(livro => (
-                <div key={livro.id} className="record-card" style={{
-                  display:'flex',
-                  flexDirection:'column',
-                  gap:'0.5rem',
-                  padding:'0.8rem',
-                  border:'1px solid #ddd',
-                  borderRadius:'8px',
-                  boxShadow:'0 2px 8px rgba(0,0,0,0.08)',
-                  transition:'all 0.2s ease',
-                  minWidth: '0',
-                  height: '100%'
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 8px 16px rgba(0,0,0,0.15)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)'; }}>
-                  {/* Imagem com tamanho fixo obrigatório */}
-                  <div style={{width:'100%', paddingBottom:'125%', position:'relative', backgroundColor:'#f5f5f5', borderRadius:'6px', overflow:'hidden', flexShrink: 0}}>
-                    {livro.foto ? <img src={livro.foto} alt="Capa" style={{position:'absolute', top:0, left:0, width:'100%', height:'100%', objectFit:'cover'}} /> : <div style={{position:'absolute', top:0, left:0, width:'100%', height:'100%', display:'flex', justifyContent:'center', alignItems:'center', fontSize:'12px', color:'#999'}}>sem imagem</div>}
-                  </div>
-                  <div style={{flex:1, display:'flex', flexDirection:'column', gap:'0.4rem', minHeight: 0}}>
-                    <div style={{fontWeight:'bold', fontSize:'13px', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient:'vertical', minHeight:'32px', lineHeight:'1.6'}}>{livro.titulo}</div>
-                    <div style={{fontSize:'11px', color:'#666', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.autorNome || livro.autorId}</div>
-                    <div style={{fontSize:'10px', color:'#888', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{livro.generoNome || livro.generoId}</div>
-                  </div>
-                  <div>
-                    <span style={{
-                      backgroundColor: livro.status === 'Disponível' ? 'green' : livro.status === 'Emprestado' ? 'red' : 'blue',
-                      color: 'white',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '11px',
-                      display:'inline-block'
-                    }}>{livro.status}</span>
-                  </div>
-                  <div style={{display:'flex', gap:'0.25rem', marginTop:'auto'}}>
-                    <button className="btn btn-small" onClick={() => handleEdit(livro)} style={{flex:1, fontSize:'12px'}}>Editar</button>
-                    <button className="btn btn-small" onClick={() => handleDelete(livro.id)} style={{flex:1, fontSize:'12px'}}>Excluir</button>
+            {filteredLivros.map(livro => (
+              <div key={livro.id} className="record-card">
+
+                {/* Foto */}
+                <div className="book-photo-small">
+                  {livro.foto ? (
+                    <img src={livro.foto} alt="Capa do livro" />
+                  ) : (
+                    <div className="no-photo">Sem imagem</div>
+                  )}
+                </div>
+
+                {/* Conteúdo */}
+                <div className="card-content">
+                  <div className="card-title">{livro.titulo}</div>
+                  <div className="card-meta">{livro.autorNome || livro.autorId}</div>
+                  <div className="card-meta">{livro.generoNome || livro.generoId}</div>
+
+                  <span
+                    className="status-badge"
+                    data-status={livro.status}
+                  >
+                    {livro.status}
+                  </span>
+
+                  {/* Ações */}
+                  <div className="card-actions">
+                    <button className="btn btn-small" onClick={() => handleEdit(livro)}>Editar</button>
+                    <button className="btn btn-small" onClick={() => handleDelete(livro.id)}>Excluir</button>
                   </div>
                 </div>
-              ))}
-              
-              {/* Placeholder cards para manter grid completo */}
-              {Array.from({length: cardsPerPage - (filteredLivros.length % cardsPerPage || cardsPerPage)}).map((_, idx) => (
-                <div key={`placeholder-${idx}`} style={{
-                  opacity: 0,
-                  pointerEvents: 'none'
-                }}></div>
-              ))}
-            </div>
-
-            {/* Next button */}
-            <button 
-              className="btn btn-small" 
-              onClick={() => setCurrentPage(p => Math.min(Math.ceil(filteredLivros.length / cardsPerPage), p + 1))}
-              disabled={currentPage === Math.ceil(filteredLivros.length / cardsPerPage)}
-              style={{
-                position: 'absolute',
-                right: '0.5rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                zIndex: 10,
-                height: '40px',
-                width: '40px'
-              }}
-            >→</button>
-          </div>
-
-          {/* Pagination indicators */}
-          {Math.ceil(filteredLivros.length / cardsPerPage) > 1 && (
-            <div style={{display:'flex', justifyContent:'center', gap:'0.5rem', marginTop:'0.5rem'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'0.25rem'}}>
-                {Array.from({length: Math.ceil(filteredLivros.length / cardsPerPage)}, (_, i) => i + 1).map(p => (
-                  <button 
-                    key={p}
-                    className="btn btn-small"
-                    onClick={() => setCurrentPage(p)}
-                    style={{
-                      backgroundColor: currentPage === p ? '#007bff' : '#f0f0f0',
-                      color: currentPage === p ? 'white' : 'black',
-                      minWidth:'32px'
-                    }}
-                  >{p}</button>
-                ))}
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            ))}
+
+          </div>
+        )}
       <EditLivroCard open={editOpen} onClose={() => setEditOpen(false)} onUpdated={handleEditSave} livro={editingLivro} />
     </div>
   );

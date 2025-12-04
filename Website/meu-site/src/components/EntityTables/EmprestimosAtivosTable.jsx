@@ -52,10 +52,9 @@ export default function EmprestimosAtivosTable({ onDevolvido, reloadKey }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: emprestimo.id, livroId: emprestimo.livroId, pessoaId: emprestimo.pessoaId })
       });
-      // update local state optimistically and then refetch
+      // Remove do estado local e notifica o parent para recarregar ambas tabelas
       setData(d => d.filter(item => item.id !== emprestimo.id));
       if (onDevolvido) onDevolvido();
-      await load();
     } catch (err) {
       console.error('Erro ao devolver livro', err);
       if (err && (err.status === 401 || err.status === 403)) {

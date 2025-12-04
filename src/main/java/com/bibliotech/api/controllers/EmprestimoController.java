@@ -75,7 +75,8 @@ public class EmprestimoController {
             Emprestimo emprestimo = emprestimoOpt.get();
             Livro livro = emprestimo.getLivro();
             livro.atualizaStatus("Disponível");
-            emprestimoRepositorio.delete(emprestimo);
+            emprestimo.atualizaDataDevolucao();
+            emprestimoRepositorio.save(emprestimo);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao devolver livro: " + e.getMessage());

@@ -132,14 +132,14 @@ export default function AutorTable({ reloadKey }) {
         </tbody>
       </table>
       ) : (
-        <div className="records-card-view">
+        <div className="records-card-view1">
           {filteredAutores.map(autor => (
-            <div key={autor.id} className="record-card">
-              <div className="book-photo-small">{autor.foto ? <img src={autor.foto} alt={autor.nome} /> : 'sem imagem'}</div>
-              <div className="card-content">
-                <div className="card-title">{autor.nome}</div>
-                <div className="card-meta">{autor.email || ''}</div>
-                <div className="card-actions">
+            <div key={autor.id} className="record-card1">
+              <div className="book-photo-small1">{autor.foto ? <img src={autor.foto} alt={autor.nome} /> : 'sem imagem'}</div>
+              <div className="card-content1">
+                <div className="card-title1">{autor.nome}</div>
+                <div className="card-meta1">{autor.email || ''}</div>
+                <div className="card-actions1">
                   <button className="btn" onClick={() => handleEdit(autor)}>Editar</button>
                   <button className="btn" onClick={() => handleDelete(autor.id)}>Excluir</button>
                 </div>

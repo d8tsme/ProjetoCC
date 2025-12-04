@@ -386,21 +386,119 @@ table {
 .addlivro-card::-webkit-scrollbar-track, .form-card::-webkit-scrollbar-track, .main-content::-webkit-scrollbar-track { background: transparent; }
 .addlivro-card, .form-card, .main-content { scrollbar-color: rgba(0,0,0,0.28) transparent; scrollbar-width: thin }
 
-.records-card-view { display:flex; flex-wrap:wrap; gap: 0.1rem; margin-top: 1rem }
-.record-card { background: var(--gray-300); border-radius:12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.06); width: calc(33.333% - 1rem); display:flex; gap: 0.01rem; }
-.record-card .book-photo-small { width:72px; height:96px; background:var(--gray-200); display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden }
-.record-card .book-photo-small img{ width:100%; height:100%; object-fit:cover }
-.record-card .card-content { flex:1; display:flex; flex-direction:column }
-.record-card .card-title { font-weight:700; font-size:1.1rem; margin-bottom:0.2rem }
-.record-card .card-meta { font-size:0.9rem; color: var(--text-muted); margin-bottom:0.6rem }
-.record-card .card-actions { margin-top:auto; display:flex; gap:0.6rem }
+.records-card-view1 { display:flex; flex-wrap:wrap; gap: 1rem; margin-top: 1rem }
+.record-card1 { background: var(--gray-300); border-radius:12px; padding: 1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.06); width: calc(33.333% - 1rem); display:flex; gap: 1rem; }
+.record-card1 .book-photo-small1 { width:72px; height:96px; background:var(--gray-200); display:flex; align-items:center; justify-content:center; border-radius:8px; overflow:hidden }
+.record-card1 .book-photo-small1 img{ width:100%; height:100%; object-fit:cover }
+.record-card1 .card-content1 { flex:1; display:flex; flex-direction:column }
+.record-card1 .card-title1 { font-weight:700; font-size:1.1rem; margin-bottom:0.2rem }
+.record-card1 .card-meta1 { font-size:0.9rem; color: var(--text-muted); margin-bottom:0.6rem }
+.record-card1 .card-actions1 { margin-top:auto; display:flex; gap:0.6rem }
 
 @media (max-width: 900px) {
-  .record-card { width: calc(50% - 1rem) }
+  .record-card1 { width: calc(50% - 1rem) }
 }
 @media (max-width: 560px) {
-  .record-card { width: 100% }
+  .record-card1 { width: 100% }
 }
+
+/* === CORRIGE O GRID DAS CARDS DE LIVROS === */
+
+.records-card-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.6rem;
+  margin-top: 1.6rem;
+  width: 100%;
+}
+
+/* === CARD DO LIVRO === */
+.record-card {
+  width: 100% !important;
+  background: var(--gray-300);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* === IMAGEM DO LIVRO SEM DISTORCER === */
+.record-card .book-photo-small {
+  width: 100px;
+  height: 150px;
+  background: var(--gray-200);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.record-card .book-photo-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* 🔥 impede distorção */
+  object-position: center;
+}
+
+/* === TEXTO AJUSTADO === */
+.record-card .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.record-card .card-title {
+  font-size: 1.05rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+
+.record-card .card-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* === BOTÕES ALINHADOS === */
+.record-card .card-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 480px) {
+  .records-card-view {
+    grid-template-columns: 1fr;
+  }
+
+  .record-card .book-photo-small {
+    width: 80px;
+    height: 120px;
+  }
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: fit-content;
+  color: white;
+}
+
+/* Cores automáticas pelo atributo data-status */
+.status-badge[data-status="Disponível"] {
+  background-color: green;
+}
+.status-badge[data-status="Emprestado"] {
+  background-color: red;
+}
+.status-badge[data-status="Reservado"] {
+  background-color: blue;
+}
+
 
 .form-group{ display:flex; flex-direction:column; margin-bottom:1rem; }
 .form-label{ margin-bottom:0.3rem; font-weight:600; }
@@ -978,7 +1076,7 @@ select {
   }
 }
 
-/* ===== EFEITOS CSS MODERNOS E FLUIDOS ===== */
+/* ===== EFEITOS CSS MODERNOossssssssss===== */
 
 /* Animações suaves para entrada */
 @keyframes slideInUp {
@@ -1120,7 +1218,6 @@ a:hover {
   color: #333;
 }
 
-/* Skeleton loading (se usado) */
 .skeleton {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 1000px 100%;
